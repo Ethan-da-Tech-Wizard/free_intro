@@ -1,0 +1,13 @@
+{
+  "name": "relayworks-showcase",
+  "private": true,
+  "scripts": {
+    "start": "python3 app/server.py",
+    "test": "python3 -m unittest discover -s tests -v",
+    "test:browser": "node tests/browser.mjs",
+    "test:books": "node tests/books.mjs",
+    "books": "python3 scripts/build_books.py && node scripts/print_books.mjs",
+    "capture": "node scripts/capture.mjs"
+  },
+  "devDependencies": {"@playwright/test": "1.63.0"}
+}

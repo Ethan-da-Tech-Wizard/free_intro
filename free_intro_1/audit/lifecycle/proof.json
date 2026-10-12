@@ -1,0 +1,154 @@
+{
+  "started_at": "2026-09-24T16:00:36.466198+00:00",
+  "steps": [
+    {
+      "title": "Status identifies the copy",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--status"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks ready: http://127.0.0.1:8875\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:36.606440+00:00"
+    },
+    {
+      "title": "Launch reuses an already-running copy",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--no-browser"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks ready: http://127.0.0.1:8875/\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:36.668238+00:00"
+    },
+    {
+      "title": "Launching another direct listener visibly reports address already in use",
+      "command": [
+        "/usr/bin/python3",
+        "app/server.py"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/ethan/pg/free_intro/free_intro_1/app/server.py\", line 288, in <module>\n    if __name__=='__main__':main()\n                            ~~~~^^\n  File \"/home/ethan/pg/free_intro/free_intro_1/app/server.py\", line 277, in main\n    api=Server(('127.0.0.1',args.workplace_port),Handler);api.role='workplaces';api.stores=stores;api.token=token;api.verbose=args.verbose\n  File \"/usr/lib/python3.14/socketserver.py\", line 457, in __init__\n    self.server_bind()\n    ~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/http/server.py\", line 148, in server_bind\n    socketserver.TCPServer.server_bind(self)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/socketserver.py\", line 478, in server_bind\n    self.socket.bind(self.server_address)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nOSError: [Errno 98] Address already in use\n",
+      "checked_at": "2026-09-24T16:00:36.739545+00:00"
+    },
+    {
+      "title": "Stop only this copy; retain saved state",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--stop"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks stopped. Saved records remain in runtime/.\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:37.128327+00:00"
+    },
+    {
+      "title": "Stopped status is visible",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--status"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks is not responding at http://127.0.0.1:8875\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:37.186285+00:00"
+    },
+    {
+      "title": "Direct foreground server started, retained records, and stopped with SIGINT (the signal sent by Ctrl+C)",
+      "command": [
+        "/usr/bin/python3",
+        "app/server.py"
+      ],
+      "exit_code": 0,
+      "log": "audit/lifecycle/foreground-server.log"
+    },
+    {
+      "title": "Create backups directory",
+      "command": [
+        "mkdir",
+        "-p",
+        "backups"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:37.928641+00:00"
+    },
+    {
+      "title": "Back up stopped runtime",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "zipfile",
+        "-c",
+        "backups/relayworks-practice-001.zip",
+        "runtime"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:37.979594+00:00"
+    },
+    {
+      "title": "Rename runtime to preserve pre-restore state",
+      "from": "runtime",
+      "to": "runtime-before-restore-001",
+      "method": "filesystem rename; equivalent result to Dolphin F2, not a claim of a GUI click"
+    },
+    {
+      "title": "Restore the backup made in this exercise",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "zipfile",
+        "-e",
+        "backups/relayworks-practice-001.zip",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:38.017380+00:00"
+    },
+    {
+      "title": "Restart restored copy",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--no-browser"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks ready: http://127.0.0.1:8875/\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T16:00:38.211567+00:00"
+    },
+    {
+      "title": "Alternate instance on 8865/8866 with separate data; stopped after checking",
+      "command": [
+        "/usr/bin/python3",
+        "app/server.py",
+        "--port",
+        "8865",
+        "--workplace-port",
+        "8866",
+        "--data-dir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/alternate-runtime"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-09-24T16:00:39.205989+00:00",
+  "database_files_verified": 25,
+  "byte_identical_restoration": true,
+  "saved_records_and_run_ids_preserved": true,
+  "records": 30,
+  "schedule_enabled": false
+}

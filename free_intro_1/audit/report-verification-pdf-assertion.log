@@ -1,0 +1,19 @@
+PASS All 24 workplace stores retain the exact 126 final records; each PDF identifies its saved record; timer off.
+node:internal/modules/run_main:111
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(pdf.includes('/home/ethan/pg/free_intro/free_intro_1'))
+
+    at file:///home/ethan/pg/free_intro/free_intro_1/tests/rehearsal_report.mjs:104:11 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v26.10.0

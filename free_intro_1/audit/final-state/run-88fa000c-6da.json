@@ -1,0 +1,658 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:28.981+00:00",
+  "elapsed_ms": 60,
+  "id": "88fa000c-6da",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "events-0",
+      "record": {
+        "created": "2026-09-24T16:05:28.998+00:00",
+        "external_key": "SHEET-10",
+        "id": "0c7b896a-a38",
+        "payload": {
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "display_name": "Dylan",
+          "email": "sheet-row-10@example.invalid",
+          "phone": "+1 480 555 0146",
+          "registration_ref": "SHEET-10",
+          "session": "Math",
+          "status": "Registered"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:28.998+00:00"
+      }
+    },
+    {
+      "app_id": "events-1",
+      "record": {
+        "created": "2026-09-24T16:05:29.015+00:00",
+        "external_key": "SHEET-10",
+        "id": "3c92de14-422",
+        "payload": {
+          "_linked_records": {
+            "events-0": "0c7b896a-a38"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "capacity": 3,
+          "contact_email": "sheet-row-10@example.invalid",
+          "contact_name": "Dylan",
+          "event_date": "2026-10-10 10:00",
+          "registration_ref": "SHEET-10",
+          "session": "Math",
+          "status": "Reserved"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:29.015+00:00"
+      }
+    },
+    {
+      "app_id": "events-2",
+      "record": {
+        "created": "2026-09-24T16:05:29.032+00:00",
+        "external_key": "SHEET-10",
+        "id": "03da2533-aba",
+        "payload": {
+          "_linked_records": {
+            "events-0": "0c7b896a-a38",
+            "events-1": "3c92de14-422"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "addressee": "Dylan",
+          "delivery_email": "sheet-row-10@example.invalid",
+          "event_date": "2026-10-10 10:00",
+          "organization": "Gather Workshop",
+          "registration_ref": "SHEET-10",
+          "session": "Math",
+          "status": "Badge ready"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:29.032+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 3,
+    "email": "sheet-row-10@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Dylan",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "SHEET-10",
+    "session": "Math"
+  },
+  "scenario": "events",
+  "source": {
+    "fetched_at": "2026-09-24T15:47:31.510+00:00",
+    "http_status": 200,
+    "id": "c813981d-f90",
+    "kind": "live Google Sheets fetch",
+    "mapped_fields": [
+      "full_name",
+      "session"
+    ],
+    "name": "Google Sheets · tab 0",
+    "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+    "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+    "row_number": 10,
+    "synthetic_defaults": [
+      "registration_ref",
+      "email",
+      "phone",
+      "event_date",
+      "capacity",
+      "organization"
+    ],
+    "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:29.002+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-10",
+          "external_key": "SHEET-10",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "88fa000c-6da:0",
+          "payload": {
+            "display_name": "Dylan",
+            "email": "sheet-row-10@example.invalid",
+            "phone": "+1 480 555 0146",
+            "registration_ref": "SHEET-10",
+            "session": "Math"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:28.998+00:00",
+            "external_key": "SHEET-10",
+            "id": "0c7b896a-a38",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Dylan",
+              "email": "sheet-row-10@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:28.998+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 651,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-0/records",
+      "run_id": "88fa000c-6da",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.008+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:28.998+00:00",
+            "external_key": "SHEET-10",
+            "id": "0c7b896a-a38",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Dylan",
+              "email": "sheet-row-10@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:28.998+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 652,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-0/records/0c7b896a-a38",
+      "run_id": "88fa000c-6da",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:29.020+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-10",
+          "external_key": "SHEET-10",
+          "kind": "intake",
+          "links": {
+            "events-0": "0c7b896a-a38"
+          },
+          "operation_id": "88fa000c-6da:1",
+          "payload": {
+            "capacity": 3,
+            "contact_email": "sheet-row-10@example.invalid",
+            "contact_name": "Dylan",
+            "event_date": "2026-10-10 10:00",
+            "registration_ref": "SHEET-10",
+            "session": "Math"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Registered"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:29.015+00:00",
+            "external_key": "SHEET-10",
+            "id": "3c92de14-422",
+            "payload": {
+              "_linked_records": {
+                "events-0": "0c7b896a-a38"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-10@example.invalid",
+              "contact_name": "Dylan",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.015+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 8,
+      "id": 653,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-1/records",
+      "run_id": "88fa000c-6da",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.026+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:29.015+00:00",
+            "external_key": "SHEET-10",
+            "id": "3c92de14-422",
+            "payload": {
+              "_linked_records": {
+                "events-0": "0c7b896a-a38"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-10@example.invalid",
+              "contact_name": "Dylan",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.015+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 654,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-1/records/3c92de14-422",
+      "run_id": "88fa000c-6da",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:29.035+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-10",
+          "external_key": "SHEET-10",
+          "kind": "intake",
+          "links": {
+            "events-0": "0c7b896a-a38",
+            "events-1": "3c92de14-422"
+          },
+          "operation_id": "88fa000c-6da:2",
+          "payload": {
+            "addressee": "Dylan",
+            "delivery_email": "sheet-row-10@example.invalid",
+            "event_date": "2026-10-10 10:00",
+            "organization": "Gather Workshop",
+            "registration_ref": "SHEET-10",
+            "session": "Math"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 10,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Reserved"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:29.032+00:00",
+            "external_key": "SHEET-10",
+            "id": "03da2533-aba",
+            "payload": {
+              "_linked_records": {
+                "events-0": "0c7b896a-a38",
+                "events-1": "3c92de14-422"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Dylan",
+              "delivery_email": "sheet-row-10@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.032+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 655,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-2/records",
+      "run_id": "88fa000c-6da",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.041+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:29.032+00:00",
+            "external_key": "SHEET-10",
+            "id": "03da2533-aba",
+            "payload": {
+              "_linked_records": {
+                "events-0": "0c7b896a-a38",
+                "events-1": "3c92de14-422"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 10,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Dylan",
+              "delivery_email": "sheet-row-10@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-10",
+              "session": "Math",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.032+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 656,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-2/records/03da2533-aba",
+      "run_id": "88fa000c-6da",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:29.048+00:00"
+}

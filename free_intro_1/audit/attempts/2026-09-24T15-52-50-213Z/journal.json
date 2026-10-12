@@ -1,0 +1,22 @@
+{
+  "attempt": "2026-09-24T15-52-50-213Z",
+  "started_at": "2026-09-24T15:52:50.292Z",
+  "base": "http://127.0.0.1:8875",
+  "steps": [
+    {
+      "id": "001",
+      "chapter": "02",
+      "title": "Tour Overview, connections, gallery, run history, all five HVAC tabs, and cancel Reset",
+      "started_at": "2026-09-24T15:52:50.303Z",
+      "status": "failed",
+      "error": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: 'Under the hood', exact: true }).first()\u001b[22m\n\n    at tab (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:33:88)\n    at /home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:83:173\n    at async step (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:28:18)\n    at async 2 (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:81:5)\n    at async file:///home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:206:123",
+      "finished_at": "2026-09-24T15:53:03.032Z",
+      "url": "http://127.0.0.1:8875/#scenario/hvac/results",
+      "screenshot": "screenshots/001.png"
+    }
+  ],
+  "status": "failed",
+  "browser_errors": [],
+  "error": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: 'Under the hood', exact: true }).first()\u001b[22m\n\n    at tab (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:33:88)\n    at /home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:83:173\n    at async step (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:28:18)\n    at async 2 (/home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:81:5)\n    at async file:///home/ethan/pg/free_intro/free_intro_1/scripts/rehearse.mjs:206:123",
+  "finished_at": "2026-09-24T15:53:03.086Z"
+}

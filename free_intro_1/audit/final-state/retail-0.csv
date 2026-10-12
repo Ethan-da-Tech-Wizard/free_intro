@@ -1,0 +1,3 @@
+﻿receipt_ref,supplier,po_ref,sku,item_name,quantity,unit_cost,status
+REC-089,Example Wholesale,PO-031,FLT-20,20-inch replacement filter,12.0,8.5,Received
+REC-088,Example Wholesale,PO-031,FLT-20,20-inch replacement filter,12.0,8.5,Received

@@ -1,0 +1,17 @@
+Cedar Clinic / Appointment confirmation
+Synthetic demonstration data • Relayworks
+
+Reference: PAT-0310
+Record ID: b899b66e-8fd
+Status: Scheduled
+Patient reference: PAT-0310
+Patient name: Jordan Example
+Date of birth: 1990-04-12
+Phone: +1 480 555 0180
+Provider: Demo Provider A
+Appointment slot: 2026-10-08 11:00
+Visit type: Administrative intake
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

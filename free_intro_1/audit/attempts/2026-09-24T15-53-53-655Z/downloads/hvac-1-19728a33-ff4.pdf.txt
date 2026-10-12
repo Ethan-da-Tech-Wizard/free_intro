@@ -1,0 +1,23 @@
+Desert Air / Work order
+Synthetic demonstration data • Relayworks
+
+Reference: JOB-1042-B
+Record ID: 19728a33-ff4
+Status: Scheduled
+Customer reference: C-015
+Full name: Taylor Sample
+Phone: +14805550146
+Email: taylor@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Job reference: JOB-1042-B
+Reported issue: AC is blowing warm air
+Equipment: Outdoor condenser • Unit A
+Technician: Morgan Lee
+Visit slot: 2026-10-06 11:00
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

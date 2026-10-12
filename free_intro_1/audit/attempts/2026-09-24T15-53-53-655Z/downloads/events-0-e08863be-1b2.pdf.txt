@@ -1,0 +1,15 @@
+Gather Workshop / Registration record
+Synthetic demonstration data • Relayworks
+
+Reference: REG-012
+Record ID: e08863be-1b2
+Status: Checked in
+Registration reference: REG-012
+Attendee name: Taylor Sample
+Email: taylor@example.invalid
+Phone: +1 480 555 0146
+Session: Repair cafØ
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

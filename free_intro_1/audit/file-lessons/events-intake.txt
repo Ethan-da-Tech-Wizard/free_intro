@@ -1,0 +1,15 @@
+Gather Workshop / Intake
+Synthetic demonstration data · Relayworks
+
+Registration reference: REG-011
+Attendee name: Avery Example
+Email: avery@example.invalid
+Phone: +1 480 555 0146
+Session: Repair café
+Event date: 2026-10-10 10:00
+Session capacity: 3
+Organizer: Gather Workshop
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

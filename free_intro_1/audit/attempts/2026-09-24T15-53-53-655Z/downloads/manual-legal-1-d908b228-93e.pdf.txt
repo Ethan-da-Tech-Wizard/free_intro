@@ -1,0 +1,16 @@
+Juniper Legal / Client information packet
+Synthetic demonstration data • Relayworks
+
+Reference: MAT-0204
+Record ID: d908b228-93e
+Status: Draft packet
+Matter reference: MAT-0204
+Client name: Casey Example
+Client email: casey@example.invalid
+Mailing address: 42 Sample Avenue
+Matter description: Business agreement review
+Office name: Juniper Legal
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

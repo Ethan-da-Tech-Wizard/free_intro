@@ -1,0 +1,3 @@
+﻿patient_ref,display_name,birth_date,phone,email,street,status
+PAT-0310-B,Another Sample,1990-04-12,'+1 480 555 0180,jordan@example.invalid,18 Sample Road,Registered
+PAT-0310,Jordan Example,1990-04-12,'+1 480 555 0180,jordan@example.invalid,18 Sample Road,Registered

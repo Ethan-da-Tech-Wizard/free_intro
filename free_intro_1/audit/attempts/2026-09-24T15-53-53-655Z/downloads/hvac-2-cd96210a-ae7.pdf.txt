@@ -1,0 +1,23 @@
+Desert Air / Invoice draft
+Synthetic demonstration data • Relayworks
+
+Reference: JOB-1042
+Record ID: cd96210a-ae7
+Status: Draft
+Customer reference: C-014
+Full name: Avery Example
+Phone: +14805550146
+Email: avery@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Job reference: JOB-1042
+Diagnostic fee (USD): 95.0
+Total Usd: 95.00
+Diagnostic fee + approved labor hours x hourly rate + approved parts.
+Draft for review. No payment has been charged.
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

@@ -1,0 +1,15 @@
+Juniper Legal / Appointment checklist
+Synthetic demonstration data • Relayworks
+
+Reference: MAT-0204-REVIEW
+Record ID: a43d9969-51e
+Status: Scheduled task
+Matter reference: MAT-0204-REVIEW
+Client name: Casey Example
+Client email: casey@example.invalid
+Matter description: Business agreement review
+Appointment: 2026-10-07 09:00
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

@@ -1,0 +1,20 @@
+Desert Air / Customer profile
+Synthetic demonstration data • Relayworks
+
+Reference: C-015
+Record ID: b8e92621-b2c
+Status: Active customer
+Customer reference: C-015
+Full name: Taylor Sample
+Phone: +14805550146
+Email: taylor@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Access notes: Side gate; call on arrival
+Service References: [’JOB-1042-B’]
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

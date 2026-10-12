@@ -1,0 +1,16 @@
+Gather Workshop / Attendee badge
+Synthetic demonstration data • Relayworks
+
+Reference: REG-012
+Record ID: 5d910ef7-c78
+Status: Checked in
+Registration reference: REG-012
+Attendee name: Taylor Sample
+Email: taylor@example.invalid
+Session: Repair cafØ
+Event date: 2026-10-10 10:00
+Organizer: Gather Workshop
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

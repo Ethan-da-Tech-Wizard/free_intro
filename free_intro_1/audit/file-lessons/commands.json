@@ -1,0 +1,554 @@
+{
+  "started_at": "2026-09-24T15:58:03.462891+00:00",
+  "steps": [
+    {
+      "chapter": "01",
+      "title": "Launcher status identifies the isolated instance",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/launch.py",
+        "--status"
+      ],
+      "exit_code": 0,
+      "stdout": "Relayworks ready: http://127.0.0.1:8875\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:03.524291+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Regenerate every CSV, XLSX, PDF and HVAC scan",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/make_practice_files.py"
+      ],
+      "exit_code": 0,
+      "stdout": "Created 26 practice files in /home/ethan/pg/free_intro/free_intro_1/practice_files\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:03.718134+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Open hvac workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/hvac-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/hvac-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/hvac-ugly.csv using filter : Text - txt - csv (StarCalc)\nOverwriting: /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/hvac-ugly.csv\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:04.817295+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read hvac intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/hvac-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/hvac-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:04.824387+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "hvac spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": [
+        "EMAIL: Email needs correction",
+        "VISIT SLOT: Slash date is ambiguous; choose an ISO date"
+      ]
+    },
+    {
+      "chapter": "07",
+      "title": "Open sports workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/sports-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/sports-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/sports-ugly.csv using filter : Text - txt - csv (StarCalc)\nOverwriting: /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/sports-ugly.csv\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:05.296041+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read sports intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/sports-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/sports-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:05.303607+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "sports spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": [
+        "DELIVERY ADDRESS: Email needs correction",
+        "EVENT DATE: Slash date is ambiguous; choose an ISO date"
+      ]
+    },
+    {
+      "chapter": "07",
+      "title": "Open legal workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/legal-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/legal-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/legal-ugly.csv using filter : Text - txt - csv (StarCalc)\nOverwriting: /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/legal-ugly.csv\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:05.805553+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read legal intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/legal-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/legal-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:05.815506+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "legal spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": [
+        "CLIENT EMAIL: Email needs correction",
+        "APPOINTMENT: Slash date is ambiguous; choose an ISO date"
+      ]
+    },
+    {
+      "chapter": "07",
+      "title": "Open clinic workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/clinic-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/clinic-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/clinic-ugly.csv using filter : Text - txt - csv (StarCalc)\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:06.309801+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read clinic intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/clinic-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/clinic-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:06.316825+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "clinic spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": [
+        "EMAIL: Email needs correction",
+        "APPOINTMENT SLOT: Slash date is ambiguous; choose an ISO date"
+      ]
+    },
+    {
+      "chapter": "07",
+      "title": "Open retail workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/retail-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/retail-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/retail-ugly.csv using filter : Text - txt - csv (StarCalc)\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:06.824274+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read retail intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/retail-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/retail-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:06.831115+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "retail spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": []
+    },
+    {
+      "chapter": "07",
+      "title": "Open reseller workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/reseller-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/reseller-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/reseller-ugly.csv using filter : Text - txt - csv (StarCalc)\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:07.374982+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read reseller intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/reseller-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/reseller-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:07.384078+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "reseller spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": []
+    },
+    {
+      "chapter": "07",
+      "title": "Open property workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/property-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/property-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/property-ugly.csv using filter : Text - txt - csv (StarCalc)\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:07.879559+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read property intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/property-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/property-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:07.886582+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "property spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": []
+    },
+    {
+      "chapter": "07",
+      "title": "Open events workbook in real LibreOffice and convert it to CSV",
+      "command": [
+        "libreoffice",
+        "-env:UserInstallation=file:///tmp/relayworks-calc-i6w8n29v",
+        "--headless",
+        "--convert-to",
+        "csv",
+        "--outdir",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/events-ugly.xlsx"
+      ],
+      "exit_code": 0,
+      "stdout": "convert /home/ethan/pg/free_intro/free_intro_1/practice_files/events-ugly.xlsx as a Calc document -> /home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/events-ugly.csv using filter : Text - txt - csv (StarCalc)\n",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:08.391600+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "Read events intake PDF with Poppler",
+      "command": [
+        "pdftotext",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/events-intake.pdf",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/events-intake.txt"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:08.399839+00:00"
+    },
+    {
+      "chapter": "07",
+      "title": "events spreadsheet structure",
+      "status": "passed",
+      "header_row": 4,
+      "rows": [
+        5,
+        7,
+        8
+      ],
+      "duplicate_row": 8,
+      "review_issues": [
+        "EMAIL: Email needs correction",
+        "EVENT DATE: Slash date is ambiguous; choose an ISO date"
+      ]
+    },
+    {
+      "chapter": "09",
+      "title": "Run Tesseract on the actual supplied PNG",
+      "command": [
+        "tesseract",
+        "/home/ethan/pg/free_intro/free_intro_1/practice_files/hvac-scanned-intake.png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/scan-text"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:08.877292+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Showcase map",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/overview.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/overview.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:09.120625+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders HVAC: one service call, three systems",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/hvac.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/hvac.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:09.387373+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Sports: a personal report that refreshes itself",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/sports.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/sports.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:09.659250+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Law office: intake to matter file and document packet",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/legal.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/legal.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:09.922875+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Clinic: registration to appointment preparation",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/clinic.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/clinic.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:10.184734+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Store: receive stock and update the online catalog",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/retail.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/retail.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:10.455934+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Individual seller: one item record to listing and sale paperwork",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/reseller.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/reseller.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:10.731474+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Property manager: repair request to contractor and owner report",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/property.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/property.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:11.004919+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Community organizer: registration to roster, badge, and schedule",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/events.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/events.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:11.281169+00:00"
+    },
+    {
+      "chapter": "22",
+      "title": "Archi opens and renders Structure and evidence",
+      "command": [
+        "/home/ethan/pg/archi/build/archi",
+        "--export-png",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/architecture.archi.json",
+        "/home/ethan/pg/free_intro/free_intro_1/audit/file-lessons/architecture.png"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "checked_at": "2026-09-24T15:58:11.529578+00:00"
+    }
+  ],
+  "archi_master_sha256": "317ad0b8df817b89f90d8532f9a8f1cc8d675fc8ae9bed02f301de887b303757",
+  "desktop_boundary": "Dolphin/Kitty commands and files are checked; physical KRunner keystrokes, file-manager double clicks, trust prompts, and Save As clicks are not claimed as automated desktop actions.",
+  "status": "passed",
+  "finished_at": "2026-09-24T15:58:11.529945+00:00"
+}

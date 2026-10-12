@@ -1,0 +1,658 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:29.480+00:00",
+  "elapsed_ms": 72,
+  "id": "7b2ffdcb-984",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "events-0",
+      "record": {
+        "created": "2026-09-24T16:05:29.498+00:00",
+        "external_key": "SHEET-13",
+        "id": "f2b92709-e15",
+        "payload": {
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "display_name": "Fiona",
+          "email": "sheet-row-13@example.invalid",
+          "phone": "+1 480 555 0146",
+          "registration_ref": "SHEET-13",
+          "session": "Art",
+          "status": "Registered"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:29.498+00:00"
+      }
+    },
+    {
+      "app_id": "events-1",
+      "record": {
+        "created": "2026-09-24T16:05:29.518+00:00",
+        "external_key": "SHEET-13",
+        "id": "0bdf6a4d-040",
+        "payload": {
+          "_linked_records": {
+            "events-0": "f2b92709-e15"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "capacity": 3,
+          "contact_email": "sheet-row-13@example.invalid",
+          "contact_name": "Fiona",
+          "event_date": "2026-10-10 10:00",
+          "registration_ref": "SHEET-13",
+          "session": "Art",
+          "status": "Reserved"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:29.518+00:00"
+      }
+    },
+    {
+      "app_id": "events-2",
+      "record": {
+        "created": "2026-09-24T16:05:29.539+00:00",
+        "external_key": "SHEET-13",
+        "id": "73ebda60-d42",
+        "payload": {
+          "_linked_records": {
+            "events-0": "f2b92709-e15",
+            "events-1": "0bdf6a4d-040"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "addressee": "Fiona",
+          "delivery_email": "sheet-row-13@example.invalid",
+          "event_date": "2026-10-10 10:00",
+          "organization": "Gather Workshop",
+          "registration_ref": "SHEET-13",
+          "session": "Art",
+          "status": "Badge ready"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:29.539+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 3,
+    "email": "sheet-row-13@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Fiona",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "SHEET-13",
+    "session": "Art"
+  },
+  "scenario": "events",
+  "source": {
+    "fetched_at": "2026-09-24T15:47:31.510+00:00",
+    "http_status": 200,
+    "id": "c813981d-f90",
+    "kind": "live Google Sheets fetch",
+    "mapped_fields": [
+      "full_name",
+      "session"
+    ],
+    "name": "Google Sheets · tab 0",
+    "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+    "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+    "row_number": 13,
+    "synthetic_defaults": [
+      "registration_ref",
+      "email",
+      "phone",
+      "event_date",
+      "capacity",
+      "organization"
+    ],
+    "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:29.503+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-13",
+          "external_key": "SHEET-13",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "7b2ffdcb-984:0",
+          "payload": {
+            "display_name": "Fiona",
+            "email": "sheet-row-13@example.invalid",
+            "phone": "+1 480 555 0146",
+            "registration_ref": "SHEET-13",
+            "session": "Art"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:29.498+00:00",
+            "external_key": "SHEET-13",
+            "id": "f2b92709-e15",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Fiona",
+              "email": "sheet-row-13@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.498+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 8,
+      "id": 669,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-0/records",
+      "run_id": "7b2ffdcb-984",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.510+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:29.498+00:00",
+            "external_key": "SHEET-13",
+            "id": "f2b92709-e15",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Fiona",
+              "email": "sheet-row-13@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.498+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 670,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-0/records/f2b92709-e15",
+      "run_id": "7b2ffdcb-984",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:29.523+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-13",
+          "external_key": "SHEET-13",
+          "kind": "intake",
+          "links": {
+            "events-0": "f2b92709-e15"
+          },
+          "operation_id": "7b2ffdcb-984:1",
+          "payload": {
+            "capacity": 3,
+            "contact_email": "sheet-row-13@example.invalid",
+            "contact_name": "Fiona",
+            "event_date": "2026-10-10 10:00",
+            "registration_ref": "SHEET-13",
+            "session": "Art"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Registered"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:29.518+00:00",
+            "external_key": "SHEET-13",
+            "id": "0bdf6a4d-040",
+            "payload": {
+              "_linked_records": {
+                "events-0": "f2b92709-e15"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-13@example.invalid",
+              "contact_name": "Fiona",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.518+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 8,
+      "id": 671,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-1/records",
+      "run_id": "7b2ffdcb-984",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.530+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:29.518+00:00",
+            "external_key": "SHEET-13",
+            "id": "0bdf6a4d-040",
+            "payload": {
+              "_linked_records": {
+                "events-0": "f2b92709-e15"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-13@example.invalid",
+              "contact_name": "Fiona",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.518+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 672,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-1/records/0bdf6a4d-040",
+      "run_id": "7b2ffdcb-984",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:29.542+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-13",
+          "external_key": "SHEET-13",
+          "kind": "intake",
+          "links": {
+            "events-0": "f2b92709-e15",
+            "events-1": "0bdf6a4d-040"
+          },
+          "operation_id": "7b2ffdcb-984:2",
+          "payload": {
+            "addressee": "Fiona",
+            "delivery_email": "sheet-row-13@example.invalid",
+            "event_date": "2026-10-10 10:00",
+            "organization": "Gather Workshop",
+            "registration_ref": "SHEET-13",
+            "session": "Art"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 13,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Reserved"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:29.539+00:00",
+            "external_key": "SHEET-13",
+            "id": "73ebda60-d42",
+            "payload": {
+              "_linked_records": {
+                "events-0": "f2b92709-e15",
+                "events-1": "0bdf6a4d-040"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Fiona",
+              "delivery_email": "sheet-row-13@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.539+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 673,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-2/records",
+      "run_id": "7b2ffdcb-984",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:29.548+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:29.539+00:00",
+            "external_key": "SHEET-13",
+            "id": "73ebda60-d42",
+            "payload": {
+              "_linked_records": {
+                "events-0": "f2b92709-e15",
+                "events-1": "0bdf6a4d-040"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 13,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Fiona",
+              "delivery_email": "sheet-row-13@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-13",
+              "session": "Art",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:29.539+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 674,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-2/records/73ebda60-d42",
+      "run_id": "7b2ffdcb-984",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:29.559+00:00"
+}

@@ -1,0 +1,17 @@
+Cedar Clinic / Appointment confirmation
+Synthetic demonstration data • Relayworks
+
+Reference: PAT-0310-B
+Record ID: 90db32fe-cf7
+Status: Scheduled
+Patient reference: PAT-0310-B
+Patient name: Another Sample
+Date of birth: 1990-04-12
+Phone: +1 480 555 0180
+Provider: Demo Provider A
+Appointment slot: 2026-10-08 12:00
+Visit type: Administrative intake
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

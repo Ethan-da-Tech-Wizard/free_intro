@@ -1,0 +1,2420 @@
+{
+  "captured_at": "2026-09-24T04:29:37.821Z",
+  "fixture_revision": "demonstration-contract-1",
+  "note": "Actual Playwright browser interactions. Manual typing is scripted to make the comparison repeatable, not measured human performance. Local workplaces and people are synthetic. External source captures carry provenance.",
+  "captures": [
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:29:38.269Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-01-source.png",
+      "sha256": "19943e49d062a2d3d86e9678598dfdd429d5c44d8a6546b0f9dc1b4aabbc35d2"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Customer Profiles",
+      "captured_at": "2026-09-24T04:29:38.524Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-02-manual-app-1.png",
+      "sha256": "917e552b91e58f2c8d7c53f0b0bab3e0ef0a014e425fc8acf19fbe9ae83fb7a2"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Customer Profiles",
+      "captured_at": "2026-09-24T04:29:38.754Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=0&record=59f86280-1df",
+      "target_record_id": "59f86280-1df",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-02b-manual-saved-1.png",
+      "sha256": "520839032462127b5dcfa7a1620a1698a23d0d3fd0f061879bbbb193a82cfc33"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Dispatch Desk",
+      "captured_at": "2026-09-24T04:29:39.013Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-03-manual-app-2.png",
+      "sha256": "b68b3ea2951b61248890b9c4c97df915a66fab978807b847b2ad794fbc3eb182"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Dispatch Desk",
+      "captured_at": "2026-09-24T04:29:39.234Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=1&record=d5811125-2ad",
+      "target_record_id": "d5811125-2ad",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-03b-manual-saved-2.png",
+      "sha256": "ba0fcf1081cfecf59608f28c60c728a90ba1047cb63b1d178c1f4543370392b6"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Billing Desk",
+      "captured_at": "2026-09-24T04:29:39.532Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-04-manual-app-3.png",
+      "sha256": "6a252afc73ae755aa322c460a81f8f43eca3d91b9d50b40cbffd1ded807e137f"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Billing Desk",
+      "captured_at": "2026-09-24T04:29:39.747Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=2&record=437262da-85c",
+      "target_record_id": "437262da-85c",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-04b-manual-saved-3.png",
+      "sha256": "7130cbcde746c0f97b7f357ac2afccdac935e2ba1bab346518e3fb58cc397085"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:29:40.175Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-05-automation-review.png",
+      "sha256": "737dda25d230b834d89f0f44bfacaf5544efcfd9b21af3d9cc60598d1890846a"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "89ff875c-566",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Customer Profiles populated automatically",
+      "captured_at": "2026-09-24T04:29:41.346Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=0&record=7cd72639-040",
+      "target_record_id": "7cd72639-040",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-06-after-app-1.png",
+      "sha256": "71952fc2ed968c200794e7f08314a4fd524597e8befa5ca97a5bdc789b6c9097"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "89ff875c-566",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Dispatch Desk populated automatically",
+      "captured_at": "2026-09-24T04:29:41.599Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=1&record=88937254-ede",
+      "target_record_id": "88937254-ede",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-07-after-app-2.png",
+      "sha256": "a94d3cdfcb972826af89721d113c5d87b485093e98393460f395e3fdbfc5748c"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "89ff875c-566",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Billing Desk populated automatically",
+      "captured_at": "2026-09-24T04:29:41.847Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=hvac&app=2&record=7b610124-4b5",
+      "target_record_id": "7b610124-4b5",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-08-after-app-3.png",
+      "sha256": "be84f72472ed3e5f44106dbb5b5118d7d6b44cd730ab0d4faafbdec7af8cd436"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "89ff875c-566",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:21.112Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-09-technical-trace.png",
+      "sha256": "194e52d6c5fc38d4e61650a7d02cf6efb1c4e92e24abde8c4cec8c249a9fd2b2"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "d5c9b2cb-04a",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:29:42.972Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-10-failure.png",
+      "sha256": "377d9cb24560ed6f1153119bb8d28717b7cf8657b548b5ab4592c8b3572a2a15"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "d5c9b2cb-04a",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:29:43.980Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-11-recovered.png",
+      "sha256": "aae6f57bf730961fd8346df8cc122b60fb66c7af4cd90b778ada1458ff2bb1c3"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "301cb28e-598",
+      "mode": "follow-up",
+      "step_id": "12-business-followup",
+      "label": "Complete the visit · verified updated records",
+      "captured_at": "2026-09-24T04:29:45.154Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/hvac/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-12-business-followup.png",
+      "sha256": "7ef378e2b81452c2fe7339d4b861b5ca712eaaa2937c415b5b90c89cfa9addd5"
+    },
+    {
+      "scenario_id": "hvac",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:29:45.447Z",
+      "app_url": "http://127.0.0.1:8765/#source/c4fa63e4-400/hvac",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/hvac-14-ugly-workbook.png",
+      "sha256": "a4816e337c74975b35a3115f2112ff4eec8546e53cbb5b7202e5b1b03d67943b"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:29:45.601Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-01-source.png",
+      "sha256": "48759ad4beb467d3cb8e47b955c7c56355f820ce54203dd0a5db872661170b93"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Sports Worksheet",
+      "captured_at": "2026-09-24T04:29:45.864Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-02-manual-app-1.png",
+      "sha256": "7abd6f4663d39b7c0acf5a08d21174adf11ef519f9635093c2cd1e8efe202fd8"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Sports Worksheet",
+      "captured_at": "2026-09-24T04:29:46.082Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=0&record=205213f8-bbd",
+      "target_record_id": "205213f8-bbd",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-02b-manual-saved-1.png",
+      "sha256": "78ff697232727ea418a3aa1e2b133558f480cbf41e88275fd602729fbb148c8d"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Schedule Board",
+      "captured_at": "2026-09-24T04:29:46.339Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-03-manual-app-2.png",
+      "sha256": "6bf9df604cf8c27d78f319abdafdc48971d79488c1f4f37c1d88b88d518c4b19"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Schedule Board",
+      "captured_at": "2026-09-24T04:29:46.535Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=1&record=ca30370b-57e",
+      "target_record_id": "ca30370b-57e",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-03b-manual-saved-2.png",
+      "sha256": "769e9e5b3d01d4f47c7ecb22282c557062633710aa174490c76b80040e1e767e"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Report Inbox",
+      "captured_at": "2026-09-24T04:29:46.851Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-04-manual-app-3.png",
+      "sha256": "2c388f4a0304607c3f3490f93e927c541b12574834cd0b6e6537543fc0908fe9"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Report Inbox",
+      "captured_at": "2026-09-24T04:29:47.054Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=2&record=a9ad4c29-810",
+      "target_record_id": "a9ad4c29-810",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-04b-manual-saved-3.png",
+      "sha256": "3215c7891d7c3d35a6cb51a8ec121f290ae5070ebf12a86ef339829423adff65"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:29:47.525Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-05-automation-review.png",
+      "sha256": "0f9783218f8db9c30382947f80c71cc4ec27dfb88cd6fd13a6cee5ec8439ee9a"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "e5328efc-700",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Sports Worksheet populated automatically",
+      "captured_at": "2026-09-24T04:29:48.817Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=0&record=12f55e99-d0f",
+      "target_record_id": "12f55e99-d0f",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-06-after-app-1.png",
+      "sha256": "22fd45d71f216edd07439ad20a2e00ce51d84858059f3d6412a2d4851a572c88"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "e5328efc-700",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Schedule Board populated automatically",
+      "captured_at": "2026-09-24T04:29:49.143Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=1&record=344a5a16-0f2",
+      "target_record_id": "344a5a16-0f2",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-07-after-app-2.png",
+      "sha256": "179c7faf8c1de17df839aa53888397c1e3aad3a29871b26f3f897d47db34d90a"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "e5328efc-700",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Report Inbox populated automatically",
+      "captured_at": "2026-09-24T04:29:49.378Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=sports&app=2&record=65e9cbf7-d7e",
+      "target_record_id": "65e9cbf7-d7e",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-08-after-app-3.png",
+      "sha256": "bbf08a62dcda7c21a0dd3298a45c9292466ad597e7717121c82f35ce623514bd"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "e5328efc-700",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:21.491Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-09-technical-trace.png",
+      "sha256": "1e4c274d61eba5d380ed63585ff0d199f73618559439a57c7b3c5380f2117627"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "3b144420-f09",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:29:50.390Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-10-failure.png",
+      "sha256": "f9f57569e08be796beead1393a32b95b0f06982e43227a259f5ae4218a49651d"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "3b144420-f09",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:29:51.390Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-11-recovered.png",
+      "sha256": "76f71ac94938476b8c23543bb0b0b1f1be6e7efe4897a783f9352f9466a70645"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:29:51.692Z",
+      "app_url": "http://127.0.0.1:8765/#source/d8988dca-7c0/sports",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-14-ugly-workbook.png",
+      "sha256": "4ce4bf87a6697d5dfeb9c92c63e61194e34c8833d7176a124389e74de72582b8"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:29:51.877Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-01-source.png",
+      "sha256": "6820e8883b336f3af9291a3c07efe484bf052765962d673af8a8b3297723d064"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Matter Desk",
+      "captured_at": "2026-09-24T04:29:52.146Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-02-manual-app-1.png",
+      "sha256": "33f97c6cde0322f82255728e61c2f2de4413b1163c78f7d017ab3bd6bddf672b"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Matter Desk",
+      "captured_at": "2026-09-24T04:29:52.349Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=0&record=2664c296-ae3",
+      "target_record_id": "2664c296-ae3",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-02b-manual-saved-1.png",
+      "sha256": "fee240ed8e94693387f2a9f566fa3516433979ccc21eb7ed9fc1edd74769f625"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Document Desk",
+      "captured_at": "2026-09-24T04:29:52.606Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-03-manual-app-2.png",
+      "sha256": "b09ea18e0e3a04a464deec264143983f3ad3ddfd134ef1fb70ff67f0e270fdf4"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Document Desk",
+      "captured_at": "2026-09-24T04:29:52.797Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=1&record=04dde95b-d9c",
+      "target_record_id": "04dde95b-d9c",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-03b-manual-saved-2.png",
+      "sha256": "e5b3641505c6a81b0c5d27690b28e69f4b8e9df42d73f60db8faba4629e2de0c"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Task Calendar",
+      "captured_at": "2026-09-24T04:29:53.064Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-04-manual-app-3.png",
+      "sha256": "895b8cf26e83bdaf27786c9fc9902ea3916c436c4b476a811cdb860d1260f7c0"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Task Calendar",
+      "captured_at": "2026-09-24T04:29:53.264Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=2&record=60e6dae8-22f",
+      "target_record_id": "60e6dae8-22f",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-04b-manual-saved-3.png",
+      "sha256": "f5689361a234392028812527f7b4e56190e7ff345a2dc605b28c394eb1939b0a"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:29:53.704Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-05-automation-review.png",
+      "sha256": "988f6e211a04da39ec93bbe00674364de5d328c45cce676f3a71baa0b77ac1ec"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "73ad3564-6a5",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Matter Desk populated automatically",
+      "captured_at": "2026-09-24T04:29:54.896Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=0&record=0501eab1-b6d",
+      "target_record_id": "0501eab1-b6d",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-06-after-app-1.png",
+      "sha256": "ba4d6c0d4517144cb3d3bfbb78879acf06ffae3bc0639978ee80a7023b8ca403"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "73ad3564-6a5",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Document Desk populated automatically",
+      "captured_at": "2026-09-24T04:29:55.129Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=1&record=237f0c38-08d",
+      "target_record_id": "237f0c38-08d",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-07-after-app-2.png",
+      "sha256": "50ff6a33529890b5a8bdbd8d58ea124af35d261ac540df16a2bc1628ee84ed85"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "73ad3564-6a5",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Task Calendar populated automatically",
+      "captured_at": "2026-09-24T04:29:55.366Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=legal&app=2&record=375a06c2-d2c",
+      "target_record_id": "375a06c2-d2c",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-08-after-app-3.png",
+      "sha256": "3bf5f1cf45b51c8649a30a5c973361becb5725dbe6e676b1afc395f292ff4576"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "73ad3564-6a5",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:21.828Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-09-technical-trace.png",
+      "sha256": "ae5c53874091149b9f0643bb5401da2cfb0a5025b1d3e824a8e7b2a96371fa42"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "50dfa89c-af7",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:29:56.504Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-10-failure.png",
+      "sha256": "0dd5671cc5e9e9e37c72dc765caa44ed92c78d8088857ce2742e9dcf39810a7a"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "50dfa89c-af7",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:29:57.517Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-11-recovered.png",
+      "sha256": "72ba9a2fb358da90cf66bb665215c52b9a48c4b604c29bdc3d7458f58313a3bf"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "12-review-hold",
+      "label": "Legal intake · possible party match held for review",
+      "captured_at": "2026-09-24T04:29:57.857Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-12-review-hold.png",
+      "sha256": "2cae69a0aee3cacd09cc7b6c089ea23bea9d88e674afa82b8bf3ac0514d1d8cb"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "53273bd9-038",
+      "mode": "recovery",
+      "step_id": "13-review-approved",
+      "label": "Legal intake · reviewer decision recorded",
+      "captured_at": "2026-09-24T04:29:58.926Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/legal/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-13-review-approved.png",
+      "sha256": "7f7ddeb06a6f8a1773f5d7b393c0c23b37da534cde0cadd04895f237e12d8fb0"
+    },
+    {
+      "scenario_id": "legal",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:29:59.225Z",
+      "app_url": "http://127.0.0.1:8765/#source/10e764b0-725/legal",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/legal-14-ugly-workbook.png",
+      "sha256": "b94d4e3ee6df4b48bde485ec80131323b7dab2c7fdeb6317309d4512b8c88252"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:29:59.423Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-01-source.png",
+      "sha256": "a449015453ac870f638bb5fe7b6f9aef2b73e498c4ff641e07c6ae99134b4338"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Registration Desk",
+      "captured_at": "2026-09-24T04:29:59.701Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-02-manual-app-1.png",
+      "sha256": "5dc7732ecdb6f83fee65d203eb257964c76b2fb033e8fdf8c33c1fb88f213fc9"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Registration Desk",
+      "captured_at": "2026-09-24T04:29:59.914Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=0&record=3b69bf9a-524",
+      "target_record_id": "3b69bf9a-524",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-02b-manual-saved-1.png",
+      "sha256": "abd9dc190ab9587c8261dc378aabc4235795419e0a6e46f23fb660cfc1e221ec"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Appointment Board",
+      "captured_at": "2026-09-24T04:30:00.156Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-03-manual-app-2.png",
+      "sha256": "8bdea0d5ab24ad624b09d0e3c4e0974ab30857ff12b3eeb235f0d1d376c4dfd6"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Appointment Board",
+      "captured_at": "2026-09-24T04:30:00.356Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=1&record=fdc4a787-2a5",
+      "target_record_id": "fdc4a787-2a5",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-03b-manual-saved-2.png",
+      "sha256": "a8b9cf3a27b628e3ffc08ebdf1b2a4498ea272a29942bfe55fcffcfa1753cfb4"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Intake Packet Desk",
+      "captured_at": "2026-09-24T04:30:00.612Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-04-manual-app-3.png",
+      "sha256": "e8ea68bf0fe060ec1d340344bdb82b59c579ff5b82296ef45c67eb55ea7c2c5d"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Intake Packet Desk",
+      "captured_at": "2026-09-24T04:30:00.822Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=2&record=44b79783-cb2",
+      "target_record_id": "44b79783-cb2",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-04b-manual-saved-3.png",
+      "sha256": "a6b012403934651805f09eaeb81f075a804d79750b1599a7146eb114aacc4bbb"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:30:01.269Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-05-automation-review.png",
+      "sha256": "15cd23a67c04544bce1725e9ad750a0fd7d66087867df6ec9981c3bee3a12b64"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "dc46458f-284",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Registration Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:02.464Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=0&record=0b52c14e-af7",
+      "target_record_id": "0b52c14e-af7",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-06-after-app-1.png",
+      "sha256": "7ddc9f75da3416e3af5c81d6d84ca2fe171b0e168534772c210552bf7dacd1ed"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "dc46458f-284",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Appointment Board populated automatically",
+      "captured_at": "2026-09-24T04:30:02.684Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=1&record=1c8bbff3-66a",
+      "target_record_id": "1c8bbff3-66a",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-07-after-app-2.png",
+      "sha256": "55b7eb85e358b199d91918d19c7cf057cbb824726a977fd4774968ec7da6fba7"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "dc46458f-284",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Intake Packet Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:02.917Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=clinic&app=2&record=1ef611f1-4a0",
+      "target_record_id": "1ef611f1-4a0",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-08-after-app-3.png",
+      "sha256": "097eb1ca0ae19fbed191fd4cf4d72eeeebb5b054b1e052b57f80c9a63f940e93"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "dc46458f-284",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:22.210Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-09-technical-trace.png",
+      "sha256": "239d890b500548b3c0b73df4f09ebdd3dae390013d1dfc2d34579fbe3daab319"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "87a0bade-1d2",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:30:04.029Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-10-failure.png",
+      "sha256": "e7856cd4d8720f9de0d48665c604591390b7d129c8ae87fdbeb08288cd1a4843"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "87a0bade-1d2",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:30:05.069Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-11-recovered.png",
+      "sha256": "fbc8abcfcfec6c04eeb50cd4cb626fdb72d82004cf606199722ab1154eda2907"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "failure",
+      "step_id": "12-conflict",
+      "label": "Clinic · duplicate appointment slot rejected",
+      "captured_at": "2026-09-24T04:30:06.021Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-12-conflict.png",
+      "sha256": "7c00c5d423fb3ef40a704ffcb1a1cc53199f21bf6b367f2f66596c64b49c36a2"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "73e7e425-7ec",
+      "mode": "recovery",
+      "step_id": "13-conflict-resolved",
+      "label": "Clinic · corrected slot creates the appointment",
+      "captured_at": "2026-09-24T04:30:07.186Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/clinic/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-13-conflict-resolved.png",
+      "sha256": "25caf8c44fb227b238e2803d18ddaf50c6e3c91c708b8b5a68c12b36aa60bc59"
+    },
+    {
+      "scenario_id": "clinic",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:30:07.490Z",
+      "app_url": "http://127.0.0.1:8765/#source/5a253880-140/clinic",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/clinic-14-ugly-workbook.png",
+      "sha256": "6c083e13cf874105ccd7508da7c1872c6babb80f9a0972f432d01ccad4bb3412"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:30:07.669Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/retail/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-01-source.png",
+      "sha256": "957b3307f03e5c07abc1f4158d55ff6788c805a6452251157ea01beba7e3cf79"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Receiving Desk",
+      "captured_at": "2026-09-24T04:30:07.912Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-02-manual-app-1.png",
+      "sha256": "2ce51137a08315750e3ef187a9b948c9abb710969ff02c4d7a42a3e74b7fb43a"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Receiving Desk",
+      "captured_at": "2026-09-24T04:30:08.118Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=0&record=70b0e5b4-dfa",
+      "target_record_id": "70b0e5b4-dfa",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-02b-manual-saved-1.png",
+      "sha256": "28c1c8d0b5db2bc1c97a9727f1cac247d1cdd767f09ce7285e4d732e50cad711"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Stock Ledger",
+      "captured_at": "2026-09-24T04:30:08.385Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-03-manual-app-2.png",
+      "sha256": "84a9a8c6e7ff250f3cd0fe020fa41f3ca878d4b9cc050c0f64943833b7c43c3b"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Stock Ledger",
+      "captured_at": "2026-09-24T04:30:08.589Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=1&record=8e65539b-c39",
+      "target_record_id": "8e65539b-c39",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-03b-manual-saved-2.png",
+      "sha256": "4b92a461dc782d04e2365a95f4008e2eafc0354488d720ecccbe2d89c7483c59"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Online Catalog",
+      "captured_at": "2026-09-24T04:30:08.848Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-04-manual-app-3.png",
+      "sha256": "4d5c60fe933f27588f3b108f36a1212cb1c52d87807d5167293a21bdcec8df83"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Online Catalog",
+      "captured_at": "2026-09-24T04:30:09.048Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=2&record=75d6e0ce-406",
+      "target_record_id": "75d6e0ce-406",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-04b-manual-saved-3.png",
+      "sha256": "ed489c1f76629ecc177b7c264af5870fa45fb53b26df8315f6f724ce7cc63602"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:30:09.502Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/retail/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-05-automation-review.png",
+      "sha256": "b1ddfd787e43fb712be05ecf140800cde2561be15a1487e9435ac8a02e135740"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "1ac6608a-343",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Receiving Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:10.698Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=0&record=0e692e1a-8e8",
+      "target_record_id": "0e692e1a-8e8",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-06-after-app-1.png",
+      "sha256": "ec5e5373434b1f9de38bc02286bbb8d52147437851e2bd5477121ea727c348c3"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "1ac6608a-343",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Stock Ledger populated automatically",
+      "captured_at": "2026-09-24T04:30:10.931Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=1&record=a9b5a325-a1c",
+      "target_record_id": "a9b5a325-a1c",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-07-after-app-2.png",
+      "sha256": "6709efc13d65267be1d4067165a1b40ae6ea685584294c1ddf2da785f9aeadd9"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "1ac6608a-343",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Online Catalog populated automatically",
+      "captured_at": "2026-09-24T04:30:11.162Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=retail&app=2&record=1be8f1e4-a4f",
+      "target_record_id": "1be8f1e4-a4f",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-08-after-app-3.png",
+      "sha256": "72419dfb137fe1fa42b28a4994df3c9a7094e6090bf886199203272aa8396194"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "1ac6608a-343",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:22.507Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/retail/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-09-technical-trace.png",
+      "sha256": "7cda27050760887cc3288416bb4e574d4c8ca075febf8f7be12b51d6b4fb2cfb"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bad027a2-1e2",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:30:12.204Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/retail/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-10-failure.png",
+      "sha256": "ba2745911e2b3f802fb1a9a32edb88ea3a0dd548c3c4c95ae4ccded59d7a034d"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bad027a2-1e2",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:30:13.227Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/retail/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-11-recovered.png",
+      "sha256": "9f28cdc7ee89d4328191eee7c53a2d6bcf679335e57818efeb91c0c4a4d42b8d"
+    },
+    {
+      "scenario_id": "retail",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:30:13.521Z",
+      "app_url": "http://127.0.0.1:8765/#source/3dc3cf64-832/retail",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/retail-14-ugly-workbook.png",
+      "sha256": "f4893a2ae6e90fa054f8e6f0c112ebad53b153902f6655521ea63aec87612d4b"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:30:13.723Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-01-source.png",
+      "sha256": "1320c39fb054bdd091123b54ff3a7cfe21a9c85971f487dd9c4091878fa15b00"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Item Register",
+      "captured_at": "2026-09-24T04:30:13.976Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-02-manual-app-1.png",
+      "sha256": "de3ffe76dacfcd2f6b2d0b1e855bc51dd90f0035aa21fe6eae1400116fa11740"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Item Register",
+      "captured_at": "2026-09-24T04:30:14.195Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=0&record=f30008a5-6b5",
+      "target_record_id": "f30008a5-6b5",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-02b-manual-saved-1.png",
+      "sha256": "66744435c686959596cfb6d113081b9919e3b5796668a89afe5f5568aa8fb00a"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Listing Desk",
+      "captured_at": "2026-09-24T04:30:14.482Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-03-manual-app-2.png",
+      "sha256": "99172c63a4ada77b053d460f3fe796f697f6c73cba8a221d655a8018662f756a"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Listing Desk",
+      "captured_at": "2026-09-24T04:30:14.683Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=1&record=bcb633a8-507",
+      "target_record_id": "bcb633a8-507",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-03b-manual-saved-2.png",
+      "sha256": "98584c9f2208a0490565aee92845c4cfa771c2b820d5e273f703a652fd0e630f"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Sales and Packing Desk",
+      "captured_at": "2026-09-24T04:30:14.945Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-04-manual-app-3.png",
+      "sha256": "9cd5118b8032efe597b7d5f129782159f33bfdc5d56204fd4413cd7379aba0b2"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Sales and Packing Desk",
+      "captured_at": "2026-09-24T04:30:15.151Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=2&record=7a3c67e5-f47",
+      "target_record_id": "7a3c67e5-f47",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-04b-manual-saved-3.png",
+      "sha256": "d60a642e8aa811ec1cc8e401a2a89470bf35a89bb0c18d52bd132272b8a9e2bf"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:30:15.584Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-05-automation-review.png",
+      "sha256": "83553bb0b9fc967a1adb4fba04cc97a5c58a905b9f620b4d74cde78483fb3b9f"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "eb83112b-2f9",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Item Register populated automatically",
+      "captured_at": "2026-09-24T04:30:16.811Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=0&record=09205911-07a",
+      "target_record_id": "09205911-07a",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-06-after-app-1.png",
+      "sha256": "453580dfc11cbac437cd506367ee5db21769a1f92ee15dedc9fa66fa79eab0d2"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "eb83112b-2f9",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Listing Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:17.051Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=1&record=775ceb81-525",
+      "target_record_id": "775ceb81-525",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-07-after-app-2.png",
+      "sha256": "b2340ff64ce062486b67533ae71f0b255045149966705e3ba7d784c99c3208d6"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "eb83112b-2f9",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Sales and Packing Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:17.379Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=reseller&app=2&record=8789672f-fc5",
+      "target_record_id": "8789672f-fc5",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-08-after-app-3.png",
+      "sha256": "fa79cc95fdc92372e79b2afa345c0dbbda77043d2bfece1a844605bf704fd943"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "eb83112b-2f9",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:22.804Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-09-technical-trace.png",
+      "sha256": "dbe56e8825b0b7a6f29247d59f239ec19d4fb54ac6918e8907350ea1fe4a6cad"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "a7e24d2b-5be",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:30:18.442Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-10-failure.png",
+      "sha256": "9dad3cd044a5d0d52759877ea22aab136c3b3220b088aa616f43383c6d4efa7d"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "a7e24d2b-5be",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:30:19.460Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-11-recovered.png",
+      "sha256": "2c0c8739feca49f434f57c1986e30c286cae0f7cff9f5c7a0ede1f5e5736545c"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "e3d29995-228",
+      "mode": "follow-up",
+      "step_id": "12-business-followup",
+      "label": "Record a sale · verified updated records",
+      "captured_at": "2026-09-24T04:30:20.625Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/reseller/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-12-business-followup.png",
+      "sha256": "942e7fea1ccfb2bf86fd1bc0316cfdcc3e342587c5da3835adca57ce0aae476c"
+    },
+    {
+      "scenario_id": "reseller",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:30:20.920Z",
+      "app_url": "http://127.0.0.1:8765/#source/80ebd29e-5eb/reseller",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/reseller-14-ugly-workbook.png",
+      "sha256": "cdc9e1b1487fe729c5f33ca34ea843a002129486411ad453b6e36eaa66b2cfba"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:30:21.108Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-01-source.png",
+      "sha256": "462fcbfab2ac2e8160f260ce79bf6210dff70d1f0f5e561b468bd312373aefd7"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Property Desk",
+      "captured_at": "2026-09-24T04:30:21.395Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-02-manual-app-1.png",
+      "sha256": "1cb10f3ce567b27c6b3239353f2fb0e1a958137bec7877dfad9f45d4696a0ccc"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Property Desk",
+      "captured_at": "2026-09-24T04:30:21.626Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=0&record=45cc7381-644",
+      "target_record_id": "45cc7381-644",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-02b-manual-saved-1.png",
+      "sha256": "991ee0ddb55ac0ab06e59d74684525d0b12e7e1d177ad186ecbf5808dfcd35bc"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Contractor Board",
+      "captured_at": "2026-09-24T04:30:21.894Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-03-manual-app-2.png",
+      "sha256": "8ba3707c155d66a133c4884ca7812a1ae0b416c656fc3cb1c535789bc9bcecfb"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Contractor Board",
+      "captured_at": "2026-09-24T04:30:22.093Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=1&record=9ab8ec83-6a8",
+      "target_record_id": "9ab8ec83-6a8",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-03b-manual-saved-2.png",
+      "sha256": "775af158b4a5bcd316b57a831483588762cd59ca9a999d78db481a90f3ba038e"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Owner Report Desk",
+      "captured_at": "2026-09-24T04:30:22.382Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-04-manual-app-3.png",
+      "sha256": "f23b838172ba22f47c4aaad020fa298c82ebab778437dff90ed493f6b9083a11"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Owner Report Desk",
+      "captured_at": "2026-09-24T04:30:22.582Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=2&record=89e562ee-114",
+      "target_record_id": "89e562ee-114",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-04b-manual-saved-3.png",
+      "sha256": "6c7b42ecbe0e7de71372977ea06ecc9bbd1a9fa6b77f5db0db850740c7d1b76d"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:30:23.020Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-05-automation-review.png",
+      "sha256": "7b5f4cce705b1804e58596202aa0530b6ea56209a887e9ca2330095d3f46ecb3"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bca21068-aa9",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Property Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:24.213Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=0&record=c103ac39-9f2",
+      "target_record_id": "c103ac39-9f2",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-06-after-app-1.png",
+      "sha256": "91148f3c56b935890fb7d61d3c059ba3459837e4c95c5b70c226967147ddec82"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bca21068-aa9",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Contractor Board populated automatically",
+      "captured_at": "2026-09-24T04:30:24.447Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=1&record=10f3f26e-b43",
+      "target_record_id": "10f3f26e-b43",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-07-after-app-2.png",
+      "sha256": "1084f20465b6d7dfd45489212dd8e03d007f77f0261daf7b91b0f32d227719a1"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bca21068-aa9",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Owner Report Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:24.682Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=property&app=2&record=e0ff8a55-3b3",
+      "target_record_id": "e0ff8a55-3b3",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-08-after-app-3.png",
+      "sha256": "0037bcffbe03c62d554f7aadac722abe44f71237add6c2ad2756c31b5cfbdc34"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "bca21068-aa9",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:23.207Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-09-technical-trace.png",
+      "sha256": "bde723be4f914183c9cc890d4739fe775a0965457e50ce2ab12e9271d9f15264"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "264af95b-ee3",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:30:25.771Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-10-failure.png",
+      "sha256": "fde9c76a9f45b07fe1b462901f32b881116b96bae3de5f058a4d5fc323dcfcda"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "264af95b-ee3",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:30:26.772Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-11-recovered.png",
+      "sha256": "1d29958f169d3dee720f47e57572978b63cd7813667ed16869ded1a2a5f0bd62"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "13d962ca-e0c",
+      "mode": "follow-up",
+      "step_id": "12-business-followup",
+      "label": "Match a contractor invoice · verified updated records",
+      "captured_at": "2026-09-24T04:30:27.939Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/property/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-12-business-followup.png",
+      "sha256": "8018386f3f076129b079e996d2045e819ad93c37d27ff5476a03c0d69a8632c5"
+    },
+    {
+      "scenario_id": "property",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:30:28.239Z",
+      "app_url": "http://127.0.0.1:8765/#source/aea5d599-faf/property",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/property-14-ugly-workbook.png",
+      "sha256": "ecd257d4d5e83826e0da81e5f8806c1d4b8d2bf30ab8093b5e8755ddad629b85"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "01-source",
+      "label": "Source paperwork · the same facts for both paths",
+      "captured_at": "2026-09-24T04:30:28.425Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/manual",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-01-source.png",
+      "sha256": "d5e87e0e4cb135ab38dde16bf21fbb70d812320b4b26418f8616b41949b7e1b7"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02-manual-app-1",
+      "label": "Manual · enter fields in Registration Desk",
+      "captured_at": "2026-09-24T04:30:28.665Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=0",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-02-manual-app-1.png",
+      "sha256": "071115054631ae9ae9e1ca9d5492a604ad3acec162b012abce667b7ef4cf0a27"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "02b-manual-saved-1",
+      "label": "Manual · saved Registration Desk",
+      "captured_at": "2026-09-24T04:30:28.866Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=0&record=cfe61a7d-f8f",
+      "target_record_id": "cfe61a7d-f8f",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-02b-manual-saved-1.png",
+      "sha256": "16a07601e284250ce4ca384501299f4232e1263cae7e7c93a94d9855d4d668ed"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03-manual-app-2",
+      "label": "Manual · enter fields in Session Board",
+      "captured_at": "2026-09-24T04:30:29.105Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=1",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-03-manual-app-2.png",
+      "sha256": "9dd4ce8ea178e846df044ffe11a8667f22a10b3a6d87cf033cfeb136c85f2377"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "03b-manual-saved-2",
+      "label": "Manual · saved Session Board",
+      "captured_at": "2026-09-24T04:30:29.298Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=1&record=1a8d3e2b-104",
+      "target_record_id": "1a8d3e2b-104",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-03b-manual-saved-2.png",
+      "sha256": "fd8cf63fe58f1c644031536409070d89c995e953879c0af738f103e495ece754"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04-manual-app-3",
+      "label": "Manual · enter fields in Badge and Attendance Desk",
+      "captured_at": "2026-09-24T04:30:29.559Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=2",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-04-manual-app-3.png",
+      "sha256": "33c2147495d3493191974d711ef445b230a8be6aa56fbcc417258e9d58d24176"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "manual",
+      "step_id": "04b-manual-saved-3",
+      "label": "Manual · saved Badge and Attendance Desk",
+      "captured_at": "2026-09-24T04:30:29.758Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=2&record=47e565b2-377",
+      "target_record_id": "47e565b2-377",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-04b-manual-saved-3.png",
+      "sha256": "47573ea729ae27083e203eaf85f7168dfd344239cb93c302e0579dad1a3b18fb"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "05-automation-review",
+      "label": "After · one reviewed intake for all three apps",
+      "captured_at": "2026-09-24T04:30:30.210Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/automate",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-05-automation-review.png",
+      "sha256": "88dcefe20cec1790e3edab8011de619f92e1c6d4510815ba12e2bc2e7105f8f7"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "60e389bb-60f",
+      "mode": "automated",
+      "step_id": "06-after-app-1",
+      "label": "After · Registration Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:31.396Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=0&record=e2c2d91a-288",
+      "target_record_id": "e2c2d91a-288",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-06-after-app-1.png",
+      "sha256": "b09433223468443801e36340c9d295db99b19cee010a084e930db2fce5c84a67"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "60e389bb-60f",
+      "mode": "automated",
+      "step_id": "07-after-app-2",
+      "label": "After · Session Board populated automatically",
+      "captured_at": "2026-09-24T04:30:31.630Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=1&record=46752c71-fc7",
+      "target_record_id": "46752c71-fc7",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-07-after-app-2.png",
+      "sha256": "d4cb758d737aab8dd1b8ec8527fc44bf5aa03ddf253ae187a618b53bf74fa3d4"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "60e389bb-60f",
+      "mode": "automated",
+      "step_id": "08-after-app-3",
+      "label": "After · Badge and Attendance Desk populated automatically",
+      "captured_at": "2026-09-24T04:30:31.866Z",
+      "app_url": "http://127.0.0.1:8765/workplace?scenario=events&app=2&record=c5329a1b-94c",
+      "target_record_id": "c5329a1b-94c",
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-08-after-app-3.png",
+      "sha256": "7f4210fb08693fb052b4acdba9b6b26279aacc1b4e5db0847f33a9a1652dd011"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "60e389bb-60f",
+      "mode": "technical",
+      "step_id": "09-technical-trace",
+      "label": "Proof · actual request and destination read-back",
+      "captured_at": "2026-09-24T04:31:23.540Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-09-technical-trace.png",
+      "sha256": "809042c76f4bef0b3882307b564305b719f59f1499eb81f8d0d26f1a88d36d28"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "5bea1bb8-857",
+      "mode": "failure",
+      "step_id": "10-failure",
+      "label": "Exception · destination denies or cannot accept the request",
+      "captured_at": "2026-09-24T04:30:32.959Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-10-failure.png",
+      "sha256": "474777d125ad9a0eedcfa96002ff1b1a162579c363e735d866ae2d64eb9883ee"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "5bea1bb8-857",
+      "mode": "recovery",
+      "step_id": "11-recovered",
+      "label": "Recovery · completed steps retained, failed transfer resumed",
+      "captured_at": "2026-09-24T04:30:33.996Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/technical",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-11-recovered.png",
+      "sha256": "9e0fc55cdf7602cb4334c2afa81f4984ff1543ff28482aa4963b27add970fec1"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "eb9248c8-d00",
+      "mode": "follow-up",
+      "step_id": "12-business-followup",
+      "label": "Check in attendee · verified updated records",
+      "captured_at": "2026-09-24T04:30:35.084Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/results",
+      "target_record_id": null,
+      "source_kind": "synthetic demo fixture",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-12-business-followup.png",
+      "sha256": "4844356102dbafa36e2df3b46bf5209dbb0cb3c65dd38e53951d4067192cbedc"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "source",
+      "step_id": "14-ugly-workbook",
+      "label": "Original mess → cleaned values → explicit field mapping",
+      "captured_at": "2026-09-24T04:30:35.386Z",
+      "app_url": "http://127.0.0.1:8765/#source/2e63a595-e8a/events",
+      "target_record_id": null,
+      "source_kind": "generated messy workbook",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-14-ugly-workbook.png",
+      "sha256": "5faff759cd8ee8f5b3f811bf0f1a4198a9da17fc11d6589c9aa27f186bbeee51"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "live-source",
+      "step_id": "15-public-source",
+      "label": "Real Google Sheet · 30 rows fetched without an API key",
+      "captured_at": "2026-09-24T04:30:35.703Z",
+      "app_url": "http://127.0.0.1:8765/#source/1a0c5f64-7f3/events",
+      "target_record_id": null,
+      "source_kind": "live Google Sheets fetch",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-15-public-source.png",
+      "sha256": "d9fa739785c8f41e055e3b8f0d158b373bcdef86b7bcc565a496b4b7a1b4024f"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "16-public-intake",
+      "label": "Public source values mapped into the workplace intake",
+      "captured_at": "2026-09-24T04:30:36.019Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/automate",
+      "target_record_id": null,
+      "source_kind": "live Google Sheets fetch",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-16-public-intake.png",
+      "sha256": "373d0761ba293b90aaaf9433e7425be70fbf5c2272049b32b7d07c6f4d2fd45d"
+    },
+    {
+      "scenario_id": "events",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "1853319a-2df",
+      "mode": "automated",
+      "step_id": "17-public-populated",
+      "label": "Real source data saved into three local workplaces",
+      "captured_at": "2026-09-24T04:30:37.034Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/events/results",
+      "target_record_id": null,
+      "source_kind": "live Google Sheets fetch",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/events-17-public-populated.png",
+      "sha256": "b054dff72a1e9431d7e31230a1d068606d278623de83a3b45977298c8d2e98d3"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "live-source",
+      "step_id": "15-public-source",
+      "label": "Real OpenF1 data · driver, session, and lap requests",
+      "captured_at": "2026-09-24T04:30:37.317Z",
+      "app_url": "http://127.0.0.1:8765/#source/bee25e76-5c6/sports",
+      "target_record_id": null,
+      "source_kind": "historical public API data",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-15-public-source.png",
+      "sha256": "13e57555c58b5924717cbffca413619592fa3e7873982d1a0c0601f51387860e"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": null,
+      "mode": "review",
+      "step_id": "16-public-intake",
+      "label": "Public source values mapped into the workplace intake",
+      "captured_at": "2026-09-24T04:30:37.636Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/automate",
+      "target_record_id": null,
+      "source_kind": "historical public API data",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-16-public-intake.png",
+      "sha256": "5cf419a51f2dd9293679bfcffc8fe23b350abd7c3efd3291c0df1119d3ac7cbb"
+    },
+    {
+      "scenario_id": "sports",
+      "fixture_revision": "demonstration-contract-1",
+      "run_id": "0e49aae2-c08",
+      "mode": "automated",
+      "step_id": "17-public-populated",
+      "label": "Real source data saved into three local workplaces",
+      "captured_at": "2026-09-24T04:30:38.632Z",
+      "app_url": "http://127.0.0.1:8765/#scenario/sports/results",
+      "target_record_id": null,
+      "source_kind": "historical public API data",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "path": "evidence/sports-17-public-populated.png",
+      "sha256": "77fbd695bba88a700b4c5618e152c1563a3818ed6917a4375becb937eef93b79"
+    }
+  ],
+  "technical_refreshed_at": "2026-09-24T04:31:23.541Z"
+}

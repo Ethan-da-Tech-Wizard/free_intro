@@ -1,0 +1,7 @@
+7	
+Review
+
+DELIVERY ADDRESS: Email needs correction
+EVENT DATE: Slash date is ambiguous; choose an ISO date
+
+	DEMO-RACE-01-B	Taylor Sample	missing-at-sign.example.invalid	Synthetic Racing	Demo Grand Prix	03/04/26	Awaiting source	0	America/Phoenix

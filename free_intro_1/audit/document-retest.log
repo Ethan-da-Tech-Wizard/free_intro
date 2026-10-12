@@ -1,0 +1,5 @@
+DO 09 001 Upload hvac-intake.pdf; inspect pdftotext extraction and review every mapped field
+DO 09 002 Confirm document review, correct any extraction differences in hvac-intake.pdf, save and inspect all output PDFs
+DO 09 003 Upload hvac-scanned-intake.png; inspect Tesseract OCR extraction and review every mapped field
+DO 09 004 Confirm document review, correct any extraction differences in hvac-scanned-intake.png, save and inspect all output PDFs
+PASS all selected documented browser lessons

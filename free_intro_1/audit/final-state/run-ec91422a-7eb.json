@@ -1,0 +1,658 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:30.973+00:00",
+  "elapsed_ms": 63,
+  "id": "ec91422a-7eb",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "events-0",
+      "record": {
+        "created": "2026-09-24T16:05:30.990+00:00",
+        "external_key": "SHEET-22",
+        "id": "65b6353c-6dd",
+        "payload": {
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "display_name": "Maureen",
+          "email": "sheet-row-22@example.invalid",
+          "phone": "+1 480 555 0146",
+          "registration_ref": "SHEET-22",
+          "session": "Physics",
+          "status": "Registered"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:30.990+00:00"
+      }
+    },
+    {
+      "app_id": "events-1",
+      "record": {
+        "created": "2026-09-24T16:05:31.008+00:00",
+        "external_key": "SHEET-22",
+        "id": "fbe578e1-33e",
+        "payload": {
+          "_linked_records": {
+            "events-0": "65b6353c-6dd"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "capacity": 3,
+          "contact_email": "sheet-row-22@example.invalid",
+          "contact_name": "Maureen",
+          "event_date": "2026-10-10 10:00",
+          "registration_ref": "SHEET-22",
+          "session": "Physics",
+          "status": "Waitlisted"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:31.008+00:00"
+      }
+    },
+    {
+      "app_id": "events-2",
+      "record": {
+        "created": "2026-09-24T16:05:31.024+00:00",
+        "external_key": "SHEET-22",
+        "id": "7e6de86a-a33",
+        "payload": {
+          "_linked_records": {
+            "events-0": "65b6353c-6dd",
+            "events-1": "fbe578e1-33e"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "addressee": "Maureen",
+          "delivery_email": "sheet-row-22@example.invalid",
+          "event_date": "2026-10-10 10:00",
+          "organization": "Gather Workshop",
+          "registration_ref": "SHEET-22",
+          "session": "Physics",
+          "status": "Waitlisted"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:31.024+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 3,
+    "email": "sheet-row-22@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Maureen",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "SHEET-22",
+    "session": "Physics"
+  },
+  "scenario": "events",
+  "source": {
+    "fetched_at": "2026-09-24T15:47:31.510+00:00",
+    "http_status": 200,
+    "id": "c813981d-f90",
+    "kind": "live Google Sheets fetch",
+    "mapped_fields": [
+      "full_name",
+      "session"
+    ],
+    "name": "Google Sheets · tab 0",
+    "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+    "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+    "row_number": 22,
+    "synthetic_defaults": [
+      "registration_ref",
+      "email",
+      "phone",
+      "event_date",
+      "capacity",
+      "organization"
+    ],
+    "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:30.994+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-22",
+          "external_key": "SHEET-22",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "ec91422a-7eb:0",
+          "payload": {
+            "display_name": "Maureen",
+            "email": "sheet-row-22@example.invalid",
+            "phone": "+1 480 555 0146",
+            "registration_ref": "SHEET-22",
+            "session": "Physics"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:30.990+00:00",
+            "external_key": "SHEET-22",
+            "id": "65b6353c-6dd",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Maureen",
+              "email": "sheet-row-22@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:30.990+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 723,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-0/records",
+      "run_id": "ec91422a-7eb",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:31.001+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:30.990+00:00",
+            "external_key": "SHEET-22",
+            "id": "65b6353c-6dd",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "display_name": "Maureen",
+              "email": "sheet-row-22@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:30.990+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 724,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-0/records/65b6353c-6dd",
+      "run_id": "ec91422a-7eb",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:31.012+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-22",
+          "external_key": "SHEET-22",
+          "kind": "intake",
+          "links": {
+            "events-0": "65b6353c-6dd"
+          },
+          "operation_id": "ec91422a-7eb:1",
+          "payload": {
+            "capacity": 3,
+            "contact_email": "sheet-row-22@example.invalid",
+            "contact_name": "Maureen",
+            "event_date": "2026-10-10 10:00",
+            "registration_ref": "SHEET-22",
+            "session": "Physics"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Registered"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:31.008+00:00",
+            "external_key": "SHEET-22",
+            "id": "fbe578e1-33e",
+            "payload": {
+              "_linked_records": {
+                "events-0": "65b6353c-6dd"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-22@example.invalid",
+              "contact_name": "Maureen",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Waitlisted"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:31.008+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 7,
+      "id": 725,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-1/records",
+      "run_id": "ec91422a-7eb",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:31.018+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:31.008+00:00",
+            "external_key": "SHEET-22",
+            "id": "fbe578e1-33e",
+            "payload": {
+              "_linked_records": {
+                "events-0": "65b6353c-6dd"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "capacity": 3,
+              "contact_email": "sheet-row-22@example.invalid",
+              "contact_name": "Maureen",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Waitlisted"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:31.008+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 726,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-1/records/fbe578e1-33e",
+      "run_id": "ec91422a-7eb",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:31.027+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "SHEET-22",
+          "external_key": "SHEET-22",
+          "kind": "intake",
+          "links": {
+            "events-0": "65b6353c-6dd",
+            "events-1": "fbe578e1-33e"
+          },
+          "operation_id": "ec91422a-7eb:2",
+          "payload": {
+            "addressee": "Maureen",
+            "delivery_email": "sheet-row-22@example.invalid",
+            "event_date": "2026-10-10 10:00",
+            "organization": "Gather Workshop",
+            "registration_ref": "SHEET-22",
+            "session": "Physics"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:47:31.510+00:00",
+            "http_status": 200,
+            "id": "c813981d-f90",
+            "kind": "live Google Sheets fetch",
+            "mapped_fields": [
+              "full_name",
+              "session"
+            ],
+            "name": "Google Sheets · tab 0",
+            "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+            "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+            "row_number": 22,
+            "synthetic_defaults": [
+              "registration_ref",
+              "email",
+              "phone",
+              "event_date",
+              "capacity",
+              "organization"
+            ],
+            "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+          },
+          "upstream_status": "Waitlisted"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:31.024+00:00",
+            "external_key": "SHEET-22",
+            "id": "7e6de86a-a33",
+            "payload": {
+              "_linked_records": {
+                "events-0": "65b6353c-6dd",
+                "events-1": "fbe578e1-33e"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Maureen",
+              "delivery_email": "sheet-row-22@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Waitlisted"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:31.024+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 727,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-2/records",
+      "run_id": "ec91422a-7eb",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:31.033+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:31.024+00:00",
+            "external_key": "SHEET-22",
+            "id": "7e6de86a-a33",
+            "payload": {
+              "_linked_records": {
+                "events-0": "65b6353c-6dd",
+                "events-1": "fbe578e1-33e"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:47:31.510+00:00",
+                "http_status": 200,
+                "id": "c813981d-f90",
+                "kind": "live Google Sheets fetch",
+                "mapped_fields": [
+                  "full_name",
+                  "session"
+                ],
+                "name": "Google Sheets · tab 0",
+                "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+                "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+                "row_number": 22,
+                "synthetic_defaults": [
+                  "registration_ref",
+                  "email",
+                  "phone",
+                  "event_date",
+                  "capacity",
+                  "organization"
+                ],
+                "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+              },
+              "addressee": "Maureen",
+              "delivery_email": "sheet-row-22@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "SHEET-22",
+              "session": "Physics",
+              "status": "Waitlisted"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:31.024+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 728,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-2/records/7e6de86a-a33",
+      "run_id": "ec91422a-7eb",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:31.043+00:00"
+}

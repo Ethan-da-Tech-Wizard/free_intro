@@ -1,0 +1,77 @@
+{
+  "action": {
+    "buyer": "Taylor Example",
+    "event_id": "sale-USED-072-second",
+    "sale_ref": "SALE-020",
+    "ship_to": "10 Example Terrace"
+  },
+  "created": "2026-09-24T15:56:13.913+00:00",
+  "elapsed_ms": 6,
+  "id": "9bec8f4d-677",
+  "kind": "sale",
+  "message": "This unique item is already sold. A second sale cannot reserve it.",
+  "outputs": [],
+  "payload": {
+    "_review_confirmed": false,
+    "condition": "Used — good",
+    "description": "Solid oak; small mark on rear leg",
+    "dimensions": "45 x 40 x 52 cm",
+    "price": 65,
+    "return_address": "55 Sample Street",
+    "seller": "Casey Example",
+    "sku": "USED-072",
+    "title": "Vintage oak side table",
+    "weight": 7.2
+  },
+  "scenario": "reseller",
+  "source": {
+    "kind": "synthetic demo intake"
+  },
+  "status": "needs_attention",
+  "steps": [
+    {
+      "created": "2026-09-24T15:56:13.918+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "buyer": "Taylor Example",
+            "event_id": "sale-USED-072-second",
+            "sale_ref": "SALE-020",
+            "ship_to": "10 Example Terrace"
+          },
+          "business_reference": "USED-072",
+          "external_key": "USED-072",
+          "kind": "sale",
+          "links": {},
+          "operation_id": "9bec8f4d-677:0",
+          "payload": {
+            "condition": "Used — good",
+            "description": "Solid oak; small mark on rear leg",
+            "dimensions": "45 x 40 x 52 cm",
+            "price": 65,
+            "sku": "USED-072",
+            "title": "Vintage oak side table",
+            "weight": 7.2
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "details": null,
+          "error": "This unique item is already sold. A second sale cannot reserve it."
+        }
+      },
+      "duration_ms": 2,
+      "id": 295,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/reseller-0/records",
+      "run_id": "9bec8f4d-677",
+      "stage": 0,
+      "status": 409
+    }
+  ],
+  "updated": "2026-09-24T15:56:13.921+00:00"
+}

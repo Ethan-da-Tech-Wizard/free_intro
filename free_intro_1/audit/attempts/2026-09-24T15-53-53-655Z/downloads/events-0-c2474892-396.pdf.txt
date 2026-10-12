@@ -1,0 +1,15 @@
+Gather Workshop / Registration record
+Synthetic demonstration data • Relayworks
+
+Reference: REG-011
+Record ID: c2474892-396
+Status: Registered
+Registration reference: REG-011
+Attendee name: Avery Example
+Email: avery@example.invalid
+Phone: +1 480 555 0146
+Session: Repair cafØ
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

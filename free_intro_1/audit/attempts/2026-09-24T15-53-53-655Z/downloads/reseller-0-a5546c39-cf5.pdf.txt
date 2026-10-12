@@ -1,0 +1,22 @@
+Second Story / Item catalog card
+Synthetic demonstration data • Relayworks
+
+Reference: USED-072
+Record ID: a5546c39-cf5
+Status: Sold
+Item SKU: USED-072
+Listing title: Vintage oak side table
+Description: Solid oak; small mark on rear leg
+Condition: Used - good
+Price (USD): 65.0
+Weight (kg): 7.2
+Dimensions: 45 x 40 x 52 cm
+Buyer: Taylor Example
+Event Id: sale-USED-072
+Sale Ref: SALE-019
+Ship To: 10 Example Terrace
+Stock Quantity: 0
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

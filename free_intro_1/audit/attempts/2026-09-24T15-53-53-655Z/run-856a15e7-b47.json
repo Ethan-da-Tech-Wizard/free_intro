@@ -1,0 +1,904 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T15:55:39.529+00:00",
+  "elapsed_ms": 35,
+  "id": "856a15e7-b47",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "sports-0",
+      "record": {
+        "created": "2026-09-24T15:55:39.535+00:00",
+        "external_key": "F1-9158-1",
+        "id": "43e3dd7b-457",
+        "payload": {
+          "_source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "event_date": "2023-09-15T09:30:00+00:00",
+          "event_name": "Marina Bay · Practice 1",
+          "event_ref": "F1-9158-1",
+          "laps": 22,
+          "result": "93.476 seconds",
+          "status": "Source recorded",
+          "team": "Max VERSTAPPEN"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:55:39.535+00:00"
+      }
+    },
+    {
+      "app_id": "sports-1",
+      "record": {
+        "created": "2026-09-24T15:55:39.546+00:00",
+        "external_key": "F1-9158-1",
+        "id": "70bcbc40-e4c",
+        "payload": {
+          "_linked_records": {
+            "sports-0": "43e3dd7b-457"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "event_date": "2023-09-15T09:30:00+00:00",
+          "event_name": "Marina Bay · Practice 1",
+          "event_ref": "F1-9158-1",
+          "local_start": "2023-09-15T02:30:00-07:00",
+          "status": "Schedule updated",
+          "team": "Max VERSTAPPEN",
+          "timezone": "America/Phoenix"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:55:39.546+00:00"
+      }
+    },
+    {
+      "app_id": "sports-2",
+      "record": {
+        "created": "2026-09-24T15:55:39.555+00:00",
+        "external_key": "F1-9158-1",
+        "id": "8b9b77d8-32b",
+        "payload": {
+          "_linked_records": {
+            "sports-0": "43e3dd7b-457",
+            "sports-1": "70bcbc40-e4c"
+          },
+          "_source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "addressee": "Alex Example",
+          "delivery_email": "alex@example.invalid",
+          "event_date": "2023-09-15T09:30:00+00:00",
+          "event_name": "Marina Bay · Practice 1",
+          "event_ref": "F1-9158-1",
+          "laps": 22,
+          "result": "93.476 seconds",
+          "status": "Report ready",
+          "team": "Max VERSTAPPEN"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:55:39.555+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "email": "alex@example.invalid",
+    "event_date": "2023-09-15T09:30:00+00:00",
+    "event_name": "Marina Bay · Practice 1",
+    "event_ref": "F1-9158-1",
+    "full_name": "Alex Example",
+    "laps": 22,
+    "result": "93.476 seconds",
+    "team": "Max VERSTAPPEN",
+    "timezone": "America/Phoenix"
+  },
+  "scenario": "sports",
+  "source": {
+    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+    "id": "4c823ab1-93f",
+    "kind": "historical public API data",
+    "mapped_fields": [
+      "event_ref",
+      "team",
+      "event_name",
+      "event_date",
+      "result",
+      "laps"
+    ],
+    "name": "OpenF1 · historical driver report",
+    "requests": [
+      {
+        "fetched_at": "2026-09-24T15:55:37.870+00:00",
+        "method": "GET",
+        "status": 200,
+        "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+      },
+      {
+        "fetched_at": "2026-09-24T15:55:38.445+00:00",
+        "method": "GET",
+        "status": 200,
+        "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+      },
+      {
+        "fetched_at": "2026-09-24T15:55:39.047+00:00",
+        "method": "GET",
+        "status": 200,
+        "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+      }
+    ],
+    "row_number": 2,
+    "synthetic_defaults": [
+      "full_name",
+      "email",
+      "timezone"
+    ],
+    "url": "https://openf1.org/docs/"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T15:55:39.537+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "F1-9158-1",
+          "external_key": "F1-9158-1",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "856a15e7-b47:0",
+          "payload": {
+            "event_date": "2023-09-15T09:30:00+00:00",
+            "event_name": "Marina Bay · Practice 1",
+            "event_ref": "F1-9158-1",
+            "laps": 22,
+            "result": "93.476 seconds",
+            "team": "Max VERSTAPPEN"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:55:39.535+00:00",
+            "external_key": "F1-9158-1",
+            "id": "43e3dd7b-457",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "laps": 22,
+              "result": "93.476 seconds",
+              "status": "Source recorded",
+              "team": "Max VERSTAPPEN"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.535+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 235,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/sports-0/records",
+      "run_id": "856a15e7-b47",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:55:39.540+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:55:39.535+00:00",
+            "external_key": "F1-9158-1",
+            "id": "43e3dd7b-457",
+            "payload": {
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "laps": 22,
+              "result": "93.476 seconds",
+              "status": "Source recorded",
+              "team": "Max VERSTAPPEN"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.535+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 236,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/sports-0/records/43e3dd7b-457",
+      "run_id": "856a15e7-b47",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:55:39.549+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "F1-9158-1",
+          "external_key": "F1-9158-1",
+          "kind": "intake",
+          "links": {
+            "sports-0": "43e3dd7b-457"
+          },
+          "operation_id": "856a15e7-b47:1",
+          "payload": {
+            "event_date": "2023-09-15T09:30:00+00:00",
+            "event_name": "Marina Bay · Practice 1",
+            "event_ref": "F1-9158-1",
+            "team": "Max VERSTAPPEN",
+            "timezone": "America/Phoenix"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "upstream_status": "Source recorded"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:55:39.546+00:00",
+            "external_key": "F1-9158-1",
+            "id": "70bcbc40-e4c",
+            "payload": {
+              "_linked_records": {
+                "sports-0": "43e3dd7b-457"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "local_start": "2023-09-15T02:30:00-07:00",
+              "status": "Schedule updated",
+              "team": "Max VERSTAPPEN",
+              "timezone": "America/Phoenix"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.546+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 237,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/sports-1/records",
+      "run_id": "856a15e7-b47",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:55:39.552+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:55:39.546+00:00",
+            "external_key": "F1-9158-1",
+            "id": "70bcbc40-e4c",
+            "payload": {
+              "_linked_records": {
+                "sports-0": "43e3dd7b-457"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "local_start": "2023-09-15T02:30:00-07:00",
+              "status": "Schedule updated",
+              "team": "Max VERSTAPPEN",
+              "timezone": "America/Phoenix"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.546+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 238,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/sports-1/records/70bcbc40-e4c",
+      "run_id": "856a15e7-b47",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:55:39.557+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "F1-9158-1",
+          "external_key": "F1-9158-1",
+          "kind": "intake",
+          "links": {
+            "sports-0": "43e3dd7b-457",
+            "sports-1": "70bcbc40-e4c"
+          },
+          "operation_id": "856a15e7-b47:2",
+          "payload": {
+            "addressee": "Alex Example",
+            "delivery_email": "alex@example.invalid",
+            "event_date": "2023-09-15T09:30:00+00:00",
+            "event_name": "Marina Bay · Practice 1",
+            "event_ref": "F1-9158-1",
+            "laps": 22,
+            "result": "93.476 seconds",
+            "team": "Max VERSTAPPEN"
+          },
+          "source": {
+            "fetched_at": "2026-09-24T15:55:39.047+00:00",
+            "id": "4c823ab1-93f",
+            "kind": "historical public API data",
+            "mapped_fields": [
+              "event_ref",
+              "team",
+              "event_name",
+              "event_date",
+              "result",
+              "laps"
+            ],
+            "name": "OpenF1 · historical driver report",
+            "requests": [
+              {
+                "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+              },
+              {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "method": "GET",
+                "status": 200,
+                "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+              }
+            ],
+            "row_number": 2,
+            "synthetic_defaults": [
+              "full_name",
+              "email",
+              "timezone"
+            ],
+            "url": "https://openf1.org/docs/"
+          },
+          "upstream_status": "Schedule updated"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:55:39.555+00:00",
+            "external_key": "F1-9158-1",
+            "id": "8b9b77d8-32b",
+            "payload": {
+              "_linked_records": {
+                "sports-0": "43e3dd7b-457",
+                "sports-1": "70bcbc40-e4c"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "addressee": "Alex Example",
+              "delivery_email": "alex@example.invalid",
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "laps": 22,
+              "result": "93.476 seconds",
+              "status": "Report ready",
+              "team": "Max VERSTAPPEN"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.555+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 239,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/sports-2/records",
+      "run_id": "856a15e7-b47",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:55:39.560+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:55:39.555+00:00",
+            "external_key": "F1-9158-1",
+            "id": "8b9b77d8-32b",
+            "payload": {
+              "_linked_records": {
+                "sports-0": "43e3dd7b-457",
+                "sports-1": "70bcbc40-e4c"
+              },
+              "_source": {
+                "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                "id": "4c823ab1-93f",
+                "kind": "historical public API data",
+                "mapped_fields": [
+                  "event_ref",
+                  "team",
+                  "event_name",
+                  "event_date",
+                  "result",
+                  "laps"
+                ],
+                "name": "OpenF1 · historical driver report",
+                "requests": [
+                  {
+                    "fetched_at": "2026-09-24T15:55:37.870+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:38.445+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+                  },
+                  {
+                    "fetched_at": "2026-09-24T15:55:39.047+00:00",
+                    "method": "GET",
+                    "status": 200,
+                    "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+                  }
+                ],
+                "row_number": 2,
+                "synthetic_defaults": [
+                  "full_name",
+                  "email",
+                  "timezone"
+                ],
+                "url": "https://openf1.org/docs/"
+              },
+              "addressee": "Alex Example",
+              "delivery_email": "alex@example.invalid",
+              "event_date": "2023-09-15T09:30:00+00:00",
+              "event_name": "Marina Bay · Practice 1",
+              "event_ref": "F1-9158-1",
+              "laps": 22,
+              "result": "93.476 seconds",
+              "status": "Report ready",
+              "team": "Max VERSTAPPEN"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:55:39.555+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 240,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/sports-2/records/8b9b77d8-32b",
+      "run_id": "856a15e7-b47",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T15:55:39.566+00:00"
+}

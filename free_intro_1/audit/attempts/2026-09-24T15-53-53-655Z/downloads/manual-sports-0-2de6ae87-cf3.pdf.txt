@@ -1,0 +1,16 @@
+Touchline Daily / Source report
+Synthetic demonstration data • Relayworks
+
+Reference: DEMO-RACE-01
+Record ID: 2de6ae87-cf3
+Status: Source recorded
+Event reference: DEMO-RACE-01
+Team / driver: Synthetic Racing
+Event / session: Demo Grand Prix
+Event date: 2026-10-04 14:00
+Result / best lap: Awaiting source
+Laps counted: 0.0
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

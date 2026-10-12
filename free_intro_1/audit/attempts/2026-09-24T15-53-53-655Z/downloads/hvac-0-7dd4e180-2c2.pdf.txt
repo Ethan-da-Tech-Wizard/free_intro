@@ -1,0 +1,20 @@
+Desert Air / Customer profile
+Synthetic demonstration data • Relayworks
+
+Reference: C-014
+Record ID: 7dd4e180-2c2
+Status: Active customer
+Customer reference: C-014
+Full name: Avery Example
+Phone: +1 480 555 0146
+Email: avery@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Access notes: Side gate; call on arrival
+Service References: [’JOB-1042’, ’JOB-1043’]
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

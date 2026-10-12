@@ -1,0 +1,411 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:26.963+00:00",
+  "elapsed_ms": 66,
+  "id": "205284f8-773",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "property-0",
+      "record": {
+        "created": "2026-09-24T16:05:26.979+00:00",
+        "external_key": "FIX-016",
+        "id": "f70c8ba8-bcd",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "display_name": "Morgan Example",
+          "issue": "Kitchen faucet leak",
+          "phone": "+1 480 555 0133",
+          "property_ref": "PROP-03",
+          "status": "Open repair",
+          "ticket_ref": "FIX-016",
+          "unit": "2B"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:26.979+00:00"
+      }
+    },
+    {
+      "app_id": "property-1",
+      "record": {
+        "created": "2026-09-24T16:05:27.002+00:00",
+        "external_key": "FIX-016",
+        "id": "acd8081b-061",
+        "payload": {
+          "_linked_records": {
+            "property-0": "f70c8ba8-bcd"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "access_window": "2026-10-07 13:00–16:00",
+          "contact_name": "Morgan Example",
+          "contact_phone": "+1 480 555 0133",
+          "contractor": "Demo Plumbing",
+          "issue": "Kitchen faucet leak",
+          "property_ref": "PROP-03",
+          "status": "Assigned",
+          "ticket_ref": "FIX-016",
+          "unit": "2B"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:27.002+00:00"
+      }
+    },
+    {
+      "app_id": "property-2",
+      "record": {
+        "created": "2026-09-24T16:05:27.020+00:00",
+        "external_key": "FIX-016",
+        "id": "f3cdedec-18f",
+        "payload": {
+          "_linked_records": {
+            "property-0": "f70c8ba8-bcd",
+            "property-1": "acd8081b-061"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "contractor": "Demo Plumbing",
+          "estimate": 180,
+          "issue": "Kitchen faucet leak",
+          "property_ref": "PROP-03",
+          "status": "Awaiting invoice",
+          "ticket_ref": "FIX-016",
+          "unit": "2B"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:27.020+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "access_window": "2026-10-07 13:00–16:00",
+    "contractor": "Demo Plumbing",
+    "estimate": 180,
+    "full_name": "Morgan Example",
+    "issue": "Kitchen faucet leak",
+    "phone": "+1 480 555 0133",
+    "property_ref": "PROP-03",
+    "ticket_ref": "FIX-016",
+    "unit": "2B"
+  },
+  "scenario": "property",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:26.984+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "FIX-016",
+          "external_key": "FIX-016",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "205284f8-773:0",
+          "payload": {
+            "display_name": "Morgan Example",
+            "issue": "Kitchen faucet leak",
+            "phone": "+1 480 555 0133",
+            "property_ref": "PROP-03",
+            "ticket_ref": "FIX-016",
+            "unit": "2B"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:26.979+00:00",
+            "external_key": "FIX-016",
+            "id": "f70c8ba8-bcd",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "display_name": "Morgan Example",
+              "issue": "Kitchen faucet leak",
+              "phone": "+1 480 555 0133",
+              "property_ref": "PROP-03",
+              "status": "Open repair",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:26.979+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 8,
+      "id": 591,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/property-0/records",
+      "run_id": "205284f8-773",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:26.992+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:26.979+00:00",
+            "external_key": "FIX-016",
+            "id": "f70c8ba8-bcd",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "display_name": "Morgan Example",
+              "issue": "Kitchen faucet leak",
+              "phone": "+1 480 555 0133",
+              "property_ref": "PROP-03",
+              "status": "Open repair",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:26.979+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 592,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/property-0/records/f70c8ba8-bcd",
+      "run_id": "205284f8-773",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:27.006+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "FIX-016",
+          "external_key": "FIX-016",
+          "kind": "intake",
+          "links": {
+            "property-0": "f70c8ba8-bcd"
+          },
+          "operation_id": "205284f8-773:1",
+          "payload": {
+            "access_window": "2026-10-07 13:00–16:00",
+            "contact_name": "Morgan Example",
+            "contact_phone": "+1 480 555 0133",
+            "contractor": "Demo Plumbing",
+            "issue": "Kitchen faucet leak",
+            "property_ref": "PROP-03",
+            "ticket_ref": "FIX-016",
+            "unit": "2B"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Open repair"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:27.002+00:00",
+            "external_key": "FIX-016",
+            "id": "acd8081b-061",
+            "payload": {
+              "_linked_records": {
+                "property-0": "f70c8ba8-bcd"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "access_window": "2026-10-07 13:00–16:00",
+              "contact_name": "Morgan Example",
+              "contact_phone": "+1 480 555 0133",
+              "contractor": "Demo Plumbing",
+              "issue": "Kitchen faucet leak",
+              "property_ref": "PROP-03",
+              "status": "Assigned",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:27.002+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 7,
+      "id": 593,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/property-1/records",
+      "run_id": "205284f8-773",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:27.012+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:27.002+00:00",
+            "external_key": "FIX-016",
+            "id": "acd8081b-061",
+            "payload": {
+              "_linked_records": {
+                "property-0": "f70c8ba8-bcd"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "access_window": "2026-10-07 13:00–16:00",
+              "contact_name": "Morgan Example",
+              "contact_phone": "+1 480 555 0133",
+              "contractor": "Demo Plumbing",
+              "issue": "Kitchen faucet leak",
+              "property_ref": "PROP-03",
+              "status": "Assigned",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:27.002+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 594,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/property-1/records/acd8081b-061",
+      "run_id": "205284f8-773",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:27.024+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "FIX-016",
+          "external_key": "FIX-016",
+          "kind": "intake",
+          "links": {
+            "property-0": "f70c8ba8-bcd",
+            "property-1": "acd8081b-061"
+          },
+          "operation_id": "205284f8-773:2",
+          "payload": {
+            "contractor": "Demo Plumbing",
+            "estimate": 180,
+            "issue": "Kitchen faucet leak",
+            "property_ref": "PROP-03",
+            "ticket_ref": "FIX-016",
+            "unit": "2B"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Assigned"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:27.020+00:00",
+            "external_key": "FIX-016",
+            "id": "f3cdedec-18f",
+            "payload": {
+              "_linked_records": {
+                "property-0": "f70c8ba8-bcd",
+                "property-1": "acd8081b-061"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "contractor": "Demo Plumbing",
+              "estimate": 180,
+              "issue": "Kitchen faucet leak",
+              "property_ref": "PROP-03",
+              "status": "Awaiting invoice",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:27.020+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 5,
+      "id": 595,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/property-2/records",
+      "run_id": "205284f8-773",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:27.028+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:27.020+00:00",
+            "external_key": "FIX-016",
+            "id": "f3cdedec-18f",
+            "payload": {
+              "_linked_records": {
+                "property-0": "f70c8ba8-bcd",
+                "property-1": "acd8081b-061"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "contractor": "Demo Plumbing",
+              "estimate": 180,
+              "issue": "Kitchen faucet leak",
+              "property_ref": "PROP-03",
+              "status": "Awaiting invoice",
+              "ticket_ref": "FIX-016",
+              "unit": "2B"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:27.020+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 596,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/property-2/records/f3cdedec-18f",
+      "run_id": "205284f8-773",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:27.036+00:00"
+}

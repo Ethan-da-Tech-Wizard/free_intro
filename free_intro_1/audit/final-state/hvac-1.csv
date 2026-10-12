@@ -1,0 +1,3 @@
+﻿external_customer_ref,contact_name,contact_phone,contact_email,site_address,city,region,postal_code,job_ref,issue,equipment,technician,slot,status
+C-014,Avery Example,'+1 480 555 0146,avery@example.invalid,100 Sample Lane,Mesa,AZ,85201,JOB-1043,AC is blowing warm air,Outdoor condenser · Unit A,Morgan Lee,2026-10-07 10:00,Completed
+C-014,Avery Example,'+1 480 555 0146,avery@example.invalid,100 Sample Lane,Mesa,AZ,85201,JOB-1042,AC is blowing warm air,Outdoor condenser · Unit A,Morgan Lee,2026-10-06 10:00,Completed

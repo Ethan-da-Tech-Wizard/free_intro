@@ -1,0 +1,33 @@
+﻿registration_ref,display_name,email,phone,session,status
+REG-012,Taylor Sample,taylor@example.invalid,'+1 480 555 0146,Repair café,Checked in
+REG-011,Avery Example,avery@example.invalid,'+1 480 555 0146,Repair café,Registered
+SHEET-31,Will,sheet-row-31@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-30,Thomas,sheet-row-30@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-29,Stacy,sheet-row-29@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-28,Sean,sheet-row-28@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-27,Robert,sheet-row-27@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-26,Patrick,sheet-row-26@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-25,Pamela,sheet-row-25@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-24,Olivia,sheet-row-24@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-23,Nick,sheet-row-23@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-22,Maureen,sheet-row-22@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-21,Mary,sheet-row-21@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-20,Lisa,sheet-row-20@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-19,Kevin,sheet-row-19@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-18,Karen,sheet-row-18@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-17,Josephine,sheet-row-17@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-16,Joseph,sheet-row-16@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-15,Jonathan,sheet-row-15@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-14,John,sheet-row-14@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-13,Fiona,sheet-row-13@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-12,Ellen,sheet-row-12@example.invalid,'+1 480 555 0146,Physics,Registered
+SHEET-11,Edward,sheet-row-11@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-10,Dylan,sheet-row-10@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-9,Dorothy,sheet-row-9@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-8,Carrie,sheet-row-8@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-7,Carl,sheet-row-7@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-6,Benjamin,sheet-row-6@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-5,Becky,sheet-row-5@example.invalid,'+1 480 555 0146,Art,Registered
+SHEET-4,Anna,sheet-row-4@example.invalid,'+1 480 555 0146,English,Registered
+SHEET-3,Andrew,sheet-row-3@example.invalid,'+1 480 555 0146,Math,Registered
+SHEET-2,Alexandra,sheet-row-2@example.invalid,'+1 480 555 0146,English,Registered

@@ -1,0 +1,417 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:25.870+00:00",
+  "elapsed_ms": 43,
+  "id": "389e3a4d-f22",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "retail-0",
+      "record": {
+        "created": "2026-09-24T16:05:25.877+00:00",
+        "external_key": "REC-088",
+        "id": "09a82a84-a03",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "item_name": "20-inch replacement filter",
+          "po_ref": "PO-031",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "sku": "FLT-20",
+          "status": "Received",
+          "supplier": "Example Wholesale",
+          "unit_cost": 8.5
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.877+00:00"
+      }
+    },
+    {
+      "app_id": "retail-1",
+      "record": {
+        "created": "2026-09-24T16:05:25.887+00:00",
+        "external_key": "FLT-20",
+        "id": "0b194f41-d85",
+        "payload": {
+          "_linked_records": {
+            "retail-0": "09a82a84-a03"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "available_quantity": 10,
+          "item_name": "20-inch replacement filter",
+          "location": "Main stockroom",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "reserved": 2,
+          "sku": "FLT-20",
+          "status": "Stock updated",
+          "stock_quantity": 12
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.887+00:00"
+      }
+    },
+    {
+      "app_id": "retail-2",
+      "record": {
+        "created": "2026-09-24T16:05:25.900+00:00",
+        "external_key": "FLT-20",
+        "id": "f5be9c67-552",
+        "payload": {
+          "_linked_records": {
+            "retail-0": "09a82a84-a03",
+            "retail-1": "0b194f41-d85"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "available_quantity": 10,
+          "item_name": "20-inch replacement filter",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "reserved": 2,
+          "sku": "FLT-20",
+          "status": "Available online",
+          "stock_quantity": 12
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.900+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "item_name": "20-inch replacement filter",
+    "location": "Main stockroom",
+    "po_ref": "PO-031",
+    "quantity": 12,
+    "receipt_ref": "REC-088",
+    "reserved": 2,
+    "sku": "FLT-20",
+    "supplier": "Example Wholesale",
+    "unit_cost": 8.5
+  },
+  "scenario": "retail",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:25.879+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "REC-088",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "389e3a4d-f22:0",
+          "payload": {
+            "item_name": "20-inch replacement filter",
+            "po_ref": "PO-031",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "sku": "FLT-20",
+            "supplier": "Example Wholesale",
+            "unit_cost": 8.5
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.877+00:00",
+            "external_key": "REC-088",
+            "id": "09a82a84-a03",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "item_name": "20-inch replacement filter",
+              "po_ref": "PO-031",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "sku": "FLT-20",
+              "status": "Received",
+              "supplier": "Example Wholesale",
+              "unit_cost": 8.5
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.877+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 567,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-0/records",
+      "run_id": "389e3a4d-f22",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.881+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.877+00:00",
+            "external_key": "REC-088",
+            "id": "09a82a84-a03",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "item_name": "20-inch replacement filter",
+              "po_ref": "PO-031",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "sku": "FLT-20",
+              "status": "Received",
+              "supplier": "Example Wholesale",
+              "unit_cost": 8.5
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.877+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 568,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-0/records/09a82a84-a03",
+      "run_id": "389e3a4d-f22",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:25.889+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "FLT-20",
+          "kind": "intake",
+          "links": {
+            "retail-0": "09a82a84-a03"
+          },
+          "operation_id": "389e3a4d-f22:1",
+          "payload": {
+            "item_name": "20-inch replacement filter",
+            "location": "Main stockroom",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "reserved": 2,
+            "sku": "FLT-20"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Received"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.887+00:00",
+            "external_key": "FLT-20",
+            "id": "0b194f41-d85",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "09a82a84-a03"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "location": "Main stockroom",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Stock updated",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.887+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 569,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-1/records",
+      "run_id": "389e3a4d-f22",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.893+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.887+00:00",
+            "external_key": "FLT-20",
+            "id": "0b194f41-d85",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "09a82a84-a03"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "location": "Main stockroom",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Stock updated",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.887+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 570,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-1/records/0b194f41-d85",
+      "run_id": "389e3a4d-f22",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:25.902+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "FLT-20",
+          "kind": "intake",
+          "links": {
+            "retail-0": "09a82a84-a03",
+            "retail-1": "0b194f41-d85"
+          },
+          "operation_id": "389e3a4d-f22:2",
+          "payload": {
+            "available_quantity": 10,
+            "item_name": "20-inch replacement filter",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "reserved": 2,
+            "sku": "FLT-20",
+            "stock_quantity": 12
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Stock updated"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.900+00:00",
+            "external_key": "FLT-20",
+            "id": "f5be9c67-552",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "09a82a84-a03",
+                "retail-1": "0b194f41-d85"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Available online",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.900+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 571,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-2/records",
+      "run_id": "389e3a4d-f22",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.906+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.900+00:00",
+            "external_key": "FLT-20",
+            "id": "f5be9c67-552",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "09a82a84-a03",
+                "retail-1": "0b194f41-d85"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Available online",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.900+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 572,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-2/records/f5be9c67-552",
+      "run_id": "389e3a4d-f22",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:25.915+00:00"
+}

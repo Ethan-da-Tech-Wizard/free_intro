@@ -1,0 +1,16 @@
+Gather Workshop / Attendee badge
+Synthetic demonstration data • Relayworks
+
+Reference: REG-011
+Record ID: 4b9fc4e3-106
+Status: Badge ready
+Registration reference: REG-011
+Attendee name: Avery Example
+Email: avery@example.invalid
+Session: Repair cafØ
+Event date: 2026-10-10 10:00
+Organizer: Gather Workshop
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

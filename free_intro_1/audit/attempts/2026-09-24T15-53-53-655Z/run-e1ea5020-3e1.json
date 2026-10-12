@@ -1,0 +1,29 @@
+{
+  "action": {
+    "event_id": "checkin-REG-012"
+  },
+  "created": "2026-09-24T15:56:29.187+00:00",
+  "elapsed_ms": 7,
+  "id": "e1ea5020-3e1",
+  "kind": "checkin",
+  "message": "A reserved seat is required before check-in.",
+  "outputs": [],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 1,
+    "email": "taylor@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Taylor Sample",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "REG-012",
+    "session": "Repair café"
+  },
+  "scenario": "events",
+  "source": {
+    "kind": "synthetic demo intake"
+  },
+  "status": "needs_attention",
+  "steps": [],
+  "updated": "2026-09-24T15:56:29.197+00:00"
+}

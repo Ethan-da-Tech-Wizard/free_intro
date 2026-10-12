@@ -1,0 +1,17 @@
+Corner Supply / Receiving receipt
+Synthetic demonstration data • Relayworks
+
+Reference: REC-089
+Record ID: 2203edf8-203
+Status: Received
+Receipt reference: REC-089
+Supplier: Example Wholesale
+Purchase order: PO-031
+Internal SKU: FLT-20
+Item name: 20-inch replacement filter
+Counted quantity: 12.0
+Unit cost (USD): 8.5
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

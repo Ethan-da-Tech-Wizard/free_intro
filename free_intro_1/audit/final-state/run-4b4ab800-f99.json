@@ -1,0 +1,412 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:25.332+00:00",
+  "elapsed_ms": 52,
+  "id": "4b4ab800-f99",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "clinic-0",
+      "record": {
+        "created": "2026-09-24T16:05:25.338+00:00",
+        "external_key": "PAT-0310-B",
+        "id": "aa4cda4e-99d",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "birth_date": "1990-04-12",
+          "display_name": "Another Sample",
+          "email": "jordan@example.invalid",
+          "patient_ref": "PAT-0310-B",
+          "phone": "+1 480 555 0180",
+          "status": "Registered",
+          "street": "18 Sample Road"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.338+00:00"
+      }
+    },
+    {
+      "app_id": "clinic-1",
+      "record": {
+        "created": "2026-09-24T16:05:25.353+00:00",
+        "external_key": "PAT-0310-B",
+        "id": "f940a8ac-916",
+        "payload": {
+          "_linked_records": {
+            "clinic-0": "aa4cda4e-99d"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "birth_date": "1990-04-12",
+          "contact_name": "Another Sample",
+          "contact_phone": "+1 480 555 0180",
+          "patient_ref": "PAT-0310-B",
+          "provider": "Demo Provider A",
+          "slot": "2026-10-08 12:00",
+          "status": "Scheduled",
+          "visit_type": "Administrative intake"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.353+00:00"
+      }
+    },
+    {
+      "app_id": "clinic-2",
+      "record": {
+        "created": "2026-09-24T16:05:25.370+00:00",
+        "external_key": "PAT-0310-B",
+        "id": "5ce5e397-e0f",
+        "payload": {
+          "_linked_records": {
+            "clinic-0": "aa4cda4e-99d",
+            "clinic-1": "f940a8ac-916"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "addressee": "Another Sample",
+          "billing_address": "18 Sample Road",
+          "birth_date": "1990-04-12",
+          "patient_ref": "PAT-0310-B",
+          "recipient_phone": "+1 480 555 0180",
+          "referral_ref": "REF-022",
+          "status": "Packet prepared",
+          "visit_type": "Administrative intake"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:25.370+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "birth_date": "1990-04-12",
+    "email": "jordan@example.invalid",
+    "full_name": "Another Sample",
+    "patient_ref": "PAT-0310-B",
+    "phone": "+1 480 555 0180",
+    "provider": "Demo Provider A",
+    "referral_ref": "REF-022",
+    "slot": "2026-10-08 12:00",
+    "street": "18 Sample Road",
+    "visit_type": "Administrative intake"
+  },
+  "scenario": "clinic",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:25.340+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "PAT-0310-B",
+          "external_key": "PAT-0310-B",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "4b4ab800-f99:0",
+          "payload": {
+            "birth_date": "1990-04-12",
+            "display_name": "Another Sample",
+            "email": "jordan@example.invalid",
+            "patient_ref": "PAT-0310-B",
+            "phone": "+1 480 555 0180",
+            "street": "18 Sample Road"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.338+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "aa4cda4e-99d",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "birth_date": "1990-04-12",
+              "display_name": "Another Sample",
+              "email": "jordan@example.invalid",
+              "patient_ref": "PAT-0310-B",
+              "phone": "+1 480 555 0180",
+              "status": "Registered",
+              "street": "18 Sample Road"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.338+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 561,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/clinic-0/records",
+      "run_id": "4b4ab800-f99",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.345+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.338+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "aa4cda4e-99d",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "birth_date": "1990-04-12",
+              "display_name": "Another Sample",
+              "email": "jordan@example.invalid",
+              "patient_ref": "PAT-0310-B",
+              "phone": "+1 480 555 0180",
+              "status": "Registered",
+              "street": "18 Sample Road"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.338+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 562,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/clinic-0/records/aa4cda4e-99d",
+      "run_id": "4b4ab800-f99",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:25.356+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "PAT-0310-B",
+          "external_key": "PAT-0310-B",
+          "kind": "intake",
+          "links": {
+            "clinic-0": "aa4cda4e-99d"
+          },
+          "operation_id": "4b4ab800-f99:1",
+          "payload": {
+            "birth_date": "1990-04-12",
+            "contact_name": "Another Sample",
+            "contact_phone": "+1 480 555 0180",
+            "patient_ref": "PAT-0310-B",
+            "provider": "Demo Provider A",
+            "slot": "2026-10-08 12:00",
+            "visit_type": "Administrative intake"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Registered"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.353+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "f940a8ac-916",
+            "payload": {
+              "_linked_records": {
+                "clinic-0": "aa4cda4e-99d"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "birth_date": "1990-04-12",
+              "contact_name": "Another Sample",
+              "contact_phone": "+1 480 555 0180",
+              "patient_ref": "PAT-0310-B",
+              "provider": "Demo Provider A",
+              "slot": "2026-10-08 12:00",
+              "status": "Scheduled",
+              "visit_type": "Administrative intake"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.353+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 563,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/clinic-1/records",
+      "run_id": "4b4ab800-f99",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.362+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.353+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "f940a8ac-916",
+            "payload": {
+              "_linked_records": {
+                "clinic-0": "aa4cda4e-99d"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "birth_date": "1990-04-12",
+              "contact_name": "Another Sample",
+              "contact_phone": "+1 480 555 0180",
+              "patient_ref": "PAT-0310-B",
+              "provider": "Demo Provider A",
+              "slot": "2026-10-08 12:00",
+              "status": "Scheduled",
+              "visit_type": "Administrative intake"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.353+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 564,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/clinic-1/records/f940a8ac-916",
+      "run_id": "4b4ab800-f99",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:25.373+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "PAT-0310-B",
+          "external_key": "PAT-0310-B",
+          "kind": "intake",
+          "links": {
+            "clinic-0": "aa4cda4e-99d",
+            "clinic-1": "f940a8ac-916"
+          },
+          "operation_id": "4b4ab800-f99:2",
+          "payload": {
+            "addressee": "Another Sample",
+            "billing_address": "18 Sample Road",
+            "birth_date": "1990-04-12",
+            "patient_ref": "PAT-0310-B",
+            "recipient_phone": "+1 480 555 0180",
+            "referral_ref": "REF-022",
+            "visit_type": "Administrative intake"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Scheduled"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:25.370+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "5ce5e397-e0f",
+            "payload": {
+              "_linked_records": {
+                "clinic-0": "aa4cda4e-99d",
+                "clinic-1": "f940a8ac-916"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "addressee": "Another Sample",
+              "billing_address": "18 Sample Road",
+              "birth_date": "1990-04-12",
+              "patient_ref": "PAT-0310-B",
+              "recipient_phone": "+1 480 555 0180",
+              "referral_ref": "REF-022",
+              "status": "Packet prepared",
+              "visit_type": "Administrative intake"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.370+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 565,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/clinic-2/records",
+      "run_id": "4b4ab800-f99",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:25.379+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:25.370+00:00",
+            "external_key": "PAT-0310-B",
+            "id": "5ce5e397-e0f",
+            "payload": {
+              "_linked_records": {
+                "clinic-0": "aa4cda4e-99d",
+                "clinic-1": "f940a8ac-916"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "addressee": "Another Sample",
+              "billing_address": "18 Sample Road",
+              "birth_date": "1990-04-12",
+              "patient_ref": "PAT-0310-B",
+              "recipient_phone": "+1 480 555 0180",
+              "referral_ref": "REF-022",
+              "status": "Packet prepared",
+              "visit_type": "Administrative intake"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:25.370+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 566,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/clinic-2/records/5ce5e397-e0f",
+      "run_id": "4b4ab800-f99",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:25.386+00:00"
+}

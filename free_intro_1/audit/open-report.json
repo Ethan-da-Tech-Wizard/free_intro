@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-09-24T16:22:32.519456+00:00",
+  "command": [
+    "xdg-open",
+    "http://127.0.0.1:8875/AUDIT.html"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "note": "Desktop URL-open request only; physical clicks are not claimed."
+}

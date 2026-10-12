@@ -1,0 +1,16 @@
+Cedar Clinic / Administrative patient record
+Synthetic demonstration data • Relayworks
+
+Reference: PAT-0310-B
+Record ID: 633d8bf9-06a
+Status: Registered
+Patient reference: PAT-0310-B
+Patient name: Another Sample
+Date of birth: 1990-04-12
+Phone: +1 480 555 0180
+Email: jordan@example.invalid
+Address: 18 Sample Road
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

@@ -1,0 +1,8 @@
+﻿CEDAR CLINIC / OLD WORKBOOK — DO NOT DELETE
+Export copied from three office tabs
+
+  PATIENT REFERENCE  ,  PATIENT NAME  ,  DATE OF BIRTH  ,  PHONE  ,  EMAIL  ,  ADDRESS  ,  REFERRAL REFERENCE  ,  PROVIDER  ,  APPOINTMENT SLOT  ,  VISIT TYPE  
+PAT-0310,  Jordan   Example  ,1990-04-12,(480) 555-0146,  JORDAN@EXAMPLE.INVALID ,18 Sample Road,REF-022,Demo Provider A,2026-10-08 11:00,Administrative intake
+
+PAT-0310-B,Taylor Sample,1990-04-12,(480) 555-0146,missing-at-sign.example.invalid,18 Sample Road,REF-022,Demo Provider A,03/04/26,Administrative intake
+PAT-0310,  Jordan   Example  ,1990-04-12,(480) 555-0146,  JORDAN@EXAMPLE.INVALID ,18 Sample Road,REF-022,Demo Provider A,2026-10-08 11:00,Administrative intake

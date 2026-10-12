@@ -1,0 +1,16 @@
+Touchline Daily / Intake
+Synthetic demonstration data · Relayworks
+
+Event reference: DEMO-RACE-01
+Report recipient: Alex Example
+Delivery address: alex@example.invalid
+Team / driver: Synthetic Racing
+Event / session: Demo Grand Prix
+Event date: 2026-10-04 14:00
+Result / best lap: Awaiting source
+Laps counted: 0
+Display timezone: America/Phoenix
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

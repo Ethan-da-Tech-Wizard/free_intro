@@ -1,0 +1,9 @@
+POPULATED hvac 1/2/2
+POPULATED sports 1/1/1
+POPULATED legal 2/2/2
+POPULATED clinic 2/2/2
+POPULATED retail 2/1/1
+POPULATED reseller 1/1/1
+POPULATED property 1/1/1
+POPULATED events 32/32/32
+PASS all 24 apps visible; 126 records; all latest workflows complete; timer off.

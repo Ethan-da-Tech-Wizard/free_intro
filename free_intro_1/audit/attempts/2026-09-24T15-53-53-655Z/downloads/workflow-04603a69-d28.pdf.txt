@@ -1,0 +1,32 @@
+Desert Air / Workflow packet
+Synthetic demonstration data • Relayworks
+
+Run reference: 04603a69-d28
+Workflow: HVAC & field service
+State: complete
+Source: synthetic demo intake
+Created: 2026-09-24T15:56:37.695+00:00
+Customer reference: C-014
+Full name: Avery Example
+Phone: +1 480 555 0146
+Email: avery@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Job reference: JOB-1042
+Reported issue: AC is blowing warm air
+Equipment: Outdoor condenser • Unit A
+Technician: Morgan Lee
+Visit slot: 2026-10-06 10:00
+Diagnostic fee (USD): 95.0
+Access notes: Side gate; call on arrival
+Verified destination records:
+hvac-0: 19028595-a69 / Active customer
+hvac-1: c8b7610e-5fe / Scheduled
+hvac-2: 61ee2a1e-6c7 / Draft
+total_usd: 95.00
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

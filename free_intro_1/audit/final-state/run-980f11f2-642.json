@@ -1,0 +1,477 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T16:05:23.388+00:00",
+  "elapsed_ms": 56,
+  "id": "980f11f2-642",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "hvac-0",
+      "record": {
+        "created": "2026-09-24T16:05:23.402+00:00",
+        "external_key": "C-014",
+        "id": "873272c2-7bc",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "access_notes": "Side gate; call on arrival",
+          "city": "Mesa",
+          "customer_ref": "C-014",
+          "display_name": "Avery Example",
+          "email": "avery@example.invalid",
+          "phone": "+1 480 555 0146",
+          "postal_code": "85201",
+          "region": "AZ",
+          "service_references": [
+            "JOB-1042"
+          ],
+          "status": "Active customer",
+          "street": "100 Sample Lane"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:23.402+00:00"
+      }
+    },
+    {
+      "app_id": "hvac-1",
+      "record": {
+        "created": "2026-09-24T16:05:23.418+00:00",
+        "external_key": "JOB-1042",
+        "id": "f4741d1e-ccc",
+        "payload": {
+          "_linked_records": {
+            "hvac-0": "873272c2-7bc"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "city": "Mesa",
+          "contact_email": "avery@example.invalid",
+          "contact_name": "Avery Example",
+          "contact_phone": "+1 480 555 0146",
+          "equipment": "Outdoor condenser · Unit A",
+          "external_customer_ref": "C-014",
+          "issue": "AC is blowing warm air",
+          "job_ref": "JOB-1042",
+          "postal_code": "85201",
+          "region": "AZ",
+          "site_address": "100 Sample Lane",
+          "slot": "2026-10-06 10:00",
+          "status": "Scheduled",
+          "technician": "Morgan Lee"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:23.418+00:00"
+      }
+    },
+    {
+      "app_id": "hvac-2",
+      "record": {
+        "created": "2026-09-24T16:05:23.434+00:00",
+        "external_key": "JOB-1042",
+        "id": "ae5b87e6-824",
+        "payload": {
+          "_linked_records": {
+            "hvac-0": "873272c2-7bc",
+            "hvac-1": "f4741d1e-ccc"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "account_ref": "C-014",
+          "addressee": "Avery Example",
+          "billing_address": "100 Sample Lane",
+          "city": "Mesa",
+          "delivery_email": "avery@example.invalid",
+          "fee": 95,
+          "job_ref": "JOB-1042",
+          "postal_code": "85201",
+          "recipient_phone": "+1 480 555 0146",
+          "region": "AZ",
+          "status": "Draft",
+          "total_usd": "95.00"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T16:05:23.434+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "access_notes": "Side gate; call on arrival",
+    "city": "Mesa",
+    "customer_ref": "C-014",
+    "email": "avery@example.invalid",
+    "equipment": "Outdoor condenser · Unit A",
+    "fee": 95,
+    "full_name": "Avery Example",
+    "issue": "AC is blowing warm air",
+    "job_ref": "JOB-1042",
+    "phone": "+1 480 555 0146",
+    "postal_code": "85201",
+    "region": "AZ",
+    "slot": "2026-10-06 10:00",
+    "street": "100 Sample Lane",
+    "technician": "Morgan Lee"
+  },
+  "scenario": "hvac",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:23.406+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "C-014",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "980f11f2-642:0",
+          "payload": {
+            "access_notes": "Side gate; call on arrival",
+            "city": "Mesa",
+            "customer_ref": "C-014",
+            "display_name": "Avery Example",
+            "email": "avery@example.invalid",
+            "phone": "+1 480 555 0146",
+            "postal_code": "85201",
+            "region": "AZ",
+            "street": "100 Sample Lane"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:23.402+00:00",
+            "external_key": "C-014",
+            "id": "873272c2-7bc",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "access_notes": "Side gate; call on arrival",
+              "city": "Mesa",
+              "customer_ref": "C-014",
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+1 480 555 0146",
+              "postal_code": "85201",
+              "region": "AZ",
+              "service_references": [
+                "JOB-1042"
+              ],
+              "status": "Active customer",
+              "street": "100 Sample Lane"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.402+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 513,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-0/records",
+      "run_id": "980f11f2-642",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:23.411+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:23.402+00:00",
+            "external_key": "C-014",
+            "id": "873272c2-7bc",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "access_notes": "Side gate; call on arrival",
+              "city": "Mesa",
+              "customer_ref": "C-014",
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+1 480 555 0146",
+              "postal_code": "85201",
+              "region": "AZ",
+              "service_references": [
+                "JOB-1042"
+              ],
+              "status": "Active customer",
+              "street": "100 Sample Lane"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.402+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 514,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-0/records/873272c2-7bc",
+      "run_id": "980f11f2-642",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:23.421+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "JOB-1042",
+          "kind": "intake",
+          "links": {
+            "hvac-0": "873272c2-7bc"
+          },
+          "operation_id": "980f11f2-642:1",
+          "payload": {
+            "city": "Mesa",
+            "contact_email": "avery@example.invalid",
+            "contact_name": "Avery Example",
+            "contact_phone": "+1 480 555 0146",
+            "equipment": "Outdoor condenser · Unit A",
+            "external_customer_ref": "C-014",
+            "issue": "AC is blowing warm air",
+            "job_ref": "JOB-1042",
+            "postal_code": "85201",
+            "region": "AZ",
+            "site_address": "100 Sample Lane",
+            "slot": "2026-10-06 10:00",
+            "technician": "Morgan Lee"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Active customer"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:23.418+00:00",
+            "external_key": "JOB-1042",
+            "id": "f4741d1e-ccc",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "873272c2-7bc"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "city": "Mesa",
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "contact_phone": "+1 480 555 0146",
+              "equipment": "Outdoor condenser · Unit A",
+              "external_customer_ref": "C-014",
+              "issue": "AC is blowing warm air",
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "region": "AZ",
+              "site_address": "100 Sample Lane",
+              "slot": "2026-10-06 10:00",
+              "status": "Scheduled",
+              "technician": "Morgan Lee"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.418+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 5,
+      "id": 515,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-1/records",
+      "run_id": "980f11f2-642",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:23.427+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:23.418+00:00",
+            "external_key": "JOB-1042",
+            "id": "f4741d1e-ccc",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "873272c2-7bc"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "city": "Mesa",
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "contact_phone": "+1 480 555 0146",
+              "equipment": "Outdoor condenser · Unit A",
+              "external_customer_ref": "C-014",
+              "issue": "AC is blowing warm air",
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "region": "AZ",
+              "site_address": "100 Sample Lane",
+              "slot": "2026-10-06 10:00",
+              "status": "Scheduled",
+              "technician": "Morgan Lee"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.418+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 516,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-1/records/f4741d1e-ccc",
+      "run_id": "980f11f2-642",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:23.437+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "JOB-1042",
+          "kind": "intake",
+          "links": {
+            "hvac-0": "873272c2-7bc",
+            "hvac-1": "f4741d1e-ccc"
+          },
+          "operation_id": "980f11f2-642:2",
+          "payload": {
+            "account_ref": "C-014",
+            "addressee": "Avery Example",
+            "billing_address": "100 Sample Lane",
+            "city": "Mesa",
+            "delivery_email": "avery@example.invalid",
+            "fee": 95,
+            "job_ref": "JOB-1042",
+            "postal_code": "85201",
+            "recipient_phone": "+1 480 555 0146",
+            "region": "AZ"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Scheduled"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T16:05:23.434+00:00",
+            "external_key": "JOB-1042",
+            "id": "ae5b87e6-824",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "873272c2-7bc",
+                "hvac-1": "f4741d1e-ccc"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "account_ref": "C-014",
+              "addressee": "Avery Example",
+              "billing_address": "100 Sample Lane",
+              "city": "Mesa",
+              "delivery_email": "avery@example.invalid",
+              "fee": 95,
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "recipient_phone": "+1 480 555 0146",
+              "region": "AZ",
+              "status": "Draft",
+              "total_usd": "95.00"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.434+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 5,
+      "id": 517,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-2/records",
+      "run_id": "980f11f2-642",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:23.444+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:23.434+00:00",
+            "external_key": "JOB-1042",
+            "id": "ae5b87e6-824",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "873272c2-7bc",
+                "hvac-1": "f4741d1e-ccc"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "account_ref": "C-014",
+              "addressee": "Avery Example",
+              "billing_address": "100 Sample Lane",
+              "city": "Mesa",
+              "delivery_email": "avery@example.invalid",
+              "fee": 95,
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "recipient_phone": "+1 480 555 0146",
+              "region": "AZ",
+              "status": "Draft",
+              "total_usd": "95.00"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T16:05:23.434+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 518,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-2/records/ae5b87e6-824",
+      "run_id": "980f11f2-642",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:23.451+00:00"
+}

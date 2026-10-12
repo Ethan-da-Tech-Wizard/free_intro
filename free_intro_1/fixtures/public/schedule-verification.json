@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-09-24T04:27:15.750Z",
+  "verified_at": "2026-09-24T04:28:18.585Z",
+  "schedule": {
+    "enabled": true,
+    "id": "d4dd174a-f3de-4cc1-a281-3554302ddddc",
+    "interval": 60,
+    "kind": "google",
+    "last_run": "2026-09-24T04:28:17.617+00:00",
+    "mapping": null,
+    "message": "30 rows submitted (unchanged input deduplicates); 0 held for review.",
+    "next_run": 1790224157.6170766,
+    "scenario": "events",
+    "url": null
+  },
+  "google_rows_saved_in_each_app": [
+    30,
+    30,
+    30
+  ],
+  "waitlisted": 18
+}

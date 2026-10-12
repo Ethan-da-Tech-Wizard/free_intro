@@ -1,0 +1,16 @@
+Gather Workshop / Attendee badge
+Synthetic demonstration data • Relayworks
+
+Reference: SHEET-2
+Record ID: 03c56467-320
+Status: Badge ready
+Registration reference: SHEET-2
+Attendee name: Alexandra
+Email: sheet-row-2@example.invalid
+Session: English
+Event date: 2026-10-10 10:00
+Organizer: Gather Workshop
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

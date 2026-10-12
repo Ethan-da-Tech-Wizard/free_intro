@@ -1,0 +1,16 @@
+Juniper Legal / Intake
+Synthetic demonstration data · Relayworks
+
+Matter reference: MAT-0204
+Client name: Casey Example
+Client email: casey@example.invalid
+Phone: +1 480 555 0114
+Mailing address: 42 Sample Avenue
+Other party: Orchard Demo LLC
+Matter description: Business agreement review
+Appointment: 2026-10-07 09:00
+Office name: Juniper Legal
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

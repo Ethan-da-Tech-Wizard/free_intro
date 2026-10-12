@@ -1,0 +1,17 @@
+Cedar Clinic / Intake packet
+Synthetic demonstration data • Relayworks
+
+Reference: PAT-0310
+Record ID: f4547a24-982
+Status: Packet prepared
+Patient reference: PAT-0310
+Patient name: Jordan Example
+Date of birth: 1990-04-12
+Phone: +1 480 555 0180
+Address: 18 Sample Road
+Referral reference: REF-022
+Visit type: Administrative intake
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

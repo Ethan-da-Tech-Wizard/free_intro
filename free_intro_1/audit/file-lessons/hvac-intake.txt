@@ -1,0 +1,22 @@
+Desert Air / Intake
+Synthetic demonstration data · Relayworks
+
+Customer reference: C-014
+Full name: Avery Example
+Phone: +1 480 555 0146
+Email: avery@example.invalid
+Street: 100 Sample Lane
+City: Mesa
+Region: AZ
+Postal code: 85201
+Job reference: JOB-1042
+Reported issue: AC is blowing warm air
+Equipment: Outdoor condenser · Unit A
+Technician: Morgan Lee
+Visit slot: 2026-10-06 10:00
+Diagnostic fee (USD): 95
+Access notes: Side gate; call on arrival
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

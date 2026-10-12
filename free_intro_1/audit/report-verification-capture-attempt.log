@@ -1,0 +1,21 @@
+PASS All 24 workplace stores retain the exact 126 final records; each PDF identifies its saved record; timer off.
+node:internal/modules/run_main:111
+    triggerUncaughtException(
+    ^
+
+page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot
+Call log:
+[2m  - taking page screenshot[22m
+[2m  - waiting for fonts to load...[22m
+[2m  - fonts loaded[22m
+
+    at /home/ethan/pg/free_intro/free_intro_1/tests/rehearsal_report.mjs:37:14 {
+  log: [
+    '  - taking page screenshot',
+    '  - waiting for fonts to load...',
+    '  - fonts loaded'
+  ],
+  name: 'Error'
+}
+
+Node.js v26.10.0

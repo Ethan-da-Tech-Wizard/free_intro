@@ -1,0 +1,45 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1088 >>
+stream
+0.06 0.45 0.40 rg 0 730 612 62 re f
+BT /F1 19 Tf 1 1 1 rg 40 757 Td (Cedar Clinic / Administrative patient record) Tj ET
+BT /F1 9 Tf 0.3 0.35 0.4 rg 40 706 Td (Synthetic demonstration data · Relayworks) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 677 Td (Reference: PAT-0310-B) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 661 Td (Record ID: aa4cda4e-99d) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 645 Td (Status: Registered) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 629 Td () Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 613 Td (Patient reference: PAT-0310-B) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 597 Td (Patient name: Another Sample) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 581 Td (Date of birth: 1990-04-12) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 565 Td (Phone: +1 480 555 0180) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 549 Td (Email: jordan@example.invalid) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 533 Td (Address: 18 Sample Road) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 517 Td () Tj ET
+BT /F1 9 Tf 0.4 0.4 0.4 rg 40 35 Td (Relayworks / page 1 / inspect source and run history for provenance) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000212 00000 n 
+0000000338 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+1478
+%%EOF

@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "entire_dashboard_unchanged": true,
+  "metrics": {
+    "completed": 24,
+    "manual_fields": 495,
+    "records": 58
+  },
+  "observed_runs": 100,
+  "source_files_verified": 33,
+  "source_files_unchanged": true
+}

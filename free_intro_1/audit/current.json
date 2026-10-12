@@ -1,0 +1,391 @@
+{
+  "attempt": "2026-09-24T15-58-47-560Z",
+  "started_at": "2026-09-24T15:58:47.641Z",
+  "base": "http://127.0.0.1:8875",
+  "steps": [
+    {
+      "id": "001",
+      "chapter": "09",
+      "title": "Upload hvac-intake.pdf; inspect pdftotext extraction and review every mapped field",
+      "started_at": "2026-09-24T15:58:47.651Z",
+      "status": "passed",
+      "proof": {
+        "source": {
+          "blank_rows": 0,
+          "cleanup_count": 1,
+          "columns": [
+            "Customer reference",
+            "Full name",
+            "Phone",
+            "Email",
+            "Street",
+            "City",
+            "Region",
+            "Postal code",
+            "Job reference",
+            "Reported issue",
+            "Equipment",
+            "Technician",
+            "Visit slot",
+            "Diagnostic fee (USD)",
+            "Access notes"
+          ],
+          "extracted_text": "Desert Air / Intake\n\nSynthetic demonstration data · Relayworks\n\n\nCustomer reference: C-014\nFull name: Avery Example\nPhone: +1 480 555 0146\nEmail: avery@example.invalid\nStreet: 100 Sample Lane\nCity: Mesa\nRegion: AZ\nPostal code: 85201\nJob reference: JOB-1042\nReported issue: AC is blowing warm air\nEquipment: Outdoor condenser · Unit A\nTechnician: Morgan Lee\nVisit slot: 2026-10-06 10:00\nDiagnostic fee (USD): 95\nAccess notes: Side gate; call on arrival\n\n\n\n\nRelayworks / page 1 / inspect source and run history for provenance\n\f",
+          "extraction_tool": "pdftotext",
+          "fetched_at": "2026-09-24T15:58:48.368+00:00",
+          "header_row": 1,
+          "id": "6d43c173-2b2",
+          "kind": "uploaded document",
+          "name": "hvac-intake.pdf",
+          "note": "Review extracted fields against the original document before populating apps.",
+          "raw_preview": [
+            [
+              "Customer reference",
+              "Full name",
+              "Phone",
+              "Email",
+              "Street",
+              "City",
+              "Region",
+              "Postal code",
+              "Job reference",
+              "Reported issue",
+              "Equipment",
+              "Technician",
+              "Visit slot",
+              "Diagnostic fee (USD)",
+              "Access notes"
+            ],
+            [
+              "C-014",
+              "Avery Example",
+              "+1 480 555 0146",
+              "avery@example.invalid",
+              "100 Sample Lane",
+              "Mesa",
+              "AZ",
+              "85201",
+              "JOB-1042",
+              "AC is blowing warm air",
+              "Outdoor condenser · Unit A",
+              "Morgan Lee",
+              "2026-10-06 10:00",
+              "95",
+              "Side gate; call on arrival"
+            ]
+          ],
+          "review_count": 0,
+          "rows": [
+            {
+              "changes": [
+                "Phone: Phone formatted"
+              ],
+              "duplicate": false,
+              "issues": [],
+              "raw": {
+                "Access notes": "Side gate; call on arrival",
+                "City": "Mesa",
+                "Customer reference": "C-014",
+                "Diagnostic fee (USD)": "95",
+                "Email": "avery@example.invalid",
+                "Equipment": "Outdoor condenser · Unit A",
+                "Full name": "Avery Example",
+                "Job reference": "JOB-1042",
+                "Phone": "+1 480 555 0146",
+                "Postal code": "85201",
+                "Region": "AZ",
+                "Reported issue": "AC is blowing warm air",
+                "Street": "100 Sample Lane",
+                "Technician": "Morgan Lee",
+                "Visit slot": "2026-10-06 10:00"
+              },
+              "row_number": 2,
+              "values": {
+                "Access notes": "Side gate; call on arrival",
+                "City": "Mesa",
+                "Customer reference": "C-014",
+                "Diagnostic fee (USD)": "95",
+                "Email": "avery@example.invalid",
+                "Equipment": "Outdoor condenser · Unit A",
+                "Full name": "Avery Example",
+                "Job reference": "JOB-1042",
+                "Phone": "+14805550146",
+                "Postal code": "85201",
+                "Region": "AZ",
+                "Reported issue": "AC is blowing warm air",
+                "Street": "100 Sample Lane",
+                "Technician": "Morgan Lee",
+                "Visit slot": "2026-10-06 10:00"
+              }
+            }
+          ],
+          "skipped_title_rows": 0
+        },
+        "values": {
+          "customer_ref": "C-014",
+          "full_name": "Avery Example",
+          "phone": "+14805550146",
+          "email": "avery@example.invalid",
+          "street": "100 Sample Lane",
+          "city": "Mesa",
+          "region": "AZ",
+          "postal_code": "85201",
+          "job_ref": "JOB-1042",
+          "issue": "AC is blowing warm air",
+          "equipment": "Outdoor condenser · Unit A",
+          "technician": "Morgan Lee",
+          "slot": "2026-10-06 10:00",
+          "fee": "95",
+          "access_notes": "Side gate; call on arrival"
+        }
+      },
+      "finished_at": "2026-09-24T15:58:48.744Z",
+      "url": "http://127.0.0.1:8875/#scenario/hvac/automate",
+      "screenshot": "screenshots/001.png"
+    },
+    {
+      "id": "002",
+      "chapter": "09",
+      "title": "Confirm document review, correct any extraction differences in hvac-intake.pdf, save and inspect all output PDFs",
+      "started_at": "2026-09-24T15:58:48.811Z",
+      "status": "passed",
+      "proof": {
+        "corrections": [],
+        "run_id": "3f72c50d-7bb",
+        "status": "complete",
+        "outputs": [
+          {
+            "record_id": "75ad36dd-bbd",
+            "app": "hvac-0",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=0&record=75ad36dd-bbd",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-0-75ad36dd-bbd.pdf",
+              "bytes": 1919
+            },
+            "screenshot": "screenshots/saved-3f72c50d-7bb-0.png"
+          },
+          {
+            "record_id": "d0361edf-3c8",
+            "app": "hvac-1",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=1&record=d0361edf-3c8",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-1-d0361edf-3c8.pdf",
+              "bytes": 2136
+            },
+            "screenshot": "screenshots/saved-3f72c50d-7bb-1.png"
+          },
+          {
+            "record_id": "42828bd1-c06",
+            "app": "hvac-2",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=2&record=42828bd1-c06",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-2-42828bd1-c06.pdf",
+              "bytes": 2219
+            },
+            "screenshot": "screenshots/saved-3f72c50d-7bb-2.png"
+          }
+        ]
+      },
+      "finished_at": "2026-09-24T15:58:51.054Z",
+      "url": "http://127.0.0.1:8875/#scenario/hvac/results",
+      "screenshot": "screenshots/002.png"
+    },
+    {
+      "id": "003",
+      "chapter": "09",
+      "title": "Upload hvac-scanned-intake.png; inspect Tesseract OCR extraction and review every mapped field",
+      "started_at": "2026-09-24T15:58:51.128Z",
+      "status": "passed",
+      "proof": {
+        "source": {
+          "blank_rows": 0,
+          "cleanup_count": 1,
+          "columns": [
+            "Customer reference",
+            "Full name",
+            "Phone",
+            "Email",
+            "Street",
+            "City",
+            "Region",
+            "Postal code",
+            "Job reference",
+            "Reported issue",
+            "Equipment",
+            "Technician",
+            "Visit slot",
+            "Diagnostic fee (USD)",
+            "Access notes"
+          ],
+          "extracted_text": "Desert Air / Intake\n\nSynthetic demonstration data - Relayworks\n\nCustomer reference: C-014\n\nFull name: Avery Example\n\nPhone: +1 480 555 0146\n\nEmail: avery@example.invalid\n\nStreet: 100 Sample Lane\n\nCity: Mesa\n\nRegion: AZ\n\nPostal code: 85201\n\nJob reference: JOB-1042\n\nReported issue: AC is blowing warm air\nEquipment: Outdoor condenser - Unit A\nTechnician: Morgan Lee\n\nVisit slot: 2026-10-06 10:00\n\nDiagnostic fee (USD): 95\n\nAccess notes: Side gate; call on arrival\n\nRelayworks / page 1/ inspect source and run history for provenance\n",
+          "extraction_tool": "Tesseract OCR",
+          "fetched_at": "2026-09-24T15:58:52.022+00:00",
+          "header_row": 1,
+          "id": "97782b68-e84",
+          "kind": "uploaded document",
+          "name": "hvac-scanned-intake.png",
+          "note": "Review extracted fields against the original document before populating apps.",
+          "raw_preview": [
+            [
+              "Customer reference",
+              "Full name",
+              "Phone",
+              "Email",
+              "Street",
+              "City",
+              "Region",
+              "Postal code",
+              "Job reference",
+              "Reported issue",
+              "Equipment",
+              "Technician",
+              "Visit slot",
+              "Diagnostic fee (USD)",
+              "Access notes"
+            ],
+            [
+              "C-014",
+              "Avery Example",
+              "+1 480 555 0146",
+              "avery@example.invalid",
+              "100 Sample Lane",
+              "Mesa",
+              "AZ",
+              "85201",
+              "JOB-1042",
+              "AC is blowing warm air",
+              "Outdoor condenser - Unit A",
+              "Morgan Lee",
+              "2026-10-06 10:00",
+              "95",
+              "Side gate; call on arrival"
+            ]
+          ],
+          "review_count": 0,
+          "rows": [
+            {
+              "changes": [
+                "Phone: Phone formatted"
+              ],
+              "duplicate": false,
+              "issues": [],
+              "raw": {
+                "Access notes": "Side gate; call on arrival",
+                "City": "Mesa",
+                "Customer reference": "C-014",
+                "Diagnostic fee (USD)": "95",
+                "Email": "avery@example.invalid",
+                "Equipment": "Outdoor condenser - Unit A",
+                "Full name": "Avery Example",
+                "Job reference": "JOB-1042",
+                "Phone": "+1 480 555 0146",
+                "Postal code": "85201",
+                "Region": "AZ",
+                "Reported issue": "AC is blowing warm air",
+                "Street": "100 Sample Lane",
+                "Technician": "Morgan Lee",
+                "Visit slot": "2026-10-06 10:00"
+              },
+              "row_number": 2,
+              "values": {
+                "Access notes": "Side gate; call on arrival",
+                "City": "Mesa",
+                "Customer reference": "C-014",
+                "Diagnostic fee (USD)": "95",
+                "Email": "avery@example.invalid",
+                "Equipment": "Outdoor condenser - Unit A",
+                "Full name": "Avery Example",
+                "Job reference": "JOB-1042",
+                "Phone": "+14805550146",
+                "Postal code": "85201",
+                "Region": "AZ",
+                "Reported issue": "AC is blowing warm air",
+                "Street": "100 Sample Lane",
+                "Technician": "Morgan Lee",
+                "Visit slot": "2026-10-06 10:00"
+              }
+            }
+          ],
+          "skipped_title_rows": 0
+        },
+        "values": {
+          "customer_ref": "C-014",
+          "full_name": "Avery Example",
+          "phone": "+14805550146",
+          "email": "avery@example.invalid",
+          "street": "100 Sample Lane",
+          "city": "Mesa",
+          "region": "AZ",
+          "postal_code": "85201",
+          "job_ref": "JOB-1042",
+          "issue": "AC is blowing warm air",
+          "equipment": "Outdoor condenser - Unit A",
+          "technician": "Morgan Lee",
+          "slot": "2026-10-06 10:00",
+          "fee": "95",
+          "access_notes": "Side gate; call on arrival"
+        }
+      },
+      "finished_at": "2026-09-24T15:58:52.588Z",
+      "url": "http://127.0.0.1:8875/#scenario/hvac/automate",
+      "screenshot": "screenshots/003.png"
+    },
+    {
+      "id": "004",
+      "chapter": "09",
+      "title": "Confirm document review, correct any extraction differences in hvac-scanned-intake.png, save and inspect all output PDFs",
+      "started_at": "2026-09-24T15:58:52.662Z",
+      "status": "passed",
+      "proof": {
+        "corrections": [
+          {
+            "field": "Equipment",
+            "extracted": "Outdoor condenser - Unit A",
+            "corrected": "Outdoor condenser · Unit A",
+            "reason": "Compared against the known original practice form."
+          }
+        ],
+        "run_id": "99091404-2c7",
+        "status": "complete",
+        "outputs": [
+          {
+            "record_id": "b6c7b323-60e",
+            "app": "hvac-0",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=0&record=b6c7b323-60e",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-0-b6c7b323-60e.pdf",
+              "bytes": 1919
+            },
+            "screenshot": "screenshots/saved-99091404-2c7-0.png"
+          },
+          {
+            "record_id": "280df154-d19",
+            "app": "hvac-1",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=1&record=280df154-d19",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-1-280df154-d19.pdf",
+              "bytes": 2136
+            },
+            "screenshot": "screenshots/saved-99091404-2c7-1.png"
+          },
+          {
+            "record_id": "5054286b-792",
+            "app": "hvac-2",
+            "url": "http://127.0.0.1:8875/workplace?scenario=hvac&app=2&record=5054286b-792",
+            "document": {
+              "file": "audit/attempts/2026-09-24T15-58-47-560Z/downloads/hvac-2-5054286b-792.pdf",
+              "bytes": 2219
+            },
+            "screenshot": "screenshots/saved-99091404-2c7-2.png"
+          }
+        ]
+      },
+      "finished_at": "2026-09-24T15:58:54.855Z",
+      "url": "http://127.0.0.1:8875/#scenario/hvac/results",
+      "screenshot": "screenshots/004.png"
+    }
+  ],
+  "status": "passed",
+  "browser_errors": [],
+  "finished_at": "2026-09-24T15:58:54.927Z"
+}

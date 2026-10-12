@@ -1,0 +1,2 @@
+﻿customer_ref,display_name,phone,email,street,city,region,postal_code,access_notes,status
+C-014,Avery Example,'+1 480 555 0146,avery@example.invalid,100 Sample Lane,Mesa,AZ,85201,Side gate; call on arrival,Active customer

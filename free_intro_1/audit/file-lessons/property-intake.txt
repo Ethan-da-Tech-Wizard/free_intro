@@ -1,0 +1,16 @@
+Maple Properties / Intake
+Synthetic demonstration data · Relayworks
+
+Ticket reference: FIX-016
+Property reference: PROP-03
+Unit: 2B
+Tenant contact: Morgan Example
+Phone: +1 480 555 0133
+Reported issue: Kitchen faucet leak
+Access window: 2026-10-07 13:00-16:00
+Contractor: Demo Plumbing
+Approved estimate (USD): 180
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

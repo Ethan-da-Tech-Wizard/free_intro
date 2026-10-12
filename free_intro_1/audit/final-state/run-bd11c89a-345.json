@@ -1,0 +1,398 @@
+{
+  "action": {
+    "event_id": "checkin-REG-012"
+  },
+  "created": "2026-09-24T16:05:32.816+00:00",
+  "elapsed_ms": 45,
+  "id": "bd11c89a-345",
+  "kind": "checkin",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "events-0",
+      "record": {
+        "created": "2026-09-24T16:05:32.707+00:00",
+        "external_key": "REG-012",
+        "id": "3570db0e-cc1",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "display_name": "Taylor Sample",
+          "email": "taylor@example.invalid",
+          "phone": "+1 480 555 0146",
+          "registration_ref": "REG-012",
+          "session": "Repair café",
+          "status": "Checked in"
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:32.824+00:00"
+      }
+    },
+    {
+      "app_id": "events-1",
+      "record": {
+        "created": "2026-09-24T16:05:32.729+00:00",
+        "external_key": "REG-012",
+        "id": "b206f8ce-255",
+        "payload": {
+          "_linked_records": {
+            "events-0": "3570db0e-cc1"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "capacity": 2,
+          "contact_email": "taylor@example.invalid",
+          "contact_name": "Taylor Sample",
+          "event_date": "2026-10-10 10:00",
+          "registration_ref": "REG-012",
+          "session": "Repair café",
+          "status": "Checked in"
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:32.834+00:00"
+      }
+    },
+    {
+      "app_id": "events-2",
+      "record": {
+        "created": "2026-09-24T16:05:32.749+00:00",
+        "external_key": "REG-012",
+        "id": "62c885d8-641",
+        "payload": {
+          "_linked_records": {
+            "events-0": "3570db0e-cc1",
+            "events-1": "b206f8ce-255"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "addressee": "Taylor Sample",
+          "delivery_email": "taylor@example.invalid",
+          "event_date": "2026-10-10 10:00",
+          "organization": "Gather Workshop",
+          "registration_ref": "REG-012",
+          "session": "Repair café",
+          "status": "Checked in"
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:32.847+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 2,
+    "email": "taylor@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Taylor Sample",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "REG-012",
+    "session": "Repair café"
+  },
+  "scenario": "events",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:32.826+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": "checkin-REG-012"
+          },
+          "business_reference": "REG-012",
+          "external_key": "REG-012",
+          "kind": "checkin",
+          "links": {},
+          "operation_id": "bd11c89a-345:0",
+          "payload": {
+            "display_name": "Taylor Sample",
+            "email": "taylor@example.invalid",
+            "phone": "+1 480 555 0146",
+            "registration_ref": "REG-012",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:32.707+00:00",
+            "external_key": "REG-012",
+            "id": "3570db0e-cc1",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "display_name": "Taylor Sample",
+              "email": "taylor@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.824+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 795,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-0/records",
+      "run_id": "bd11c89a-345",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:32.829+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:32.707+00:00",
+            "external_key": "REG-012",
+            "id": "3570db0e-cc1",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "display_name": "Taylor Sample",
+              "email": "taylor@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.824+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 796,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-0/records/3570db0e-cc1",
+      "run_id": "bd11c89a-345",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:32.836+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": "checkin-REG-012"
+          },
+          "business_reference": "REG-012",
+          "external_key": "REG-012",
+          "kind": "checkin",
+          "links": {
+            "events-0": "3570db0e-cc1"
+          },
+          "operation_id": "bd11c89a-345:1",
+          "payload": {
+            "capacity": 2,
+            "contact_email": "taylor@example.invalid",
+            "contact_name": "Taylor Sample",
+            "event_date": "2026-10-10 10:00",
+            "registration_ref": "REG-012",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Checked in"
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:32.729+00:00",
+            "external_key": "REG-012",
+            "id": "b206f8ce-255",
+            "payload": {
+              "_linked_records": {
+                "events-0": "3570db0e-cc1"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "capacity": 2,
+              "contact_email": "taylor@example.invalid",
+              "contact_name": "Taylor Sample",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.834+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 797,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-1/records",
+      "run_id": "bd11c89a-345",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:32.839+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:32.729+00:00",
+            "external_key": "REG-012",
+            "id": "b206f8ce-255",
+            "payload": {
+              "_linked_records": {
+                "events-0": "3570db0e-cc1"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "capacity": 2,
+              "contact_email": "taylor@example.invalid",
+              "contact_name": "Taylor Sample",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.834+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 798,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-1/records/b206f8ce-255",
+      "run_id": "bd11c89a-345",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:32.850+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": "checkin-REG-012"
+          },
+          "business_reference": "REG-012",
+          "external_key": "REG-012",
+          "kind": "checkin",
+          "links": {
+            "events-0": "3570db0e-cc1",
+            "events-1": "b206f8ce-255"
+          },
+          "operation_id": "bd11c89a-345:2",
+          "payload": {
+            "addressee": "Taylor Sample",
+            "delivery_email": "taylor@example.invalid",
+            "event_date": "2026-10-10 10:00",
+            "organization": "Gather Workshop",
+            "registration_ref": "REG-012",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Checked in"
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:32.749+00:00",
+            "external_key": "REG-012",
+            "id": "62c885d8-641",
+            "payload": {
+              "_linked_records": {
+                "events-0": "3570db0e-cc1",
+                "events-1": "b206f8ce-255"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "addressee": "Taylor Sample",
+              "delivery_email": "taylor@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.847+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 799,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-2/records",
+      "run_id": "bd11c89a-345",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:32.856+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:32.749+00:00",
+            "external_key": "REG-012",
+            "id": "62c885d8-641",
+            "payload": {
+              "_linked_records": {
+                "events-0": "3570db0e-cc1",
+                "events-1": "b206f8ce-255"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "addressee": "Taylor Sample",
+              "delivery_email": "taylor@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "REG-012",
+              "session": "Repair café",
+              "status": "Checked in"
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:32.847+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 800,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-2/records/62c885d8-641",
+      "run_id": "bd11c89a-345",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:32.864+00:00"
+}

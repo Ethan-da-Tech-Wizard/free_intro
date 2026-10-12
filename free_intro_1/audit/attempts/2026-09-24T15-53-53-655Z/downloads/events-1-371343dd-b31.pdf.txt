@@ -1,0 +1,16 @@
+Gather Workshop / Seat allocation
+Synthetic demonstration data • Relayworks
+
+Reference: REG-012
+Record ID: 371343dd-b31
+Status: Checked in
+Registration reference: REG-012
+Attendee name: Taylor Sample
+Email: taylor@example.invalid
+Session: Repair cafØ
+Event date: 2026-10-10 10:00
+Session capacity: 2.0
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

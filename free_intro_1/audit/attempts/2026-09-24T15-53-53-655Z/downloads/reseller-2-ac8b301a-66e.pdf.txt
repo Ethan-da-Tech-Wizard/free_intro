@@ -1,0 +1,21 @@
+Second Story / Packing slip
+Synthetic demonstration data • Relayworks
+
+Reference: USED-072
+Record ID: ac8b301a-66e
+Status: Ready to pack
+Item SKU: USED-072
+Listing title: Vintage oak side table
+Price (USD): 65.0
+Weight (kg): 7.2
+Dimensions: 45 x 40 x 52 cm
+Seller: Casey Example
+Return address: 55 Sample Street
+Buyer: Taylor Example
+Event Id: sale-USED-072
+Sale Ref: SALE-019
+Ship To: 10 Example Terrace
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

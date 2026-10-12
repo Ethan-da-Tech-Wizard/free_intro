@@ -1,0 +1,398 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T15:56:24.844+00:00",
+  "elapsed_ms": 34,
+  "id": "4169aba2-baf",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "events-0",
+      "record": {
+        "created": "2026-09-24T15:56:24.850+00:00",
+        "external_key": "REG-011",
+        "id": "c2474892-396",
+        "payload": {
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "display_name": "Avery Example",
+          "email": "avery@example.invalid",
+          "phone": "+1 480 555 0146",
+          "registration_ref": "REG-011",
+          "session": "Repair café",
+          "status": "Registered"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:24.850+00:00"
+      }
+    },
+    {
+      "app_id": "events-1",
+      "record": {
+        "created": "2026-09-24T15:56:24.861+00:00",
+        "external_key": "REG-011",
+        "id": "da211670-783",
+        "payload": {
+          "_linked_records": {
+            "events-0": "c2474892-396"
+          },
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "capacity": 1,
+          "contact_email": "avery@example.invalid",
+          "contact_name": "Avery Example",
+          "event_date": "2026-10-10 10:00",
+          "registration_ref": "REG-011",
+          "session": "Repair café",
+          "status": "Reserved"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:24.861+00:00"
+      }
+    },
+    {
+      "app_id": "events-2",
+      "record": {
+        "created": "2026-09-24T15:56:24.871+00:00",
+        "external_key": "REG-011",
+        "id": "4b9fc4e3-106",
+        "payload": {
+          "_linked_records": {
+            "events-0": "c2474892-396",
+            "events-1": "da211670-783"
+          },
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "addressee": "Avery Example",
+          "delivery_email": "avery@example.invalid",
+          "event_date": "2026-10-10 10:00",
+          "organization": "Gather Workshop",
+          "registration_ref": "REG-011",
+          "session": "Repair café",
+          "status": "Badge ready"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:24.871+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "capacity": 1,
+    "email": "avery@example.invalid",
+    "event_date": "2026-10-10 10:00",
+    "full_name": "Avery Example",
+    "organization": "Gather Workshop",
+    "phone": "+1 480 555 0146",
+    "registration_ref": "REG-011",
+    "session": "Repair café"
+  },
+  "scenario": "events",
+  "source": {
+    "kind": "synthetic demo intake"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T15:56:24.852+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REG-011",
+          "external_key": "REG-011",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "4169aba2-baf:0",
+          "payload": {
+            "display_name": "Avery Example",
+            "email": "avery@example.invalid",
+            "phone": "+1 480 555 0146",
+            "registration_ref": "REG-011",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:24.850+00:00",
+            "external_key": "REG-011",
+            "id": "c2474892-396",
+            "payload": {
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.850+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 308,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-0/records",
+      "run_id": "4169aba2-baf",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:24.854+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:24.850+00:00",
+            "external_key": "REG-011",
+            "id": "c2474892-396",
+            "payload": {
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+1 480 555 0146",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Registered"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.850+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 309,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-0/records/c2474892-396",
+      "run_id": "4169aba2-baf",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:56:24.864+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REG-011",
+          "external_key": "REG-011",
+          "kind": "intake",
+          "links": {
+            "events-0": "c2474892-396"
+          },
+          "operation_id": "4169aba2-baf:1",
+          "payload": {
+            "capacity": 1,
+            "contact_email": "avery@example.invalid",
+            "contact_name": "Avery Example",
+            "event_date": "2026-10-10 10:00",
+            "registration_ref": "REG-011",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": "Registered"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:24.861+00:00",
+            "external_key": "REG-011",
+            "id": "da211670-783",
+            "payload": {
+              "_linked_records": {
+                "events-0": "c2474892-396"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "capacity": 1,
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.861+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 310,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-1/records",
+      "run_id": "4169aba2-baf",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:24.867+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:24.861+00:00",
+            "external_key": "REG-011",
+            "id": "da211670-783",
+            "payload": {
+              "_linked_records": {
+                "events-0": "c2474892-396"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "capacity": 1,
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "event_date": "2026-10-10 10:00",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Reserved"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.861+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 311,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-1/records/da211670-783",
+      "run_id": "4169aba2-baf",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:56:24.872+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REG-011",
+          "external_key": "REG-011",
+          "kind": "intake",
+          "links": {
+            "events-0": "c2474892-396",
+            "events-1": "da211670-783"
+          },
+          "operation_id": "4169aba2-baf:2",
+          "payload": {
+            "addressee": "Avery Example",
+            "delivery_email": "avery@example.invalid",
+            "event_date": "2026-10-10 10:00",
+            "organization": "Gather Workshop",
+            "registration_ref": "REG-011",
+            "session": "Repair café"
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": "Reserved"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:24.871+00:00",
+            "external_key": "REG-011",
+            "id": "4b9fc4e3-106",
+            "payload": {
+              "_linked_records": {
+                "events-0": "c2474892-396",
+                "events-1": "da211670-783"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "addressee": "Avery Example",
+              "delivery_email": "avery@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.871+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 312,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/events-2/records",
+      "run_id": "4169aba2-baf",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:24.875+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:24.871+00:00",
+            "external_key": "REG-011",
+            "id": "4b9fc4e3-106",
+            "payload": {
+              "_linked_records": {
+                "events-0": "c2474892-396",
+                "events-1": "da211670-783"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "addressee": "Avery Example",
+              "delivery_email": "avery@example.invalid",
+              "event_date": "2026-10-10 10:00",
+              "organization": "Gather Workshop",
+              "registration_ref": "REG-011",
+              "session": "Repair café",
+              "status": "Badge ready"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:24.871+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 313,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/events-2/records/4b9fc4e3-106",
+      "run_id": "4169aba2-baf",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T15:56:24.881+00:00"
+}

@@ -1,0 +1,87 @@
+DO 02 001 Tour Overview, connections, gallery, run history, all five HVAC tabs, and cancel Reset
+DO 02 002 Check draft behavior when typing, switching views, and reloading
+DO 03 003 Read the actual architecture image and scenario mappings
+DO 04 004 Manual Customer Profiles: type 9 documented fields and save
+DO 04 005 Manual Dispatch Desk: type 13 documented fields and save
+DO 04 006 Manual Billing Desk: type 10 documented fields and save
+DO 05 007 Reset manual HVAC entries; preview all three field mappings; populate and inspect the saved destinations
+DO 05 008 Download PDF packet and Excel export; replay the unchanged intake
+DO 06 009 Complete the visit with 1.5 hours × 80 + 35 parts + 95 fee; inspect $250 draft
+DO 06 010 Repeat the identical completion event; verify no additional charge
+DO 06 011 Create JOB-1043 for the same C-014 customer at the documented new slot
+DO 08 012 Open the ugly workbook inspector; verify header row 4 and ready/review/duplicate rows
+DO 08 013 Map Row 5; verify normalized email and fee; populate the three workplaces
+DO 08 014 Map Row 7; confirm validation hold before correcting the source ambiguity
+DO 08 015 Correct Taylor to C-015, valid email, JOB-1042-B, 11:00; confirm review and save
+DO 08 016 Batch only ready rows; inspect submitted/reused/held counts and run history
+DO 08 017 Upload the actual HVAC XLSX from disk and repeat the first-row mapping
+DO 09 018 Upload hvac-intake.pdf; inspect pdftotext extraction and review every mapped field
+DO 09 019 Confirm document review, save hvac-intake.pdf input, and open all populated output PDFs
+DO 09 020 Upload hvac-scanned-intake.png; inspect Tesseract OCR extraction and review every mapped field
+DO 09 021 Confirm document review, save hvac-scanned-intake.png input, and open all populated output PDFs
+DO 10 022 Open the original Google sample link; fetch its public CSV and inspect actual source facts
+DO 10 023 Map Student Name and Major; use one row; identify defaults and inspect three saved records
+DO 10 024 Pull again, populate every ready Google row, and inspect final workplace counts
+DO 10 025 Replay the recorded Google source; keep replay label and original retrieval date
+DO 11 026 Enable the one-minute Google timer and observe the first actual scheduled pull
+Timer observation: 0 seconds
+Timer observation: 20 seconds
+Timer observation: 40 seconds
+Timer observation: 60 seconds
+DO 11 027 Stop the timer and inspect the generated runs/records
+DO 12 028 Manual Sports Worksheet: type 6 documented fields and save
+DO 12 029 Manual Schedule Board: type 5 documented fields and save
+DO 12 030 Manual Report Inbox: type 8 documented fields and save
+DO 12 031 Fetch historical OpenF1 data; inspect three provider requests and calculation inputs
+DO 12 032 Map historical facts into the three sports desks, inspect the report, and download a real calendar
+DO 12 033 Repeat sports mapping with an explicitly labelled offline provider recording
+DO 13 034 Manual Matter Desk: type 7 documented fields and save
+DO 13 035 Manual Document Desk: type 6 documented fields and save
+DO 13 036 Manual Task Calendar: type 5 documented fields and save
+DO 13 037 Reset the manual law-office records; populate and inspect all three apps
+DO 13 038 Trigger the possible-party review hold and verify the unreviewed request is rejected
+DO 13 039 Record the reviewer decision and populate the reviewed matter, packet, and task
+DO 14 040 Manual Registration Desk: type 6 documented fields and save
+DO 14 041 Manual Appointment Board: type 7 documented fields and save
+DO 14 042 Manual Intake Packet Desk: type 7 documented fields and save
+DO 14 043 Reset manual clinic records; register Jordan and book the 11:00 slot
+DO 14 044 Attempt the second patient in the occupied slot; verify a partial save and a 409 conflict
+DO 14 045 Retain PAT-0310-B; correct the appointment to noon; verify all three destinations
+DO 15 046 Manual Receiving Desk: type 7 documented fields and save
+DO 15 047 Manual Stock Ledger: type 6 documented fields and save
+DO 15 048 Manual Online Catalog: type 5 documented fields and save
+DO 15 049 Reset retail; receive 12 units with two reserved; verify 10 available in catalog
+DO 15 050 Replay REC-088; prove the stock effect is not applied twice
+DO 15 051 Receive REC-089 for the same SKU; verify 24 on hand and 22 available
+DO 15 052 Reuse REC-089 with quantity 99; verify the conflicting receipt is held, then reset deliberately
+DO 16 053 Manual Item Register: type 7 documented fields and save
+DO 16 054 Manual Listing Desk: type 7 documented fields and save
+DO 16 055 Manual Sales and Packing Desk: type 7 documented fields and save
+DO 16 056 Reset seller; populate item, local listing draft, and sale paperwork
+DO 16 057 Record SALE-019; verify one item becomes stock zero and produce a packing slip
+DO 16 058 Replay the identical sale reference and confirm it reuses the recorded event
+DO 16 059 Attempt SALE-020 as a distinct sale; verify an oversell rejection
+DO 17 060 Manual Property Desk: type 6 documented fields and save
+DO 17 061 Manual Contractor Board: type 8 documented fields and save
+DO 17 062 Manual Owner Report Desk: type 6 documented fields and save
+DO 17 063 Reset property; populate the repair with approved estimate 180
+DO 17 064 Try WRONG-JOB invoice; correct reference but exceed estimate at 200; verify both holds
+DO 17 065 Correct invoice to FIX-016 and 180; verify completed repair and matched owner statement
+DO 18 066 Manual Registration Desk: type 5 documented fields and save
+DO 18 067 Manual Session Board: type 6 documented fields and save
+DO 18 068 Manual Badge and Attendance Desk: type 6 documented fields and save
+DO 18 069 Reserve REG-011 in a capacity-one session
+DO 18 070 Submit REG-012 Taylor; verify the valid waitlist outcome
+DO 18 071 Try checking in the waitlisted attendee; verify that no check-in writes occurred
+DO 18 072 Deliberately raise practice capacity to two; reserve Taylor and check in successfully
+DO 19 073 Reset HVAC; Revoke access at Billing Desk; submit and inspect actual 403
+DO 19 074 Grant access; resume the failed handoff; prove first two IDs and revisions stayed the same
+DO 19 075 Reset HVAC; Take offline at Billing Desk; submit and inspect actual 503
+DO 19 076 Restore service; resume the failed handoff; prove first two IDs and revisions stayed the same
+DO 20 077 Expand POST, GET, source provenance, mapping, cost and capacity; inspect saved run history
+DO 21 078 Open the retained screenshot gallery and its manifest
+DO 21 079 Download PDF, Excel, calendar, evidence ZIP, and current workplace CSV
+DO 22 080 Open each of the eight workflow diagrams and validate all ten editable Archi views
+DO 24 081 Exercise native required/email checks and server validation without losing saved records
+DO 24 082 Verify failed and archived runs cannot silently masquerade as new completed work
+PASS all selected documented browser lessons

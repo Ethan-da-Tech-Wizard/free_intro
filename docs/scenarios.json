@@ -1,0 +1,569 @@
+{
+  "title": "Automation showcase: realistic work, visible proof",
+  "status": "Implemented local workflows with real public sources and actual browser evidence",
+  "research_date": "2026-09-23",
+  "confirmed": {
+    "audience": "Business and technical, with an optional technical view",
+    "interaction": "Clickable workplace apps, captured before/after screenshots, and working automated runs",
+    "cost": "$0 required subscriptions, API charges, and paid trial credits; local tools and free hosted accounts permitted"
+  },
+  "scenarios": [
+    {
+      "id": "hvac",
+      "title": "HVAC: one service call, three systems",
+      "actor": "Maya, dispatcher at the fictional Desert Air service company",
+      "story": "A customer reports an AC unit that is blowing warm air. The dispatcher books a visit, maintains the customer record, and prepares billing; a technician later records the completed work.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Customer Profiles",
+        "Dispatch Desk",
+        "Billing Desk"
+      ],
+      "shared_fields": [
+        "Customer reference",
+        "Full name",
+        "Phone",
+        "Email",
+        "Street",
+        "City",
+        "Region",
+        "Postal code"
+      ],
+      "manual": [
+        "Open Customer Profiles, enter its 9 source fields, and save to its independent store.",
+        "Open Dispatch Desk, enter its 13 source fields, and save to its independent store.",
+        "Open Billing Desk, enter its 10 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Apply a uniquely referenced completion event. Update the existing billing draft with diagnostic fee, approved labor, and parts. Reuse the customer for later jobs."
+      ],
+      "outputs": [
+        "Customer profile with linked service history",
+        "Dispatch job and printable work order",
+        "Billing draft with a downloadable invoice preview"
+      ],
+      "demo_routes": [
+        "POST /v1/hvac-0/records",
+        "POST /v1/hvac-1/records",
+        "POST /v1/hvac-2/records"
+      ],
+      "mapping_examples": [
+        "Customer reference -> hvac-0.customer_ref -> hvac-1.external_customer_ref -> hvac-2.account_ref",
+        "Full name -> hvac-0.display_name -> hvac-1.contact_name -> hvac-2.addressee",
+        "Phone -> hvac-0.phone -> hvac-1.contact_phone -> hvac-2.recipient_phone",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "A technician/time combination can be reserved by one job.",
+        "Customer reference is the explicit matching key; no fuzzy identity decision is implied.",
+        "Invoices stay drafts. Unique completion events apply approved labor and parts; payment is not charged."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Apply a uniquely referenced completion event. Update the existing billing draft with diagnostic fee, approved labor, and parts. Reuse the customer for later jobs.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Queue each job, persist the customer/job/invoice ID mapping, and serialize reservations for the same technician. Measure throughput on this machine before claiming capacity.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "baserow",
+        "erpnext",
+        "libreoffice",
+        "mailpit"
+      ]
+    },
+    {
+      "id": "sports",
+      "title": "Sports: a personal report that refreshes itself",
+      "actor": "Alex, a fictional sports follower who wants a regular report",
+      "story": "Alex follows selected football teams, checks fixtures and results, updates a personal worksheet, and prepares a short daily digest. Driver-level historical F1 analysis is a separate free data option.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review",
+        "Actual OpenF1 historical session 9158 / driver 1, with a timestamped offline recording"
+      ],
+      "apps": [
+        "Sports Worksheet",
+        "Schedule Board",
+        "Report Inbox"
+      ],
+      "shared_fields": [
+        "Event reference",
+        "Team / driver",
+        "Event / session",
+        "Event date"
+      ],
+      "manual": [
+        "Open Sports Worksheet, enter its 6 source fields, and save to its independent store.",
+        "Open Schedule Board, enter its 5 source fields, and save to its independent store.",
+        "Open Report Inbox, enter its 8 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Optionally fetch OpenF1 historical driver/session/lap data. Review the provider date, compute the best positive lap duration, and export a calendar file or local briefing."
+      ],
+      "outputs": [
+        "Updated worksheet with source references",
+        "Personal event schedule",
+        "Dated report with links to its inputs"
+      ],
+      "demo_routes": [
+        "POST /v1/sports-0/records",
+        "POST /v1/sports-1/records",
+        "POST /v1/sports-2/records"
+      ],
+      "mapping_examples": [
+        "Event reference -> sports-0.event_ref -> sports-1.event_ref -> sports-2.event_ref",
+        "Team / driver -> sports-0.team -> sports-1.team -> sports-2.team",
+        "Event / session -> sports-0.event_name -> sports-1.event_name -> sports-2.event_name",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "Provider event date and retrieval time are distinct.",
+        "OpenF1 historical reads need no key; paid live access is excluded.",
+        "Recipient details are synthetic; provider facts retain provenance."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Optionally fetch OpenF1 historical driver/session/lap data. Review the provider date, compute the best positive lap duration, and export a calendar file or local briefing.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services. OpenF1 historical access is free; the paid live service is excluded.",
+      "scale": "Each historical refresh makes three GET requests. A five-minute timer running for a full day makes 3 x 288 = 864 provider requests before retries; this is arithmetic, not a provider quota or a throughput benchmark. Unchanged mapped input reuses the saved run. Production fan-out would need shared caching, provider-aware rate limits, and bounded queues.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "football",
+        "openf1",
+        "balldontlie",
+        "libreoffice",
+        "mailpit"
+      ]
+    },
+    {
+      "id": "legal",
+      "title": "Law office: intake to matter file and document packet",
+      "actor": "Jordan, intake coordinator at a fictional law office",
+      "story": "An intake packet contains client details, other parties, a matter description, and an explicitly stated appointment date. Staff repeatedly copy it into their matter system, document templates, and task calendar.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Matter Desk",
+        "Document Desk",
+        "Task Calendar"
+      ],
+      "shared_fields": [
+        "Matter reference",
+        "Client name",
+        "Client email",
+        "Matter description"
+      ],
+      "manual": [
+        "Open Matter Desk, enter its 7 source fields, and save to its independent store.",
+        "Open Document Desk, enter its 6 source fields, and save to its independent store.",
+        "Open Task Calendar, enter its 5 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "A seeded possible party match holds the intake until the reviewer records a decision. Generate a populated administrative client packet and dated task."
+      ],
+      "outputs": [
+        "Matter record with review outcome",
+        "Generated document packet",
+        "Linked appointment and follow-up tasks"
+      ],
+      "demo_routes": [
+        "POST /v1/legal-0/records",
+        "POST /v1/legal-1/records",
+        "POST /v1/legal-2/records"
+      ],
+      "mapping_examples": [
+        "Matter reference -> legal-0.matter_ref -> legal-1.matter_ref -> legal-2.matter_ref",
+        "Client name -> legal-0.display_name -> legal-1.contact_name -> legal-2.addressee",
+        "Client email -> legal-0.email -> legal-1.contact_email -> legal-2.delivery_email",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "Existing demo client is the seeded possible-party-match trigger.",
+        "Reviewer confirmation is required; it does not bypass missing fields or invalid dates.",
+        "Documents and tasks are administrative demo outputs; no legal filing occurs."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. A seeded possible party match holds the intake until the reviewer records a decision. Generate a populated administrative client packet and dated task.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Isolate interview sessions by matter, queue document generation, and index the party search. Measure document latency and review backlog separately.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "docassemble",
+        "baserow",
+        "nextcloud",
+        "libreoffice"
+      ]
+    },
+    {
+      "id": "clinic",
+      "title": "Clinic: registration to appointment preparation",
+      "actor": "Riley, receptionist at a fictional outpatient clinic",
+      "story": "A new patient's registration and referral arrive as documents. The receptionist enters demographics, schedules a visit, and prepares an administrative intake packet.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Registration Desk",
+        "Appointment Board",
+        "Intake Packet Desk"
+      ],
+      "shared_fields": [
+        "Patient reference",
+        "Patient name",
+        "Date of birth",
+        "Phone"
+      ],
+      "manual": [
+        "Open Registration Desk, enter its 6 source fields, and save to its independent store.",
+        "Open Appointment Board, enter its 7 source fields, and save to its independent store.",
+        "Open Intake Packet Desk, enter its 7 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Reserve the selected provider and time atomically. A competing patient cannot receive the occupied slot; correct the input and rerun."
+      ],
+      "outputs": [
+        "Verified demographic record",
+        "Linked appointment",
+        "Administrative packet with source referral"
+      ],
+      "demo_routes": [
+        "POST /v1/clinic-0/records",
+        "POST /v1/clinic-1/records",
+        "POST /v1/clinic-2/records"
+      ],
+      "mapping_examples": [
+        "Patient reference -> clinic-0.patient_ref -> clinic-1.patient_ref -> clinic-2.patient_ref",
+        "Patient name -> clinic-0.display_name -> clinic-1.contact_name -> clinic-2.addressee",
+        "Date of birth -> clinic-0.birth_date -> clinic-1.birth_date -> clinic-2.birth_date",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "All patient information is synthetic.",
+        "Provider/slot allocation is transactional and rejects double booking.",
+        "The generated packet is administrative; no clinical decisions are made."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Reserve the selected provider and time atomically. A competing patient cannot receive the occupied slot; correct the input and rerun.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Separate per-patient work, enforce reservations at save time, and keep document processing out of the appointment request path. Measure contention as well as request speed.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "openemr",
+        "libreoffice",
+        "mailpit"
+      ]
+    },
+    {
+      "id": "retail",
+      "title": "Store: receive stock and update the online catalog",
+      "actor": "Sam, manager of a fictional neighborhood shop",
+      "story": "A supplier delivery includes a packing slip and purchase-order reference. Staff count the delivery, update stock, update online availability, and prepare a purchasing reconciliation.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Receiving Desk",
+        "Stock Ledger",
+        "Online Catalog"
+      ],
+      "shared_fields": [
+        "Receipt reference",
+        "Internal SKU",
+        "Item name",
+        "Counted quantity"
+      ],
+      "manual": [
+        "Open Receiving Desk, enter its 7 source fields, and save to its independent store.",
+        "Open Stock Ledger, enter its 6 source fields, and save to its independent store.",
+        "Open Online Catalog, enter its 5 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Receipt identity prevents duplicate stock increments. Derive available quantity from stock minus reserved units and save that value to the storefront."
+      ],
+      "outputs": [
+        "Accepted receipt and discrepancy report",
+        "Updated stock ledger",
+        "Matching online availability"
+      ],
+      "demo_routes": [
+        "POST /v1/retail-0/records",
+        "POST /v1/retail-1/records",
+        "POST /v1/retail-2/records"
+      ],
+      "mapping_examples": [
+        "Receipt reference -> retail-0.receipt_ref -> retail-1.receipt_ref -> retail-2.receipt_ref",
+        "Internal SKU -> retail-0.sku -> retail-1.sku -> retail-2.sku",
+        "Item name -> retail-0.item_name -> retail-1.item_name -> retail-2.item_name",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "The demonstration SKU catalog is FLT-20, KIT-07, and BOLT-12.",
+        "A repeated receipt cannot increment stock again; changed receipt quantities need a new reference.",
+        "Reserved stock cannot exceed on-hand stock."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Receipt identity prevents duplicate stock increments. Derive available quantity from stock minus reserved units and save that value to the storefront.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Process large receipts in bounded batches and serialize movements for the same SKU. Respect webhook retries and measure reconciliation throughput locally.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "woocommerce",
+        "erpnext",
+        "libreoffice"
+      ]
+    },
+    {
+      "id": "reseller",
+      "title": "Individual seller: one item record to listing and sale paperwork",
+      "actor": "Casey, a fictional person selling used household items",
+      "story": "A seller repeatedly types a used item's description, condition, price, and dimensions into a listing, inventory sheet, and packing paperwork.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Item Register",
+        "Listing Desk",
+        "Sales and Packing Desk"
+      ],
+      "shared_fields": [
+        "Item SKU",
+        "Listing title",
+        "Price (USD)",
+        "Weight (kg)",
+        "Dimensions"
+      ],
+      "manual": [
+        "Open Item Register, enter its 7 source fields, and save to its independent store.",
+        "Open Listing Desk, enter its 7 source fields, and save to its independent store.",
+        "Open Sales and Packing Desk, enter its 7 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "A unique sale event decrements the one-off item to zero, marks the local listing sold, and fills the packing slip. A second distinct sale fails."
+      ],
+      "outputs": [
+        "Item record with linked draft listing",
+        "Sold or reserved inventory state",
+        "Packing slip and sale record"
+      ],
+      "demo_routes": [
+        "POST /v1/reseller-0/records",
+        "POST /v1/reseller-1/records",
+        "POST /v1/reseller-2/records"
+      ],
+      "mapping_examples": [
+        "Item SKU -> reseller-0.sku -> reseller-1.sku -> reseller-2.sku",
+        "Listing title -> reseller-0.title -> reseller-1.title -> reseller-2.title",
+        "Price (USD) -> reseller-0.price -> reseller-1.price -> reseller-2.price",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "Each unique item starts with one unit.",
+        "A sale needs a unique event reference and an available unit.",
+        "Listings and packing paperwork are local drafts; no marketplace or carrier is contacted."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. A unique sale event decrements the one-off item to zero, marks the local listing sold, and fills the packing slip. A second distinct sale fails.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Use item-level reservations and stable event IDs. Load-test owned local services, not the shared eBay sandbox.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "woocommerce",
+        "ebay",
+        "libreoffice",
+        "mailpit"
+      ]
+    },
+    {
+      "id": "property",
+      "title": "Property manager: repair request to contractor and owner report",
+      "actor": "Morgan, coordinator for a fictional small property portfolio",
+      "story": "A tenant reports a leak. The coordinator copies unit details into a repair ticket, contractor job, and expense report, then matches the completion invoice back to the work.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review"
+      ],
+      "apps": [
+        "Property Desk",
+        "Contractor Board",
+        "Owner Report Desk"
+      ],
+      "shared_fields": [
+        "Ticket reference",
+        "Property reference",
+        "Unit",
+        "Reported issue"
+      ],
+      "manual": [
+        "Open Property Desk, enter its 6 source fields, and save to its independent store.",
+        "Open Contractor Board, enter its 8 source fields, and save to its independent store.",
+        "Open Owner Report Desk, enter its 6 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Match a contractor invoice to its ticket and approved estimate. Mismatched references or an unapproved overage stop before the follow-up writes."
+      ],
+      "outputs": [
+        "Tracked property repair ticket",
+        "Contractor work order",
+        "Owner report with matched invoice"
+      ],
+      "demo_routes": [
+        "POST /v1/property-0/records",
+        "POST /v1/property-1/records",
+        "POST /v1/property-2/records"
+      ],
+      "mapping_examples": [
+        "Ticket reference -> property-0.ticket_ref -> property-1.ticket_ref -> property-2.ticket_ref",
+        "Property reference -> property-0.property_ref -> property-1.property_ref -> property-2.property_ref",
+        "Unit -> property-0.unit -> property-1.unit -> property-2.unit",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "Invoice job reference must match the repair ticket.",
+        "An amount above the approved estimate is held for review.",
+        "A matched invoice updates local records without making a payment."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Match a contractor invoice to its ticket and approved estimate. Mismatched references or an unapproved overage stop before the follow-up writes.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services.",
+      "scale": "Partition work by property, index job references, and queue document extraction. Show the limit imposed by document size and local disk/CPU.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "baserow",
+        "nextcloud",
+        "libreoffice"
+      ]
+    },
+    {
+      "id": "events",
+      "title": "Community organizer: registration to roster, badge, and schedule",
+      "actor": "Avery, organizer of a fictional neighborhood workshop",
+      "story": "Registrations arrive in a form or spreadsheet. The organizer repeats attendee details in a roster, badge template, and session schedule, then records attendance.",
+      "sources": [
+        "Generated labelled intake PDF and editable sample facts",
+        "Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review",
+        "Actual Google developer sample Sheet export; names/majors map to attendees/sessions, other facts are labelled defaults"
+      ],
+      "apps": [
+        "Registration Desk",
+        "Session Board",
+        "Badge and Attendance Desk"
+      ],
+      "shared_fields": [
+        "Registration reference",
+        "Attendee name",
+        "Email",
+        "Session"
+      ],
+      "manual": [
+        "Open Registration Desk, enter its 5 source fields, and save to its independent store.",
+        "Open Session Board, enter its 6 source fields, and save to its independent store.",
+        "Open Badge and Attendance Desk, enter its 6 source fields, and save to its independent store.",
+        "Compare the three saved records and download each populated document. Reconcile mistakes by returning to the source facts."
+      ],
+      "automated": [
+        "Enter or import the source once; inspect original and normalized values, map fields, and correct review flags.",
+        "Validate the shared intake and persist a job with source provenance and business identity.",
+        "POST each mapped record to its own local workplace HTTP API, retaining the returned IDs for later steps.",
+        "GET each saved record and compare its payload. Keep successful steps when a later destination fails.",
+        "Allocate the session seat or mark the attendee waitlisted. Only an attendee with a reserved seat can be checked in."
+      ],
+      "outputs": [
+        "Deduplicated registration roster",
+        "Session allocations and waitlist",
+        "Badges and attendance report"
+      ],
+      "demo_routes": [
+        "POST /v1/events-0/records",
+        "POST /v1/events-1/records",
+        "POST /v1/events-2/records"
+      ],
+      "mapping_examples": [
+        "Registration reference -> events-0.registration_ref -> events-1.registration_ref -> events-2.registration_ref",
+        "Attendee name -> events-0.display_name -> events-1.contact_name -> events-2.addressee",
+        "Email -> events-0.email -> events-1.contact_email -> events-2.delivery_email",
+        "Run ID + stage -> idempotent operation ID; verified upstream record IDs -> downstream _linked_records metadata."
+      ],
+      "rules": [
+        "Registration reference is the stable business key when supplied.",
+        "Capacity allocation is transactional; full sessions become waitlisted.",
+        "Check-in requires an existing reserved seat."
+      ],
+      "failure": "Revoke access or take the third destination offline. The API returns 403/503; restore it and resume the saved job without rewriting completed stages. Allocate the session seat or mark the attendee waitlisted. Only an attendee with a reserved seat can be checked in.",
+      "cost": "The three local apps and standard-library processing require $0 service fees. Poppler/Tesseract are free local tools. Business vendors listed in the research are documented candidates, not connected services. The public Google CSV export requires no account or key; availability is controlled by Google.",
+      "scale": "Batch file imports, serialize seat allocation per session, and queue badge rendering. Benchmark realistic event sizes on the available machine.",
+      "evidence": [
+        "Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.",
+        "The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.",
+        "Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims."
+      ],
+      "research": [
+        "baserow",
+        "nextcloud",
+        "libreoffice",
+        "mailpit"
+      ]
+    }
+  ]
+}

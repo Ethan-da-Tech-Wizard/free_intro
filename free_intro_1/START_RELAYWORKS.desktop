@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Start Relayworks
+Comment=Start the local demo and open its overview
+Exec=/usr/bin/python3 /home/ethan/pg/free_intro/free_intro_1/scripts/launch.py
+Path=/home/ethan/pg/free_intro/free_intro_1
+Icon=applications-office
+Terminal=false
+Categories=Office;

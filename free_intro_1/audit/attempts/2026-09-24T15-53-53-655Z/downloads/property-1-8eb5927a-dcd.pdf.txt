@@ -1,0 +1,22 @@
+Maple Properties / Contractor work order
+Synthetic demonstration data • Relayworks
+
+Reference: FIX-016
+Record ID: 8eb5927a-dcd
+Status: Completed
+Ticket reference: FIX-016
+Property reference: PROP-03
+Unit: 2B
+Tenant contact: Morgan Example
+Phone: +1 480 555 0133
+Reported issue: Kitchen faucet leak
+Access window: 2026-10-07 13:00-16:00
+Contractor: Demo Plumbing
+Event Id: invoice-FIX-016
+Invoice Ref: INV-080
+Invoice Total: 180.0
+Job Reference: FIX-016
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

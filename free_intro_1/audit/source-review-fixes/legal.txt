@@ -1,0 +1,7 @@
+7	
+Review
+
+CLIENT EMAIL: Email needs correction
+APPOINTMENT: Slash date is ambiguous; choose an ISO date
+
+	MAT-0204-B	Taylor Sample	missing-at-sign.example.invalid	+14805550146	42 Sample Avenue	Orchard Demo LLC	Business agreement review	03/04/26	Juniper Legal

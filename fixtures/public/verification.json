@@ -1,0 +1,95 @@
+{
+  "verified_at": "2026-09-24T02:53:59.211Z",
+  "outcomes": [
+    {
+      "provider": "google",
+      "scenario": "events",
+      "source_id": "1a0c5f64-7f3",
+      "source_kind": "live Google Sheets fetch",
+      "rows": 30,
+      "columns": [
+        "Student Name",
+        "Gender",
+        "Class Level",
+        "Home State",
+        "Major",
+        "Extracurricular Activity"
+      ],
+      "requests": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+          "status": 200
+        }
+      ],
+      "fetched_at": "2026-09-24T02:53:56.932+00:00",
+      "run_id": "8c372f9a-942",
+      "outputs": [
+        {
+          "app": "events-0",
+          "record_id": "cfaf1fff-aaf"
+        },
+        {
+          "app": "events-1",
+          "record_id": "60a5f6b9-aa2"
+        },
+        {
+          "app": "events-2",
+          "record_id": "5fe806c6-2e5"
+        }
+      ],
+      "cost": "No paid API dependency; public export availability is controlled by Google."
+    },
+    {
+      "provider": "openf1",
+      "scenario": "sports",
+      "source_id": "bee25e76-5c6",
+      "source_kind": "historical public API data",
+      "rows": 1,
+      "columns": [
+        "event_ref",
+        "Team / driver",
+        "Event / session",
+        "Event date",
+        "Result / best lap",
+        "Laps counted"
+      ],
+      "requests": [
+        {
+          "fetched_at": "2026-09-24T02:53:57.878+00:00",
+          "method": "GET",
+          "status": 200,
+          "url": "https://api.openf1.org/v1/drivers?session_key=9158&driver_number=1"
+        },
+        {
+          "fetched_at": "2026-09-24T02:53:58.544+00:00",
+          "method": "GET",
+          "status": 200,
+          "url": "https://api.openf1.org/v1/laps?session_key=9158&driver_number=1"
+        },
+        {
+          "fetched_at": "2026-09-24T02:53:59.157+00:00",
+          "method": "GET",
+          "status": 200,
+          "url": "https://api.openf1.org/v1/sessions?session_key=9158"
+        }
+      ],
+      "fetched_at": "2026-09-24T02:53:59.157+00:00",
+      "run_id": "f91cd3b6-226",
+      "outputs": [
+        {
+          "app": "sports-0",
+          "record_id": "77f22515-f05"
+        },
+        {
+          "app": "sports-1",
+          "record_id": "3c6bb4a6-537"
+        },
+        {
+          "app": "sports-2",
+          "record_id": "7d749820-b2f"
+        }
+      ],
+      "cost": "$0 historical access. Live data is a separate paid service."
+    }
+  ]
+}

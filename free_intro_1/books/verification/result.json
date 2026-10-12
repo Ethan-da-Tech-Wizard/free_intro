@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-09-24T16:18:09.658Z",
+  "status": "passed",
+  "books": [
+    {
+      "id": "works",
+      "title": "The Works",
+      "file": "THE_WORKS.html",
+      "chapters": 27,
+      "checkpoints": 360,
+      "words": 17290
+    },
+    {
+      "id": "business",
+      "title": "The Business Owner Playbook",
+      "file": "BUSINESS_PLAYBOOK.html",
+      "chapters": 23,
+      "checkpoints": 252,
+      "words": 11951
+    }
+  ],
+  "browser_errors": [],
+  "environment": "isolated temporary app databases and browser contexts"
+}

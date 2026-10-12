@@ -1,0 +1,17 @@
+PASS All 24 workplace stores retain the exact 126 final records; each PDF identifies its saved record; timer off.
+PASS file report: replay/play/pause/slider, journal search, exact 612 checklist IDs, status filters, mobile, and both observed-progress imports/persistence passed.
+node:internal/modules/run_main:111
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /audit/summary.json
+    at file:///home/ethan/pg/free_intro/free_intro_1/tests/rehearsal_report.mjs:51:53 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v26.10.0

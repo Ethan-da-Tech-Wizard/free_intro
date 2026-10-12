@@ -1,0 +1,3 @@
+﻿account_ref,addressee,recipient_phone,delivery_email,billing_address,city,region,postal_code,job_ref,fee,status
+C-014,Avery Example,'+1 480 555 0146,avery@example.invalid,100 Sample Lane,Mesa,AZ,85201,JOB-1043,95.0,Draft
+C-014,Avery Example,'+1 480 555 0146,avery@example.invalid,100 Sample Lane,Mesa,AZ,85201,JOB-1042,95.0,Draft

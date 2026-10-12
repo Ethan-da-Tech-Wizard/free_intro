@@ -1,0 +1,47 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [4 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1232 >>
+stream
+0.06 0.45 0.40 rg 0 730 612 62 re f
+BT /F1 19 Tf 1 1 1 rg 40 757 Td (Maple Properties / Contractor work order) Tj ET
+BT /F1 9 Tf 0.3 0.35 0.4 rg 40 706 Td (Synthetic demonstration data · Relayworks) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 677 Td (Reference: FIX-016) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 661 Td (Record ID: c36c155c-2d6) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 645 Td (Status: Assigned) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 629 Td () Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 613 Td (Ticket reference: FIX-016) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 597 Td (Property reference: PROP-03) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 581 Td (Unit: 2B) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 565 Td (Tenant contact: Morgan Example) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 549 Td (Phone: +1 480 555 0133) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 533 Td (Reported issue: Kitchen faucet leak) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 517 Td (Access window: 2026-10-07 13:00-16:00) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 501 Td (Contractor: Demo Plumbing) Tj ET
+BT /F1 10 Tf 0.13 0.18 0.23 rg 40 485 Td () Tj ET
+BT /F1 9 Tf 0.4 0.4 0.4 rg 40 35 Td (Relayworks / page 1 / inspect source and run history for provenance) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000185 00000 n 
+0000000311 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+1595
+%%EOF

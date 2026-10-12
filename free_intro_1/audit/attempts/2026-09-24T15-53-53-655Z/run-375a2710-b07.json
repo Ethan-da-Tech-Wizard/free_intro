@@ -1,0 +1,777 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T15:54:14.032+00:00",
+  "elapsed_ms": 36,
+  "id": "375a2710-b07",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "hvac-0",
+      "record": {
+        "created": "2026-09-24T15:54:14.037+00:00",
+        "external_key": "C-014",
+        "id": "41511259-6d4",
+        "payload": {
+          "_source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "access_notes": "Side gate; call on arrival",
+          "city": "Mesa",
+          "customer_ref": "C-014",
+          "display_name": "Avery Example",
+          "email": "avery@example.invalid",
+          "phone": "+14805550146",
+          "postal_code": "85201",
+          "region": "AZ",
+          "service_references": [
+            "JOB-1042"
+          ],
+          "status": "Active customer",
+          "street": "100 Sample Lane"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:54:14.037+00:00"
+      }
+    },
+    {
+      "app_id": "hvac-1",
+      "record": {
+        "created": "2026-09-24T15:54:14.047+00:00",
+        "external_key": "JOB-1042",
+        "id": "4aa3a6a2-fbe",
+        "payload": {
+          "_linked_records": {
+            "hvac-0": "41511259-6d4"
+          },
+          "_source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "city": "Mesa",
+          "contact_email": "avery@example.invalid",
+          "contact_name": "Avery Example",
+          "contact_phone": "+14805550146",
+          "equipment": "Outdoor condenser • Unit A",
+          "external_customer_ref": "C-014",
+          "issue": "AC is blowing warm air",
+          "job_ref": "JOB-1042",
+          "postal_code": "85201",
+          "region": "AZ",
+          "site_address": "100 Sample Lane",
+          "slot": "2026-10-06 10:00",
+          "status": "Scheduled",
+          "technician": "Morgan Lee"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:54:14.047+00:00"
+      }
+    },
+    {
+      "app_id": "hvac-2",
+      "record": {
+        "created": "2026-09-24T15:54:14.058+00:00",
+        "external_key": "JOB-1042",
+        "id": "cfc96469-b8c",
+        "payload": {
+          "_linked_records": {
+            "hvac-0": "41511259-6d4",
+            "hvac-1": "4aa3a6a2-fbe"
+          },
+          "_source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "account_ref": "C-014",
+          "addressee": "Avery Example",
+          "billing_address": "100 Sample Lane",
+          "city": "Mesa",
+          "delivery_email": "avery@example.invalid",
+          "fee": 95,
+          "job_ref": "JOB-1042",
+          "postal_code": "85201",
+          "recipient_phone": "+14805550146",
+          "region": "AZ",
+          "status": "Draft",
+          "total_usd": "95.00"
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:54:14.058+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": true,
+    "_review_reason": "Review extracted values and resolve source issues: Check the original document.",
+    "access_notes": "Side gate; call on arrival",
+    "city": "Mesa",
+    "customer_ref": "C-014",
+    "email": "avery@example.invalid",
+    "equipment": "Outdoor condenser • Unit A",
+    "fee": 95,
+    "full_name": "Avery Example",
+    "issue": "AC is blowing warm air",
+    "job_ref": "JOB-1042",
+    "phone": "+14805550146",
+    "postal_code": "85201",
+    "region": "AZ",
+    "slot": "2026-10-06 10:00",
+    "street": "100 Sample Lane",
+    "technician": "Morgan Lee"
+  },
+  "scenario": "hvac",
+  "source": {
+    "extraction_tool": "pdftotext",
+    "fetched_at": "2026-09-24T15:54:13.466+00:00",
+    "id": "f7bc7303-e1f",
+    "kind": "uploaded document",
+    "mapped_fields": [
+      "customer_ref",
+      "full_name",
+      "phone",
+      "email",
+      "street",
+      "city",
+      "region",
+      "postal_code",
+      "job_ref",
+      "issue",
+      "equipment",
+      "technician",
+      "slot",
+      "fee",
+      "access_notes"
+    ],
+    "name": "hvac-intake.pdf",
+    "row_number": 2,
+    "synthetic_defaults": []
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T15:54:14.039+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "C-014",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "375a2710-b07:0",
+          "payload": {
+            "access_notes": "Side gate; call on arrival",
+            "city": "Mesa",
+            "customer_ref": "C-014",
+            "display_name": "Avery Example",
+            "email": "avery@example.invalid",
+            "phone": "+14805550146",
+            "postal_code": "85201",
+            "region": "AZ",
+            "street": "100 Sample Lane"
+          },
+          "source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:54:14.037+00:00",
+            "external_key": "C-014",
+            "id": "41511259-6d4",
+            "payload": {
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "access_notes": "Side gate; call on arrival",
+              "city": "Mesa",
+              "customer_ref": "C-014",
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+14805550146",
+              "postal_code": "85201",
+              "region": "AZ",
+              "service_references": [
+                "JOB-1042"
+              ],
+              "status": "Active customer",
+              "street": "100 Sample Lane"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.037+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 43,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-0/records",
+      "run_id": "375a2710-b07",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:54:14.042+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:54:14.037+00:00",
+            "external_key": "C-014",
+            "id": "41511259-6d4",
+            "payload": {
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "access_notes": "Side gate; call on arrival",
+              "city": "Mesa",
+              "customer_ref": "C-014",
+              "display_name": "Avery Example",
+              "email": "avery@example.invalid",
+              "phone": "+14805550146",
+              "postal_code": "85201",
+              "region": "AZ",
+              "service_references": [
+                "JOB-1042"
+              ],
+              "status": "Active customer",
+              "street": "100 Sample Lane"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.037+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 44,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-0/records/41511259-6d4",
+      "run_id": "375a2710-b07",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:54:14.050+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "JOB-1042",
+          "kind": "intake",
+          "links": {
+            "hvac-0": "41511259-6d4"
+          },
+          "operation_id": "375a2710-b07:1",
+          "payload": {
+            "city": "Mesa",
+            "contact_email": "avery@example.invalid",
+            "contact_name": "Avery Example",
+            "contact_phone": "+14805550146",
+            "equipment": "Outdoor condenser • Unit A",
+            "external_customer_ref": "C-014",
+            "issue": "AC is blowing warm air",
+            "job_ref": "JOB-1042",
+            "postal_code": "85201",
+            "region": "AZ",
+            "site_address": "100 Sample Lane",
+            "slot": "2026-10-06 10:00",
+            "technician": "Morgan Lee"
+          },
+          "source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "upstream_status": "Active customer"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:54:14.047+00:00",
+            "external_key": "JOB-1042",
+            "id": "4aa3a6a2-fbe",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "41511259-6d4"
+              },
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "city": "Mesa",
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "contact_phone": "+14805550146",
+              "equipment": "Outdoor condenser • Unit A",
+              "external_customer_ref": "C-014",
+              "issue": "AC is blowing warm air",
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "region": "AZ",
+              "site_address": "100 Sample Lane",
+              "slot": "2026-10-06 10:00",
+              "status": "Scheduled",
+              "technician": "Morgan Lee"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.047+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 45,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-1/records",
+      "run_id": "375a2710-b07",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:54:14.053+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:54:14.047+00:00",
+            "external_key": "JOB-1042",
+            "id": "4aa3a6a2-fbe",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "41511259-6d4"
+              },
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "city": "Mesa",
+              "contact_email": "avery@example.invalid",
+              "contact_name": "Avery Example",
+              "contact_phone": "+14805550146",
+              "equipment": "Outdoor condenser • Unit A",
+              "external_customer_ref": "C-014",
+              "issue": "AC is blowing warm air",
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "region": "AZ",
+              "site_address": "100 Sample Lane",
+              "slot": "2026-10-06 10:00",
+              "status": "Scheduled",
+              "technician": "Morgan Lee"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.047+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 46,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-1/records/4aa3a6a2-fbe",
+      "run_id": "375a2710-b07",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:54:14.061+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "JOB-1042",
+          "external_key": "JOB-1042",
+          "kind": "intake",
+          "links": {
+            "hvac-0": "41511259-6d4",
+            "hvac-1": "4aa3a6a2-fbe"
+          },
+          "operation_id": "375a2710-b07:2",
+          "payload": {
+            "account_ref": "C-014",
+            "addressee": "Avery Example",
+            "billing_address": "100 Sample Lane",
+            "city": "Mesa",
+            "delivery_email": "avery@example.invalid",
+            "fee": 95,
+            "job_ref": "JOB-1042",
+            "postal_code": "85201",
+            "recipient_phone": "+14805550146",
+            "region": "AZ"
+          },
+          "source": {
+            "extraction_tool": "pdftotext",
+            "fetched_at": "2026-09-24T15:54:13.466+00:00",
+            "id": "f7bc7303-e1f",
+            "kind": "uploaded document",
+            "mapped_fields": [
+              "customer_ref",
+              "full_name",
+              "phone",
+              "email",
+              "street",
+              "city",
+              "region",
+              "postal_code",
+              "job_ref",
+              "issue",
+              "equipment",
+              "technician",
+              "slot",
+              "fee",
+              "access_notes"
+            ],
+            "name": "hvac-intake.pdf",
+            "row_number": 2,
+            "synthetic_defaults": []
+          },
+          "upstream_status": "Scheduled"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:54:14.058+00:00",
+            "external_key": "JOB-1042",
+            "id": "cfc96469-b8c",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "41511259-6d4",
+                "hvac-1": "4aa3a6a2-fbe"
+              },
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "account_ref": "C-014",
+              "addressee": "Avery Example",
+              "billing_address": "100 Sample Lane",
+              "city": "Mesa",
+              "delivery_email": "avery@example.invalid",
+              "fee": 95,
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "recipient_phone": "+14805550146",
+              "region": "AZ",
+              "status": "Draft",
+              "total_usd": "95.00"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.058+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 47,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/hvac-2/records",
+      "run_id": "375a2710-b07",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:54:14.066+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:54:14.058+00:00",
+            "external_key": "JOB-1042",
+            "id": "cfc96469-b8c",
+            "payload": {
+              "_linked_records": {
+                "hvac-0": "41511259-6d4",
+                "hvac-1": "4aa3a6a2-fbe"
+              },
+              "_source": {
+                "extraction_tool": "pdftotext",
+                "fetched_at": "2026-09-24T15:54:13.466+00:00",
+                "id": "f7bc7303-e1f",
+                "kind": "uploaded document",
+                "mapped_fields": [
+                  "customer_ref",
+                  "full_name",
+                  "phone",
+                  "email",
+                  "street",
+                  "city",
+                  "region",
+                  "postal_code",
+                  "job_ref",
+                  "issue",
+                  "equipment",
+                  "technician",
+                  "slot",
+                  "fee",
+                  "access_notes"
+                ],
+                "name": "hvac-intake.pdf",
+                "row_number": 2,
+                "synthetic_defaults": []
+              },
+              "account_ref": "C-014",
+              "addressee": "Avery Example",
+              "billing_address": "100 Sample Lane",
+              "city": "Mesa",
+              "delivery_email": "avery@example.invalid",
+              "fee": 95,
+              "job_ref": "JOB-1042",
+              "postal_code": "85201",
+              "recipient_phone": "+14805550146",
+              "region": "AZ",
+              "status": "Draft",
+              "total_usd": "95.00"
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:54:14.058+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 48,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/hvac-2/records/cfc96469-b8c",
+      "run_id": "375a2710-b07",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T15:54:14.070+00:00"
+}

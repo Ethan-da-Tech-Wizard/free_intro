@@ -1,0 +1,16 @@
+Touchline Daily / Session schedule
+Synthetic demonstration data • Relayworks
+
+Reference: DEMO-RACE-01
+Record ID: a73eca01-d8f
+Status: Schedule updated
+Event reference: DEMO-RACE-01
+Team / driver: Synthetic Racing
+Event / session: Demo Grand Prix
+Event date: 2026-10-04 14:00
+Display timezone: America/Phoenix
+Local Start: 2026-10-04T14:00:00-07:00
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

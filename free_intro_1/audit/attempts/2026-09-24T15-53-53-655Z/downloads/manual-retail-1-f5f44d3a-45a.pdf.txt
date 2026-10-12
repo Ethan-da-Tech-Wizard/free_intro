@@ -1,0 +1,18 @@
+Corner Supply / Stock movement
+Synthetic demonstration data • Relayworks
+
+Reference: FLT-20
+Record ID: f5f44d3a-45a
+Status: Stock updated
+Receipt reference: REC-088
+Internal SKU: FLT-20
+Item name: 20-inch replacement filter
+Counted quantity: 12.0
+Location: Main stockroom
+Reserved units: 2.0
+Available Quantity: 10.0
+Stock Quantity: 12.0
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+
