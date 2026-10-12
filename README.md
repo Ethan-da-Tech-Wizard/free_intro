@@ -1,71 +1,49 @@
 # Relayworks
 
-A working, free automation showcase: eight business workflows, 24 clickable workplace apps, messy spreadsheet and document imports, real Google Sheets and OpenF1 reads, and actual before/after screenshots.
+A local automation showcase with workplace demos, spreadsheet and document imports, workflow examples, and illustrated guidebooks.
 
-## Start with the two checklist books
+**Status:** Local workflow demonstration  
+**Built with:** Python standard library, HTML/CSS/JavaScript, optional OCR tools
 
-Open [START_HERE.html](START_HERE.html) in your browser, or use **Guides & checklists** inside the demo. The books also work as files while the server is stopped.
+[Project guide](docs/PROJECT_GUIDE.md) · [Every file explained](docs/FILE_GUIDE.md) · [Licenses and dependencies](docs/LICENSE_REVIEW.md)
 
-- [The Works](THE_WORKS.html): 27 chapters, exact Dolphin/Kitty startup steps, every manual and automated workflow, source imports, recovery, diagrams, backups, and all 24 apps' field references. [Printable PDF](books/THE_WORKS.pdf).
-- [The Business Owner Playbook](BUSINESS_PLAYBOOK.html): 23 chapters of discovery questions, demonstrations, talking points for each app/tool/process, cost and capacity explanations, objections, SDLC responsibilities, and meeting worksheets. [Printable PDF](books/BUSINESS_PLAYBOOK.pdf).
+## Start here
 
-Both have a table of contents, search, saved checkmarks and notes, progress export/import, and printing. Progress belongs to the browser/address used; export it before switching browsers. Blank PDF and complete Markdown editions are in `books/`. Actual CSV, XLSX, PDF, and scanned-image practice inputs are ready in `practice_files/`.
+- [START_HERE.html](START_HERE.html) — Browser document: Start here · Relayworks; provides page structure and may include inline styles or application logic.
+- [PROJECT_NOTES.md](PROJECT_NOTES.md) — Preserved detailed setup, usage, architecture, and development notes from the earlier README.
+- [app/server.py](app/server.py) — Relayworks: local portal + separately authenticated workplace HTTP API. Defines `Server`, `Handler`, `csv_bytes`, `scheduler`, `main`.
+- [books/THE_WORKS.md](books/THE_WORKS.md) — Documentation: The Works. Covers 00. How to use this book; Your controls; The learning route.
 
-Double-click `START_RELAYWORKS.desktop` from Dolphin, or run `python3 scripts/launch.py` from this project folder. The launcher opens the browser and reuses the existing normal instance without resetting records. `--status` checks it; `--stop` gracefully stops only this workspace's normal server. The Works chapter 01 explains desktop execution prompts and the terminal alternative.
-
-## Run it
+The following commands are taken from this project’s source/configuration. Install its prerequisites first.
 
 ```sh
 python3 app/server.py
-```
-
-Open **http://127.0.0.1:8765**. `npm start` runs the same command. Python 3.10+ with its standard library is the only application runtime dependency. The portal uses port 8765 and the authenticated workplace API uses 8766; both bind to loopback.
-
-The existing machine has Poppler and Tesseract for PDF text extraction and scan OCR. Without those optional system tools, CSV, Excel, public sources, generated documents, and manual entry still work; unavailable importers report what they need. No paid account, API key, AI service, subscription, trial credit, or runtime package download is required.
-
-## Present it
-
-Start with **HVAC & field service → Do it manually**. Type the customer facts into the three separate apps, reset the workplaces, then use **Automate it**. Open all three saved records. Complete the visit to update the invoice draft. In **Under the hood**, revoke access or take a destination offline, submit new input, restore access, and resume.
-
-**Sources & connections** includes a public Google Sheet, historical F1 data, and generated ugly workbooks for every business. Imports show the untouched source, cleaned values, review flags, mappings, and labelled synthetic defaults. Retained provider responses can be replayed without internet; they are labelled recordings.
-
-- [Presenter guide](docs/PRESENTER_GUIDE.md): presentation routes and recovery instructions.
-- [Implementation and acceptance](docs/IMPLEMENTATION.md): running structure, checks, boundaries, and scaling.
-- [Team charter](TEAM_CHARTER.md): senior engineering roles and SDLC responsibilities.
-- [Eight workflows](docs/WORKFLOW_CATALOG.md): before/after structures, rules, and candidate tools.
-- [Research and costs](docs/RESEARCH.md): official sources, provider limits, and access requirements.
-- [Evidence manifest](evidence/manifest.json): screenshot URLs, timestamps, record IDs, and hashes.
-- [Editable flowcharts](diagrams/showcase.archi.json): ten views for the existing Archi app.
-
-## What is connected
-
-Google's public sample Sheet is fetched over HTTPS as CSV. OpenF1 supplies historical session, driver, and lap data. Poppler extracts PDF text, Tesseract reads scans, and Python reads/writes CSV/XLSX and generates PDFs and calendar files. The browser operates real local HTTP services and 24 independent SQLite stores.
-
-The business apps are fictional demo workplaces. OpenEMR, ERPNext, Baserow, docassemble, WooCommerce, and eBay are researched candidates; this project does not claim to have connected those vendors or obtained their approval. Private Google authorization, internet email delivery, real payments, shipping labels, and production hosting are outside the local presentation.
-
-## Reproduce the checks and evidence
-
-```sh
+# Tests:
 python3 -m unittest discover -s tests -v
-npm install
-npx playwright install chromium
-npm run test:browser
-node scripts/verify_sources.mjs
-npm run capture
 ```
 
-Only the browser development tools need npm. Start the demo before browser/source checks. Integration tests use temporary databases and ports. Browser checks and capture runs reset only the demonstration's own records. Captures retain screenshots and history; no external data is deleted. Source verification makes read-only public requests and saves labelled recordings under `fixtures/public/`.
+[Detailed setup, usage, and development notes](PROJECT_NOTES.md) preserve the previous project documentation.
 
-`node scripts/verify_schedule.mjs` also checks one actual one-minute Google Sheets timer and disables it afterward. The verified run populated 30 rows in each event app. [Validation record](docs/VALIDATION.md) lists the executed checks.
+## Repository layout
 
-For an isolated second instance:
+| Path | Role |
+| --- | --- |
+| [app/](app/) | Application modules and user interface (5 tracked entries). |
+| [books/](books/) | Guidebooks, printable editions, and their supporting files (16 tracked entries). |
+| [diagrams/](diagrams/) | Project-specific diagrams components (11 tracked entries). |
+| [docs/](docs/) | Project documentation, decisions, and reference material (22 tracked entries). |
+| [evidence/](evidence/) | Project-specific evidence components (136 tracked entries). |
+| [fixtures/](fixtures/) | Project-specific fixtures components (4 tracked entries). |
+| [free_intro_1/](free_intro_1/) | Project-specific free intro 1 components (925 tracked entries). |
+| [practice_files/](practice_files/) | Practice input documents and spreadsheets (26 tracked entries). |
+| [scripts/](scripts/) | Build, launch, maintenance, and verification commands (9 tracked entries). |
+| [tests/](tests/) | Automated checks and test fixtures (4 tracked entries). |
+| [web/](web/) | Browser application source (5 tracked entries). |
 
-```sh
-python3 app/server.py --port 8865 --workplace-port 8866 --data-dir /tmp/relayworks-practice
-```
+## Scope and current limits
 
-**Reset workplaces** clears that scenario's 3 local databases and archives previous runs. Persistent state lives in `runtime/`. Restarting retains records and traces and marks interrupted jobs ready to resume. Keep the server running for scheduled pulls; scheduling is opt-in.
+Examples and practice records are demonstration material. Google Sheets and OpenF1 reads require their own network access and provider terms. Optional Poppler and Tesseract are installed separately.
 
-Regenerate diagrams with `python3 scripts/build_planning_assets.py --archi /home/ethan/pg/archi/build/archi`. This replaces generated diagrams and the catalog; preserve hand-edited Archi boards separately.
+## License
 
-Book maintenance: edit `docs/THE_WORKS.md` or `docs/BUSINESS_PLAYBOOK.md`, then run `python3 scripts/build_books.py` and `node scripts/print_books.mjs`. The builder expands the field reference from `app/config.py`; editable sources contain these expansion markers, while `books/*.md` contain the complete expanded text. Reader styling/behavior live in `web/books.css` and `web/books.js`. `node tests/books.mjs` verifies the file/web readers and selected step-by-step lessons using isolated temporary application stores and browser profiles; it does not reset your normal demo. `python3 scripts/make_practice_files.py` regenerates the supplied practice inputs.
+Original project code retains **MIT** terms in [LICENSE](LICENSE). Third-party libraries, media, data, models, and tools retain their own terms. See the [license review](docs/LICENSE_REVIEW.md) and [dependency inventory](docs/DEPENDENCIES.csv).

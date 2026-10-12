@@ -1,0 +1,9 @@
+ecosystem,name,requirement,version,scope,manifest,license,metadata_version,evidence,evidence_kind,resolution_note
+npm,@playwright/test,1.63.0,1.63.0,lockfile,free_intro_1/package-lock.json,Apache-2.0,,https://registry.npmjs.org/%40playwright%2Ftest/1.63.0,,
+npm,playwright,1.63.0,1.63.0,lockfile,free_intro_1/package-lock.json,Apache-2.0,,https://registry.npmjs.org/playwright/1.63.0,,
+npm,playwright-core,1.63.0,1.63.0,lockfile,free_intro_1/package-lock.json,Apache-2.0,,https://registry.npmjs.org/playwright-core/1.63.0,,
+npm,@playwright/test,1.63.0,1.63.0,devDependencies,free_intro_1/package.json,Apache-2.0,1.63.0,https://registry.npmjs.org/%40playwright%2Ftest/1.63.0,,
+npm,@playwright/test,1.63.0,1.63.0,lockfile,package-lock.json,Apache-2.0,,https://registry.npmjs.org/%40playwright%2Ftest/1.63.0,,
+npm,playwright,1.63.0,1.63.0,lockfile,package-lock.json,Apache-2.0,,https://registry.npmjs.org/playwright/1.63.0,,
+npm,playwright-core,1.63.0,1.63.0,lockfile,package-lock.json,Apache-2.0,,https://registry.npmjs.org/playwright-core/1.63.0,,
+npm,@playwright/test,1.63.0,1.63.0,devDependencies,package.json,Apache-2.0,1.63.0,https://registry.npmjs.org/%40playwright%2Ftest/1.63.0,,
