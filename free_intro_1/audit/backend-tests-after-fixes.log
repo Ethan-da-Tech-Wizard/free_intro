@@ -1,0 +1,25 @@
+test_exported_workbook_opens_in_actual_libreoffice (test_operations.Operations.test_exported_workbook_opens_in_actual_libreoffice) ... ok
+test_scan_ocr_reads_real_rasterized_intake (test_operations.Operations.test_scan_ocr_reads_real_rasterized_intake) ... ok
+test_server_process_restart_retains_records_and_resumes_failed_job (test_operations.Operations.test_server_process_restart_retains_records_and_resumes_failed_job) ... ok
+test_legal_and_sports_dirty_emails_are_held_at_source_review (test_rehearsal_fixes.RehearsalFixes.test_legal_and_sports_dirty_emails_are_held_at_source_review) ... ok
+test_pdf_preserves_supported_accent_and_middle_dot (test_rehearsal_fixes.RehearsalFixes.test_pdf_preserves_supported_accent_and_middle_dot) ... ok
+test_all_eight_workflows_write_and_read_back_three_independent_records (test_workflows.Workflows.test_all_eight_workflows_write_and_read_back_three_independent_records) ... ok
+test_capacity_waitlist_and_checkin (test_workflows.Workflows.test_capacity_waitlist_and_checkin) ... ok
+test_concurrent_appointments_cannot_double_book (test_workflows.Workflows.test_concurrent_appointments_cannot_double_book) ... ok
+test_document_review_and_invoice_matching_block_invalid_input (test_workflows.Workflows.test_document_review_and_invoice_matching_block_invalid_input) ... ok
+test_excel_cleanup_mapping_and_held_rows (test_workflows.Workflows.test_excel_cleanup_mapping_and_held_rows) ... ok
+test_grant_and_outage_resume_only_unfinished_steps (test_workflows.Workflows.test_grant_and_outage_resume_only_unfinished_steps) ... ok
+test_intervening_destination_edit_is_not_reported_as_verified (test_workflows.Workflows.test_intervening_destination_edit_is_not_reported_as_verified) ... ok
+test_manual_entry_stays_in_its_own_app (test_workflows.Workflows.test_manual_entry_stays_in_its_own_app) ... ok
+test_real_pdf_import_export_and_excel_export (test_workflows.Workflows.test_real_pdf_import_export_and_excel_export) ... ok
+test_reset_invalidates_deduplication_but_retains_run_history (test_workflows.Workflows.test_reset_invalidates_deduplication_but_retains_run_history) ... ok
+test_source_allowlist_and_cross_origin_protection (test_workflows.Workflows.test_source_allowlist_and_cross_origin_protection) ... ok
+test_static_json_evidence_download_preserves_bytes_and_json_type (test_workflows.Workflows.test_static_json_evidence_download_preserves_bytes_and_json_type) ... ok
+test_stock_delivery_business_identity_prevents_double_counting (test_workflows.Workflows.test_stock_delivery_business_identity_prevents_double_counting) ... ok
+test_unique_item_has_only_one_sale_and_packing_slip (test_workflows.Workflows.test_unique_item_has_only_one_sale_and_packing_slip) ... ok
+test_visit_completion_generates_exact_invoice_and_replays_safely (test_workflows.Workflows.test_visit_completion_generates_exact_invoice_and_replays_safely) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 5.180s
+
+OK

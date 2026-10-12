@@ -1,0 +1,466 @@
+{
+  "action": {
+    "buyer": "Taylor Example",
+    "event_id": "sale-USED-072",
+    "sale_ref": "SALE-019",
+    "ship_to": "10 Example Terrace"
+  },
+  "created": "2026-09-24T16:05:26.508+00:00",
+  "elapsed_ms": 44,
+  "id": "7d629747-64c",
+  "kind": "sale",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "reseller-0",
+      "record": {
+        "created": "2026-09-24T16:05:26.400+00:00",
+        "external_key": "USED-072",
+        "id": "be187bad-b13",
+        "payload": {
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "buyer": "Taylor Example",
+          "condition": "Used — good",
+          "description": "Solid oak; small mark on rear leg",
+          "dimensions": "45 x 40 x 52 cm",
+          "event_id": "sale-USED-072",
+          "price": 65,
+          "sale_ref": "SALE-019",
+          "ship_to": "10 Example Terrace",
+          "sku": "USED-072",
+          "status": "Sold",
+          "stock_quantity": 0,
+          "title": "Vintage oak side table",
+          "weight": 7.2
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:26.521+00:00"
+      }
+    },
+    {
+      "app_id": "reseller-1",
+      "record": {
+        "created": "2026-09-24T16:05:26.420+00:00",
+        "external_key": "USED-072",
+        "id": "f6f05aea-526",
+        "payload": {
+          "_linked_records": {
+            "reseller-0": "be187bad-b13"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "buyer": "Taylor Example",
+          "condition": "Used — good",
+          "description": "Solid oak; small mark on rear leg",
+          "dimensions": "45 x 40 x 52 cm",
+          "event_id": "sale-USED-072",
+          "price": 65,
+          "sale_ref": "SALE-019",
+          "ship_to": "10 Example Terrace",
+          "sku": "USED-072",
+          "status": "Sold",
+          "title": "Vintage oak side table",
+          "weight": 7.2
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:26.535+00:00"
+      }
+    },
+    {
+      "app_id": "reseller-2",
+      "record": {
+        "created": "2026-09-24T16:05:26.439+00:00",
+        "external_key": "USED-072",
+        "id": "c326636b-4f4",
+        "payload": {
+          "_linked_records": {
+            "reseller-0": "be187bad-b13",
+            "reseller-1": "f6f05aea-526"
+          },
+          "_source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "buyer": "Taylor Example",
+          "dimensions": "45 x 40 x 52 cm",
+          "event_id": "sale-USED-072",
+          "price": 65,
+          "return_address": "55 Sample Street",
+          "sale_ref": "SALE-019",
+          "seller": "Casey Example",
+          "ship_to": "10 Example Terrace",
+          "sku": "USED-072",
+          "status": "Ready to pack",
+          "title": "Vintage oak side table",
+          "weight": 7.2
+        },
+        "revision": 2,
+        "updated": "2026-09-24T16:05:26.546+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "condition": "Used — good",
+    "description": "Solid oak; small mark on rear leg",
+    "dimensions": "45 x 40 x 52 cm",
+    "price": 65,
+    "return_address": "55 Sample Street",
+    "seller": "Casey Example",
+    "sku": "USED-072",
+    "title": "Vintage oak side table",
+    "weight": 7.2
+  },
+  "scenario": "reseller",
+  "source": {
+    "kind": "final rehearsal presentation fixture"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T16:05:26.524+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "buyer": "Taylor Example",
+            "event_id": "sale-USED-072",
+            "sale_ref": "SALE-019",
+            "ship_to": "10 Example Terrace"
+          },
+          "business_reference": "USED-072",
+          "external_key": "USED-072",
+          "kind": "sale",
+          "links": {},
+          "operation_id": "7d629747-64c:0",
+          "payload": {
+            "condition": "Used — good",
+            "description": "Solid oak; small mark on rear leg",
+            "dimensions": "45 x 40 x 52 cm",
+            "price": 65,
+            "sku": "USED-072",
+            "title": "Vintage oak side table",
+            "weight": 7.2
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:26.400+00:00",
+            "external_key": "USED-072",
+            "id": "be187bad-b13",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "condition": "Used — good",
+              "description": "Solid oak; small mark on rear leg",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "sale_ref": "SALE-019",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Sold",
+              "stock_quantity": 0,
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.521+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 6,
+      "id": 585,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/reseller-0/records",
+      "run_id": "7d629747-64c",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:26.530+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:26.400+00:00",
+            "external_key": "USED-072",
+            "id": "be187bad-b13",
+            "payload": {
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "condition": "Used — good",
+              "description": "Solid oak; small mark on rear leg",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "sale_ref": "SALE-019",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Sold",
+              "stock_quantity": 0,
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.521+00:00"
+          }
+        }
+      },
+      "duration_ms": 3,
+      "id": 586,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/reseller-0/records/be187bad-b13",
+      "run_id": "7d629747-64c",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:26.537+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "buyer": "Taylor Example",
+            "event_id": "sale-USED-072",
+            "sale_ref": "SALE-019",
+            "ship_to": "10 Example Terrace"
+          },
+          "business_reference": "USED-072",
+          "external_key": "USED-072",
+          "kind": "sale",
+          "links": {
+            "reseller-0": "be187bad-b13"
+          },
+          "operation_id": "7d629747-64c:1",
+          "payload": {
+            "condition": "Used — good",
+            "description": "Solid oak; small mark on rear leg",
+            "dimensions": "45 x 40 x 52 cm",
+            "price": 65,
+            "sku": "USED-072",
+            "title": "Vintage oak side table",
+            "weight": 7.2
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Sold"
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:26.420+00:00",
+            "external_key": "USED-072",
+            "id": "f6f05aea-526",
+            "payload": {
+              "_linked_records": {
+                "reseller-0": "be187bad-b13"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "condition": "Used — good",
+              "description": "Solid oak; small mark on rear leg",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "sale_ref": "SALE-019",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Sold",
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.535+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 587,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/reseller-1/records",
+      "run_id": "7d629747-64c",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:26.541+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:26.420+00:00",
+            "external_key": "USED-072",
+            "id": "f6f05aea-526",
+            "payload": {
+              "_linked_records": {
+                "reseller-0": "be187bad-b13"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "condition": "Used — good",
+              "description": "Solid oak; small mark on rear leg",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "sale_ref": "SALE-019",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Sold",
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.535+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 588,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/reseller-1/records/f6f05aea-526",
+      "run_id": "7d629747-64c",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T16:05:26.549+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "buyer": "Taylor Example",
+            "event_id": "sale-USED-072",
+            "sale_ref": "SALE-019",
+            "ship_to": "10 Example Terrace"
+          },
+          "business_reference": "USED-072",
+          "external_key": "USED-072",
+          "kind": "sale",
+          "links": {
+            "reseller-0": "be187bad-b13",
+            "reseller-1": "f6f05aea-526"
+          },
+          "operation_id": "7d629747-64c:2",
+          "payload": {
+            "dimensions": "45 x 40 x 52 cm",
+            "price": 65,
+            "return_address": "55 Sample Street",
+            "seller": "Casey Example",
+            "sku": "USED-072",
+            "title": "Vintage oak side table",
+            "weight": 7.2
+          },
+          "source": {
+            "kind": "final rehearsal presentation fixture"
+          },
+          "upstream_status": "Sold"
+        },
+        "response": {
+          "created": false,
+          "record": {
+            "created": "2026-09-24T16:05:26.439+00:00",
+            "external_key": "USED-072",
+            "id": "c326636b-4f4",
+            "payload": {
+              "_linked_records": {
+                "reseller-0": "be187bad-b13",
+                "reseller-1": "f6f05aea-526"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "return_address": "55 Sample Street",
+              "sale_ref": "SALE-019",
+              "seller": "Casey Example",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Ready to pack",
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.546+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 589,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/reseller-2/records",
+      "run_id": "7d629747-64c",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T16:05:26.552+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T16:05:26.439+00:00",
+            "external_key": "USED-072",
+            "id": "c326636b-4f4",
+            "payload": {
+              "_linked_records": {
+                "reseller-0": "be187bad-b13",
+                "reseller-1": "f6f05aea-526"
+              },
+              "_source": {
+                "kind": "final rehearsal presentation fixture"
+              },
+              "buyer": "Taylor Example",
+              "dimensions": "45 x 40 x 52 cm",
+              "event_id": "sale-USED-072",
+              "price": 65,
+              "return_address": "55 Sample Street",
+              "sale_ref": "SALE-019",
+              "seller": "Casey Example",
+              "ship_to": "10 Example Terrace",
+              "sku": "USED-072",
+              "status": "Ready to pack",
+              "title": "Vintage oak side table",
+              "weight": 7.2
+            },
+            "revision": 2,
+            "updated": "2026-09-24T16:05:26.546+00:00"
+          }
+        }
+      },
+      "duration_ms": 2,
+      "id": 590,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/reseller-2/records/c326636b-4f4",
+      "run_id": "7d629747-64c",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T16:05:26.557+00:00"
+}

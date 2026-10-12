@@ -1,0 +1,417 @@
+{
+  "action": {
+    "event_id": null
+  },
+  "created": "2026-09-24T15:56:00.877+00:00",
+  "elapsed_ms": 35,
+  "id": "a1cad9b2-b32",
+  "kind": "intake",
+  "message": "All three destinations were saved and read back.",
+  "outputs": [
+    {
+      "app_id": "retail-0",
+      "record": {
+        "created": "2026-09-24T15:56:00.882+00:00",
+        "external_key": "REC-088",
+        "id": "65dd8377-9e7",
+        "payload": {
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "item_name": "20-inch replacement filter",
+          "po_ref": "PO-031",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "sku": "FLT-20",
+          "status": "Received",
+          "supplier": "Example Wholesale",
+          "unit_cost": 8.5
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:00.882+00:00"
+      }
+    },
+    {
+      "app_id": "retail-1",
+      "record": {
+        "created": "2026-09-24T15:56:00.893+00:00",
+        "external_key": "FLT-20",
+        "id": "757f4db0-c6c",
+        "payload": {
+          "_linked_records": {
+            "retail-0": "65dd8377-9e7"
+          },
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "available_quantity": 10,
+          "item_name": "20-inch replacement filter",
+          "location": "Main stockroom",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "reserved": 2,
+          "sku": "FLT-20",
+          "status": "Stock updated",
+          "stock_quantity": 12
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:00.893+00:00"
+      }
+    },
+    {
+      "app_id": "retail-2",
+      "record": {
+        "created": "2026-09-24T15:56:00.904+00:00",
+        "external_key": "FLT-20",
+        "id": "05ceeadc-705",
+        "payload": {
+          "_linked_records": {
+            "retail-0": "65dd8377-9e7",
+            "retail-1": "757f4db0-c6c"
+          },
+          "_source": {
+            "kind": "synthetic demo intake"
+          },
+          "available_quantity": 10,
+          "item_name": "20-inch replacement filter",
+          "quantity": 12,
+          "receipt_ref": "REC-088",
+          "reserved": 2,
+          "sku": "FLT-20",
+          "status": "Available online",
+          "stock_quantity": 12
+        },
+        "revision": 1,
+        "updated": "2026-09-24T15:56:00.904+00:00"
+      }
+    }
+  ],
+  "payload": {
+    "_review_confirmed": false,
+    "item_name": "20-inch replacement filter",
+    "location": "Main stockroom",
+    "po_ref": "PO-031",
+    "quantity": 12,
+    "receipt_ref": "REC-088",
+    "reserved": 2,
+    "sku": "FLT-20",
+    "supplier": "Example Wholesale",
+    "unit_cost": 8.5
+  },
+  "scenario": "retail",
+  "source": {
+    "kind": "synthetic demo intake"
+  },
+  "status": "complete",
+  "steps": [
+    {
+      "created": "2026-09-24T15:56:00.884+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "REC-088",
+          "kind": "intake",
+          "links": {},
+          "operation_id": "a1cad9b2-b32:0",
+          "payload": {
+            "item_name": "20-inch replacement filter",
+            "po_ref": "PO-031",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "sku": "FLT-20",
+            "supplier": "Example Wholesale",
+            "unit_cost": 8.5
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": ""
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:00.882+00:00",
+            "external_key": "REC-088",
+            "id": "65dd8377-9e7",
+            "payload": {
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "item_name": "20-inch replacement filter",
+              "po_ref": "PO-031",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "sku": "FLT-20",
+              "status": "Received",
+              "supplier": "Example Wholesale",
+              "unit_cost": 8.5
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.882+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 268,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-0/records",
+      "run_id": "a1cad9b2-b32",
+      "stage": 0,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:00.888+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:00.882+00:00",
+            "external_key": "REC-088",
+            "id": "65dd8377-9e7",
+            "payload": {
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "item_name": "20-inch replacement filter",
+              "po_ref": "PO-031",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "sku": "FLT-20",
+              "status": "Received",
+              "supplier": "Example Wholesale",
+              "unit_cost": 8.5
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.882+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 269,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-0/records/65dd8377-9e7",
+      "run_id": "a1cad9b2-b32",
+      "stage": 0,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:56:00.896+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "FLT-20",
+          "kind": "intake",
+          "links": {
+            "retail-0": "65dd8377-9e7"
+          },
+          "operation_id": "a1cad9b2-b32:1",
+          "payload": {
+            "item_name": "20-inch replacement filter",
+            "location": "Main stockroom",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "reserved": 2,
+            "sku": "FLT-20"
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": "Received"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:00.893+00:00",
+            "external_key": "FLT-20",
+            "id": "757f4db0-c6c",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "65dd8377-9e7"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "location": "Main stockroom",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Stock updated",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.893+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 4,
+      "id": 270,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-1/records",
+      "run_id": "a1cad9b2-b32",
+      "stage": 1,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:00.899+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:00.893+00:00",
+            "external_key": "FLT-20",
+            "id": "757f4db0-c6c",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "65dd8377-9e7"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "location": "Main stockroom",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Stock updated",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.893+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 271,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-1/records/757f4db0-c6c",
+      "run_id": "a1cad9b2-b32",
+      "stage": 1,
+      "status": 200
+    },
+    {
+      "created": "2026-09-24T15:56:00.906+00:00",
+      "data": {
+        "request": {
+          "action": {
+            "event_id": null
+          },
+          "business_reference": "REC-088",
+          "external_key": "FLT-20",
+          "kind": "intake",
+          "links": {
+            "retail-0": "65dd8377-9e7",
+            "retail-1": "757f4db0-c6c"
+          },
+          "operation_id": "a1cad9b2-b32:2",
+          "payload": {
+            "available_quantity": 10,
+            "item_name": "20-inch replacement filter",
+            "quantity": 12,
+            "receipt_ref": "REC-088",
+            "reserved": 2,
+            "sku": "FLT-20",
+            "stock_quantity": 12
+          },
+          "source": {
+            "kind": "synthetic demo intake"
+          },
+          "upstream_status": "Stock updated"
+        },
+        "response": {
+          "created": true,
+          "record": {
+            "created": "2026-09-24T15:56:00.904+00:00",
+            "external_key": "FLT-20",
+            "id": "05ceeadc-705",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "65dd8377-9e7",
+                "retail-1": "757f4db0-c6c"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Available online",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.904+00:00"
+          },
+          "reused": false
+        }
+      },
+      "duration_ms": 3,
+      "id": 272,
+      "kind": "write",
+      "method": "POST",
+      "path": "/v1/retail-2/records",
+      "run_id": "a1cad9b2-b32",
+      "stage": 2,
+      "status": 201
+    },
+    {
+      "created": "2026-09-24T15:56:00.910+00:00",
+      "data": {
+        "request": null,
+        "response": {
+          "record": {
+            "created": "2026-09-24T15:56:00.904+00:00",
+            "external_key": "FLT-20",
+            "id": "05ceeadc-705",
+            "payload": {
+              "_linked_records": {
+                "retail-0": "65dd8377-9e7",
+                "retail-1": "757f4db0-c6c"
+              },
+              "_source": {
+                "kind": "synthetic demo intake"
+              },
+              "available_quantity": 10,
+              "item_name": "20-inch replacement filter",
+              "quantity": 12,
+              "receipt_ref": "REC-088",
+              "reserved": 2,
+              "sku": "FLT-20",
+              "status": "Available online",
+              "stock_quantity": 12
+            },
+            "revision": 1,
+            "updated": "2026-09-24T15:56:00.904+00:00"
+          }
+        }
+      },
+      "duration_ms": 1,
+      "id": 273,
+      "kind": "verified",
+      "method": "GET",
+      "path": "/v1/retail-2/records/05ceeadc-705",
+      "run_id": "a1cad9b2-b32",
+      "stage": 2,
+      "status": 200
+    }
+  ],
+  "updated": "2026-09-24T15:56:00.914+00:00"
+}

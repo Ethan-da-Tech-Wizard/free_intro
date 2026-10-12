@@ -1,0 +1,33 @@
+﻿registration_ref,addressee,delivery_email,session,event_date,organization,status
+REG-012,Taylor Sample,taylor@example.invalid,Repair café,2026-10-10 10:00,Gather Workshop,Checked in
+REG-011,Avery Example,avery@example.invalid,Repair café,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-31,Will,sheet-row-31@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-30,Thomas,sheet-row-30@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-29,Stacy,sheet-row-29@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-28,Sean,sheet-row-28@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-27,Robert,sheet-row-27@example.invalid,English,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-26,Patrick,sheet-row-26@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-25,Pamela,sheet-row-25@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-24,Olivia,sheet-row-24@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-23,Nick,sheet-row-23@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-22,Maureen,sheet-row-22@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-21,Mary,sheet-row-21@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-20,Lisa,sheet-row-20@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-19,Kevin,sheet-row-19@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-18,Karen,sheet-row-18@example.invalid,English,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-17,Josephine,sheet-row-17@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-16,Joseph,sheet-row-16@example.invalid,English,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-15,Jonathan,sheet-row-15@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-14,John,sheet-row-14@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-13,Fiona,sheet-row-13@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-12,Ellen,sheet-row-12@example.invalid,Physics,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-11,Edward,sheet-row-11@example.invalid,English,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-10,Dylan,sheet-row-10@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-9,Dorothy,sheet-row-9@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-8,Carrie,sheet-row-8@example.invalid,English,2026-10-10 10:00,Gather Workshop,Waitlisted
+SHEET-7,Carl,sheet-row-7@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-6,Benjamin,sheet-row-6@example.invalid,English,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-5,Becky,sheet-row-5@example.invalid,Art,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-4,Anna,sheet-row-4@example.invalid,English,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-3,Andrew,sheet-row-3@example.invalid,Math,2026-10-10 10:00,Gather Workshop,Badge ready
+SHEET-2,Alexandra,sheet-row-2@example.invalid,English,2026-10-10 10:00,Gather Workshop,Badge ready

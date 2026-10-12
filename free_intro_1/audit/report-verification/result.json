@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "checked_at": "2026-09-24T16:21:44.853Z",
+  "steps": [
+    "All 24 workplace stores retain the exact 126 final records; each PDF identifies its saved record; timer off.",
+    "file report: replay/play/pause/slider, journal search, exact 612 checklist IDs, status filters, mobile, and both observed-progress imports/persistence passed.",
+    "Every report file link exists; report scripts, findings, sources, screenshots, CSV and PDF editions are served successfully.",
+    "http report: replay/play/pause/slider, journal search, exact 612 checklist IDs, status filters, mobile, and both observed-progress imports/persistence passed.",
+    "Live app and library lead to the report; no browser JavaScript errors."
+  ],
+  "link_files_verified": 347,
+  "browser_errors": [],
+  "records": 126,
+  "workplace_apps": 24,
+  "summary": {
+    "generated_at": "2026-09-24T16:21:02.335294+00:00",
+    "base": "http://127.0.0.1:8875",
+    "browser_exercises_passed": 86,
+    "prior_harness_attempts_failed": 1,
+    "operator_checks": 360,
+    "business_checks": 252,
+    "operator_coverage": {
+      "exercised": 245,
+      "reviewed": 34,
+      "native": 26,
+      "human": 38,
+      "conditional": 17
+    },
+    "workplace_apps": 24,
+    "records": 126,
+    "frames": 218,
+    "findings": "audit/FINDINGS.md",
+    "schedule_enabled": false
+  }
+}

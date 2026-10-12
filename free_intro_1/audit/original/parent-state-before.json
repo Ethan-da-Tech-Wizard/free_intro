@@ -1,0 +1,1625 @@
+{
+  "apps": {
+    "clinic": [
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      }
+    ],
+    "events": [
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      }
+    ],
+    "hvac": [
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      }
+    ],
+    "legal": [
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      }
+    ],
+    "property": [
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      }
+    ],
+    "reseller": [
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      }
+    ],
+    "retail": [
+      {
+        "authorized": true,
+        "count": 2,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 1,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 1,
+        "online": true
+      }
+    ],
+    "sports": [
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      },
+      {
+        "authorized": true,
+        "count": 3,
+        "online": true
+      }
+    ]
+  },
+  "manual": [
+    {
+      "app_id": "events-2",
+      "created": "2026-09-24T04:30:29.617+00:00",
+      "field_count": 6,
+      "id": 72,
+      "record_id": "47e565b2-377",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-1",
+      "created": "2026-09-24T04:30:29.135+00:00",
+      "field_count": 6,
+      "id": 71,
+      "record_id": "1a8d3e2b-104",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-0",
+      "created": "2026-09-24T04:30:28.711+00:00",
+      "field_count": 5,
+      "id": 70,
+      "record_id": "cfe61a7d-f8f",
+      "scenario": "events"
+    },
+    {
+      "app_id": "property-2",
+      "created": "2026-09-24T04:30:22.428+00:00",
+      "field_count": 6,
+      "id": 69,
+      "record_id": "89e562ee-114",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-1",
+      "created": "2026-09-24T04:30:21.947+00:00",
+      "field_count": 8,
+      "id": 68,
+      "record_id": "9ab8ec83-6a8",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-0",
+      "created": "2026-09-24T04:30:21.448+00:00",
+      "field_count": 6,
+      "id": 67,
+      "record_id": "45cc7381-644",
+      "scenario": "property"
+    },
+    {
+      "app_id": "reseller-2",
+      "created": "2026-09-24T04:30:14.991+00:00",
+      "field_count": 7,
+      "id": 66,
+      "record_id": "7a3c67e5-f47",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-1",
+      "created": "2026-09-24T04:30:14.524+00:00",
+      "field_count": 7,
+      "id": 65,
+      "record_id": "bcb633a8-507",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-0",
+      "created": "2026-09-24T04:30:14.025+00:00",
+      "field_count": 7,
+      "id": 64,
+      "record_id": "f30008a5-6b5",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "retail-2",
+      "created": "2026-09-24T04:30:08.900+00:00",
+      "field_count": 5,
+      "id": 63,
+      "record_id": "75d6e0ce-406",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-1",
+      "created": "2026-09-24T04:30:08.419+00:00",
+      "field_count": 6,
+      "id": 62,
+      "record_id": "8e65539b-c39",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-0",
+      "created": "2026-09-24T04:30:07.960+00:00",
+      "field_count": 7,
+      "id": 61,
+      "record_id": "70b0e5b4-dfa",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "clinic-2",
+      "created": "2026-09-24T04:30:00.659+00:00",
+      "field_count": 7,
+      "id": 60,
+      "record_id": "44b79783-cb2",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-1",
+      "created": "2026-09-24T04:30:00.195+00:00",
+      "field_count": 7,
+      "id": 59,
+      "record_id": "fdc4a787-2a5",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-0",
+      "created": "2026-09-24T04:29:59.748+00:00",
+      "field_count": 6,
+      "id": 58,
+      "record_id": "3b69bf9a-524",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "legal-2",
+      "created": "2026-09-24T04:29:53.104+00:00",
+      "field_count": 5,
+      "id": 57,
+      "record_id": "60e6dae8-22f",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-1",
+      "created": "2026-09-24T04:29:52.644+00:00",
+      "field_count": 6,
+      "id": 56,
+      "record_id": "04dde95b-d9c",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-0",
+      "created": "2026-09-24T04:29:52.189+00:00",
+      "field_count": 7,
+      "id": 55,
+      "record_id": "2664c296-ae3",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "sports-2",
+      "created": "2026-09-24T04:29:46.887+00:00",
+      "field_count": 8,
+      "id": 54,
+      "record_id": "a9ad4c29-810",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-1",
+      "created": "2026-09-24T04:29:46.370+00:00",
+      "field_count": 5,
+      "id": 53,
+      "record_id": "ca30370b-57e",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-0",
+      "created": "2026-09-24T04:29:45.916+00:00",
+      "field_count": 6,
+      "id": 52,
+      "record_id": "205213f8-bbd",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "hvac-2",
+      "created": "2026-09-24T04:29:39.572+00:00",
+      "field_count": 10,
+      "id": 51,
+      "record_id": "437262da-85c",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-1",
+      "created": "2026-09-24T04:29:39.063+00:00",
+      "field_count": 13,
+      "id": 50,
+      "record_id": "d5811125-2ad",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-0",
+      "created": "2026-09-24T04:29:38.568+00:00",
+      "field_count": 9,
+      "id": 49,
+      "record_id": "59f86280-1df",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "events-2",
+      "created": "2026-09-24T04:26:26.770+00:00",
+      "field_count": 6,
+      "id": 48,
+      "record_id": "7a6858bb-0c8",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-1",
+      "created": "2026-09-24T04:26:26.331+00:00",
+      "field_count": 6,
+      "id": 47,
+      "record_id": "dee7ddb7-f66",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-0",
+      "created": "2026-09-24T04:26:25.885+00:00",
+      "field_count": 5,
+      "id": 46,
+      "record_id": "4ca66cb1-b00",
+      "scenario": "events"
+    },
+    {
+      "app_id": "property-2",
+      "created": "2026-09-24T04:26:19.586+00:00",
+      "field_count": 6,
+      "id": 45,
+      "record_id": "cbd7425c-8d6",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-1",
+      "created": "2026-09-24T04:26:19.130+00:00",
+      "field_count": 8,
+      "id": 44,
+      "record_id": "e832de44-2be",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-0",
+      "created": "2026-09-24T04:26:18.704+00:00",
+      "field_count": 6,
+      "id": 43,
+      "record_id": "c255e5a9-ab2",
+      "scenario": "property"
+    },
+    {
+      "app_id": "reseller-2",
+      "created": "2026-09-24T04:26:12.437+00:00",
+      "field_count": 7,
+      "id": 42,
+      "record_id": "94728852-9cf",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-1",
+      "created": "2026-09-24T04:26:11.968+00:00",
+      "field_count": 7,
+      "id": 41,
+      "record_id": "5aba65a1-717",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-0",
+      "created": "2026-09-24T04:26:11.506+00:00",
+      "field_count": 7,
+      "id": 40,
+      "record_id": "c75a4fb9-2f5",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "retail-2",
+      "created": "2026-09-24T04:26:06.714+00:00",
+      "field_count": 5,
+      "id": 39,
+      "record_id": "f099c32e-786",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-1",
+      "created": "2026-09-24T04:26:06.313+00:00",
+      "field_count": 6,
+      "id": 38,
+      "record_id": "ea62425a-820",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-0",
+      "created": "2026-09-24T04:26:05.913+00:00",
+      "field_count": 7,
+      "id": 37,
+      "record_id": "52e225c5-77d",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "clinic-2",
+      "created": "2026-09-24T04:25:58.919+00:00",
+      "field_count": 7,
+      "id": 36,
+      "record_id": "dfd8cc27-252",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-1",
+      "created": "2026-09-24T04:25:58.452+00:00",
+      "field_count": 7,
+      "id": 35,
+      "record_id": "c38d8ab9-8f3",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-0",
+      "created": "2026-09-24T04:25:57.974+00:00",
+      "field_count": 6,
+      "id": 34,
+      "record_id": "58bc0f3c-6f7",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "legal-2",
+      "created": "2026-09-24T04:25:51.352+00:00",
+      "field_count": 5,
+      "id": 33,
+      "record_id": "1d1ee421-336",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-1",
+      "created": "2026-09-24T04:25:50.937+00:00",
+      "field_count": 6,
+      "id": 32,
+      "record_id": "17cd4139-6f7",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-0",
+      "created": "2026-09-24T04:25:50.477+00:00",
+      "field_count": 7,
+      "id": 31,
+      "record_id": "8412797d-e60",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "sports-2",
+      "created": "2026-09-24T04:25:45.439+00:00",
+      "field_count": 8,
+      "id": 30,
+      "record_id": "3d073faf-f76",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-1",
+      "created": "2026-09-24T04:25:44.997+00:00",
+      "field_count": 5,
+      "id": 29,
+      "record_id": "2dc650ad-5b4",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-0",
+      "created": "2026-09-24T04:25:44.577+00:00",
+      "field_count": 6,
+      "id": 28,
+      "record_id": "afb13c17-f43",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "hvac-2",
+      "created": "2026-09-24T04:25:38.104+00:00",
+      "field_count": 10,
+      "id": 27,
+      "record_id": "5fec58b3-f7c",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-1",
+      "created": "2026-09-24T04:25:37.622+00:00",
+      "field_count": 13,
+      "id": 26,
+      "record_id": "909921e2-ca2",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-0",
+      "created": "2026-09-24T04:25:37.117+00:00",
+      "field_count": 9,
+      "id": 25,
+      "record_id": "c59c09d2-920",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "events-2",
+      "created": "2026-09-24T04:08:25.925+00:00",
+      "field_count": 6,
+      "id": 24,
+      "record_id": "6e0274a3-8d2",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-1",
+      "created": "2026-09-24T04:08:25.414+00:00",
+      "field_count": 6,
+      "id": 23,
+      "record_id": "b59c4cb2-ab7",
+      "scenario": "events"
+    },
+    {
+      "app_id": "events-0",
+      "created": "2026-09-24T04:08:24.968+00:00",
+      "field_count": 5,
+      "id": 22,
+      "record_id": "22d6ab0b-ab1",
+      "scenario": "events"
+    },
+    {
+      "app_id": "property-2",
+      "created": "2026-09-24T04:08:18.747+00:00",
+      "field_count": 6,
+      "id": 21,
+      "record_id": "f5db979c-05c",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-1",
+      "created": "2026-09-24T04:08:18.272+00:00",
+      "field_count": 8,
+      "id": 20,
+      "record_id": "5e179b6d-edc",
+      "scenario": "property"
+    },
+    {
+      "app_id": "property-0",
+      "created": "2026-09-24T04:08:17.844+00:00",
+      "field_count": 6,
+      "id": 19,
+      "record_id": "5bccb487-46d",
+      "scenario": "property"
+    },
+    {
+      "app_id": "reseller-2",
+      "created": "2026-09-24T04:08:11.541+00:00",
+      "field_count": 7,
+      "id": 18,
+      "record_id": "463d1f2e-de4",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-1",
+      "created": "2026-09-24T04:08:11.059+00:00",
+      "field_count": 7,
+      "id": 17,
+      "record_id": "75911e5c-b87",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "reseller-0",
+      "created": "2026-09-24T04:08:10.622+00:00",
+      "field_count": 7,
+      "id": 16,
+      "record_id": "4a17651a-75c",
+      "scenario": "reseller"
+    },
+    {
+      "app_id": "retail-2",
+      "created": "2026-09-24T04:08:05.445+00:00",
+      "field_count": 5,
+      "id": 15,
+      "record_id": "c9d8fed2-2be",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-1",
+      "created": "2026-09-24T04:08:04.991+00:00",
+      "field_count": 6,
+      "id": 14,
+      "record_id": "87932d29-4cf",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "retail-0",
+      "created": "2026-09-24T04:08:04.494+00:00",
+      "field_count": 7,
+      "id": 13,
+      "record_id": "791b2537-bcb",
+      "scenario": "retail"
+    },
+    {
+      "app_id": "clinic-2",
+      "created": "2026-09-24T04:07:57.224+00:00",
+      "field_count": 7,
+      "id": 12,
+      "record_id": "ebce5eb2-a7b",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-1",
+      "created": "2026-09-24T04:07:56.749+00:00",
+      "field_count": 7,
+      "id": 11,
+      "record_id": "4c152ad8-fe7",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "clinic-0",
+      "created": "2026-09-24T04:07:56.297+00:00",
+      "field_count": 6,
+      "id": 10,
+      "record_id": "2d96b1a6-ae9",
+      "scenario": "clinic"
+    },
+    {
+      "app_id": "legal-2",
+      "created": "2026-09-24T04:07:49.660+00:00",
+      "field_count": 5,
+      "id": 9,
+      "record_id": "d7a22aa0-a99",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-1",
+      "created": "2026-09-24T04:07:49.197+00:00",
+      "field_count": 6,
+      "id": 8,
+      "record_id": "649a3c49-1c3",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "legal-0",
+      "created": "2026-09-24T04:07:48.732+00:00",
+      "field_count": 7,
+      "id": 7,
+      "record_id": "10e1a99e-8a1",
+      "scenario": "legal"
+    },
+    {
+      "app_id": "sports-2",
+      "created": "2026-09-24T04:07:43.516+00:00",
+      "field_count": 8,
+      "id": 6,
+      "record_id": "f666f872-ca2",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-1",
+      "created": "2026-09-24T04:07:43.017+00:00",
+      "field_count": 5,
+      "id": 5,
+      "record_id": "acda3778-6ba",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "sports-0",
+      "created": "2026-09-24T04:07:42.525+00:00",
+      "field_count": 6,
+      "id": 4,
+      "record_id": "8ae4a22e-fe6",
+      "scenario": "sports"
+    },
+    {
+      "app_id": "hvac-2",
+      "created": "2026-09-24T04:07:36.870+00:00",
+      "field_count": 10,
+      "id": 3,
+      "record_id": "eb154dab-fc9",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-1",
+      "created": "2026-09-24T04:07:36.332+00:00",
+      "field_count": 13,
+      "id": 2,
+      "record_id": "d7c13d4e-5ae",
+      "scenario": "hvac"
+    },
+    {
+      "app_id": "hvac-0",
+      "created": "2026-09-24T04:07:35.830+00:00",
+      "field_count": 9,
+      "id": 1,
+      "record_id": "a954eda3-018",
+      "scenario": "hvac"
+    }
+  ],
+  "metrics": {
+    "completed": 24,
+    "manual_fields": 495,
+    "records": 58
+  },
+  "runs": [
+    {
+      "created": "2026-09-24T04:30:37.668+00:00",
+      "elapsed_ms": 37,
+      "id": "0e49aae2-c08",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "sports",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:36.050+00:00",
+      "elapsed_ms": 44,
+      "id": "1853319a-2df",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "events",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:34.098+00:00",
+      "elapsed_ms": 45,
+      "id": "eb9248c8-d00",
+      "kind": "checkin",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "events",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:32.409+00:00",
+      "elapsed_ms": 49,
+      "id": "5bea1bb8-857",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "events",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:30.256+00:00",
+      "elapsed_ms": 38,
+      "id": "60e389bb-60f",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "events",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:26.888+00:00",
+      "elapsed_ms": 42,
+      "id": "13d962ca-e0c",
+      "kind": "invoice",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "property",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:25.202+00:00",
+      "elapsed_ms": 47,
+      "id": "264af95b-ee3",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "property",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:23.057+00:00",
+      "elapsed_ms": 40,
+      "id": "bca21068-aa9",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "property",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:19.573+00:00",
+      "elapsed_ms": 45,
+      "id": "e3d29995-228",
+      "kind": "sale",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "reseller",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:17.868+00:00",
+      "elapsed_ms": 38,
+      "id": "a7e24d2b-5be",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "reseller",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:15.623+00:00",
+      "elapsed_ms": 58,
+      "id": "eb83112b-2f9",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "reseller",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:11.650+00:00",
+      "elapsed_ms": 49,
+      "id": "bad027a2-1e2",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "retail",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:09.534+00:00",
+      "elapsed_ms": 33,
+      "id": "1ac6608a-343",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "retail",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:06.161+00:00",
+      "elapsed_ms": 48,
+      "id": "73e7e425-7ec",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "clinic",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:05.133+00:00",
+      "elapsed_ms": 19,
+      "id": "00968d0c-556",
+      "kind": "intake",
+      "message": "That appointment slot is already reserved. Choose another slot.",
+      "scenario": "clinic",
+      "status": "needs_attention"
+    },
+    {
+      "created": "2026-09-24T04:30:03.456+00:00",
+      "elapsed_ms": 54,
+      "id": "87a0bade-1d2",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "clinic",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:30:01.304+00:00",
+      "elapsed_ms": 60,
+      "id": "dc46458f-284",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "clinic",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:57.924+00:00",
+      "elapsed_ms": 42,
+      "id": "53273bd9-038",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "legal",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:55.845+00:00",
+      "elapsed_ms": 55,
+      "id": "50dfa89c-af7",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "legal",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:53.734+00:00",
+      "elapsed_ms": 36,
+      "id": "73ad3564-6a5",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "legal",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:49.856+00:00",
+      "elapsed_ms": 53,
+      "id": "3b144420-f09",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "sports",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:47.551+00:00",
+      "elapsed_ms": 33,
+      "id": "e5328efc-700",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "sports",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:44.087+00:00",
+      "elapsed_ms": 41,
+      "id": "301cb28e-598",
+      "kind": "completion",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "hvac",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:42.380+00:00",
+      "elapsed_ms": 64,
+      "id": "d5c9b2cb-04a",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "hvac",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:29:40.203+00:00",
+      "elapsed_ms": 42,
+      "id": "89ff875c-566",
+      "kind": "intake",
+      "message": "All three destinations were saved and read back.",
+      "scenario": "hvac",
+      "status": "complete"
+    },
+    {
+      "created": "2026-09-24T04:28:17.614+00:00",
+      "elapsed_ms": 66,
+      "id": "369c8135-2e1",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.613+00:00",
+      "elapsed_ms": 60,
+      "id": "d2962990-5fa",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.611+00:00",
+      "elapsed_ms": 70,
+      "id": "4bf480cd-2e3",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.609+00:00",
+      "elapsed_ms": 29,
+      "id": "030c80ae-44a",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.608+00:00",
+      "elapsed_ms": 121,
+      "id": "9375f16b-12d",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.606+00:00",
+      "elapsed_ms": 45,
+      "id": "3a8548c2-46b",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.604+00:00",
+      "elapsed_ms": 95,
+      "id": "f6c615e0-b6a",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.603+00:00",
+      "elapsed_ms": 52,
+      "id": "ea0c019f-4b3",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.601+00:00",
+      "elapsed_ms": 31,
+      "id": "713f42e2-a8f",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.599+00:00",
+      "elapsed_ms": 220,
+      "id": "4b633244-b2e",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.596+00:00",
+      "elapsed_ms": 41,
+      "id": "966c8190-e7c",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.595+00:00",
+      "elapsed_ms": 37,
+      "id": "2f75e91a-3db",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.593+00:00",
+      "elapsed_ms": 98,
+      "id": "13e83365-bda",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.592+00:00",
+      "elapsed_ms": 198,
+      "id": "ec2bdae7-974",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.590+00:00",
+      "elapsed_ms": 62,
+      "id": "41200b7b-253",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.588+00:00",
+      "elapsed_ms": 41,
+      "id": "da6c48ca-197",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.585+00:00",
+      "elapsed_ms": 62,
+      "id": "76e80001-c58",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.583+00:00",
+      "elapsed_ms": 41,
+      "id": "1861934d-38c",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.578+00:00",
+      "elapsed_ms": 71,
+      "id": "83ecaa65-479",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.576+00:00",
+      "elapsed_ms": 61,
+      "id": "0ae4f657-7f1",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.574+00:00",
+      "elapsed_ms": 44,
+      "id": "eb78e0c3-bc4",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.570+00:00",
+      "elapsed_ms": 58,
+      "id": "752a7947-38e",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.568+00:00",
+      "elapsed_ms": 30,
+      "id": "e0a05d3a-a62",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.563+00:00",
+      "elapsed_ms": 31,
+      "id": "155015eb-3dc",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.561+00:00",
+      "elapsed_ms": 29,
+      "id": "3bd1865b-af3",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.558+00:00",
+      "elapsed_ms": 146,
+      "id": "a4b2ef6c-60b",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.557+00:00",
+      "elapsed_ms": 92,
+      "id": "a0fc3872-ee2",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.552+00:00",
+      "elapsed_ms": 486,
+      "id": "6a2fe692-a27",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:28:17.550+00:00",
+      "elapsed_ms": 113,
+      "id": "bf40e138-b3c",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:34.760+00:00",
+      "elapsed_ms": 42,
+      "id": "8b53c45f-156",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "sports",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:33.126+00:00",
+      "elapsed_ms": 45,
+      "id": "70475562-6b5",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:31.093+00:00",
+      "elapsed_ms": 45,
+      "id": "538991e5-d78",
+      "kind": "checkin",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:29.482+00:00",
+      "elapsed_ms": 60,
+      "id": "7429e0f7-724",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:27.415+00:00",
+      "elapsed_ms": 42,
+      "id": "7a75d792-18a",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:24.145+00:00",
+      "elapsed_ms": 41,
+      "id": "5e0c6c67-270",
+      "kind": "invoice",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:22.418+00:00",
+      "elapsed_ms": 50,
+      "id": "cdc8dafe-1e2",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:20.211+00:00",
+      "elapsed_ms": 34,
+      "id": "fc73aa30-fa9",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:16.843+00:00",
+      "elapsed_ms": 37,
+      "id": "b7dd36ca-550",
+      "kind": "sale",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:15.151+00:00",
+      "elapsed_ms": 47,
+      "id": "852766b5-6a1",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:13.030+00:00",
+      "elapsed_ms": 52,
+      "id": "da6a35a5-e5a",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:09.198+00:00",
+      "elapsed_ms": 39,
+      "id": "66129751-9f1",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "retail",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:07.260+00:00",
+      "elapsed_ms": 33,
+      "id": "9d0117bb-cac",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "retail",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:04.262+00:00",
+      "elapsed_ms": 33,
+      "id": "6a8359fa-0ae",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "clinic",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:03.243+00:00",
+      "elapsed_ms": 15,
+      "id": "34a435bc-753",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "clinic",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:26:01.622+00:00",
+      "elapsed_ms": 54,
+      "id": "aa818373-64b",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "clinic",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:59.543+00:00",
+      "elapsed_ms": 33,
+      "id": "38932d49-569",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "clinic",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:56.151+00:00",
+      "elapsed_ms": 50,
+      "id": "d8c26926-886",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "legal",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:54.122+00:00",
+      "elapsed_ms": 62,
+      "id": "2d2ae725-395",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "legal",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:52.013+00:00",
+      "elapsed_ms": 39,
+      "id": "ca361738-dc9",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "legal",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:48.165+00:00",
+      "elapsed_ms": 55,
+      "id": "4003e8a0-105",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "sports",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:46.062+00:00",
+      "elapsed_ms": 45,
+      "id": "9c286f0e-f31",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "sports",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:42.713+00:00",
+      "elapsed_ms": 43,
+      "id": "636ba498-3c0",
+      "kind": "completion",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "hvac",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:40.933+00:00",
+      "elapsed_ms": 40,
+      "id": "32137ccd-bae",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "hvac",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:25:38.762+00:00",
+      "elapsed_ms": 49,
+      "id": "698d2904-08a",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "hvac",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:11.341+00:00",
+      "elapsed_ms": 47,
+      "id": "f3f2723c-54c",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:10.269+00:00",
+      "elapsed_ms": 42,
+      "id": "7de78b2c-018",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:09.219+00:00",
+      "elapsed_ms": 39,
+      "id": "b3c88968-622",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:08.173+00:00",
+      "elapsed_ms": 53,
+      "id": "f492d119-009",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "retail",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:07.102+00:00",
+      "elapsed_ms": 50,
+      "id": "6091034a-fd0",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "clinic",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:06.039+00:00",
+      "elapsed_ms": 46,
+      "id": "d8ffbaea-cc6",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "legal",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:04.973+00:00",
+      "elapsed_ms": 44,
+      "id": "ddad6953-3fa",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "sports",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:24:03.778+00:00",
+      "elapsed_ms": 74,
+      "id": "b1ad652d-d71",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "hvac",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:34.056+00:00",
+      "elapsed_ms": 39,
+      "id": "b657f16c-290",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "sports",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:32.354+00:00",
+      "elapsed_ms": 34,
+      "id": "204543ff-6c1",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:30.404+00:00",
+      "elapsed_ms": 30,
+      "id": "e006df65-ade",
+      "kind": "checkin",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:28.711+00:00",
+      "elapsed_ms": 53,
+      "id": "ec8715fe-fc2",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:26.571+00:00",
+      "elapsed_ms": 45,
+      "id": "d81e24e8-87f",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "events",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:23.138+00:00",
+      "elapsed_ms": 31,
+      "id": "08c050c9-d87",
+      "kind": "invoice",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:21.456+00:00",
+      "elapsed_ms": 58,
+      "id": "e440d8d5-160",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:19.323+00:00",
+      "elapsed_ms": 39,
+      "id": "c02baa49-ec6",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "property",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:16.068+00:00",
+      "elapsed_ms": 37,
+      "id": "c2dcf9f8-b0f",
+      "kind": "sale",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:14.375+00:00",
+      "elapsed_ms": 47,
+      "id": "385cf3a5-2d4",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:12.170+00:00",
+      "elapsed_ms": 40,
+      "id": "60b19b31-59f",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "reseller",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:08.262+00:00",
+      "elapsed_ms": 57,
+      "id": "7f042ee6-358",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "retail",
+      "status": "archived"
+    },
+    {
+      "created": "2026-09-24T04:08:06.106+00:00",
+      "elapsed_ms": 34,
+      "id": "b3a59ab3-54c",
+      "kind": "intake",
+      "message": "Workplaces reset for another demonstration.",
+      "scenario": "retail",
+      "status": "archived"
+    }
+  ]
+}

@@ -1,0 +1,785 @@
+{
+  "auth": "Public viewer access; no key",
+  "blank_rows": 0,
+  "cleanup_count": 0,
+  "columns": [
+    "Student Name",
+    "Gender",
+    "Class Level",
+    "Home State",
+    "Major",
+    "Extracurricular Activity"
+  ],
+  "cost": "No paid API dependency; public export availability is controlled by Google.",
+  "fetched_at": "2026-09-24T15:47:31.510+00:00",
+  "header_row": 1,
+  "http_status": 200,
+  "id": "c813981d-f90",
+  "kind": "live Google Sheets fetch",
+  "name": "Google Sheets · tab 0",
+  "raw_hash": "c9ce73edd7052aaa8bbf7efb9eb0e10967c4670e725fdd79aedafb87c25e06e6",
+  "raw_preview": [
+    [
+      "Student Name",
+      "Gender",
+      "Class Level",
+      "Home State",
+      "Major",
+      "Extracurricular Activity"
+    ],
+    [
+      "Alexandra",
+      "Female",
+      "4. Senior",
+      "CA",
+      "English",
+      "Drama Club"
+    ],
+    [
+      "Andrew",
+      "Male",
+      "1. Freshman",
+      "SD",
+      "Math",
+      "Lacrosse"
+    ],
+    [
+      "Anna",
+      "Female",
+      "1. Freshman",
+      "NC",
+      "English",
+      "Basketball"
+    ],
+    [
+      "Becky",
+      "Female",
+      "2. Sophomore",
+      "SD",
+      "Art",
+      "Baseball"
+    ],
+    [
+      "Benjamin",
+      "Male",
+      "4. Senior",
+      "WI",
+      "English",
+      "Basketball"
+    ],
+    [
+      "Carl",
+      "Male",
+      "3. Junior",
+      "MD",
+      "Art",
+      "Debate"
+    ],
+    [
+      "Carrie",
+      "Female",
+      "3. Junior",
+      "NE",
+      "English",
+      "Track & Field"
+    ],
+    [
+      "Dorothy",
+      "Female",
+      "4. Senior",
+      "MD",
+      "Math",
+      "Lacrosse"
+    ],
+    [
+      "Dylan",
+      "Male",
+      "1. Freshman",
+      "MA",
+      "Math",
+      "Baseball"
+    ],
+    [
+      "Edward",
+      "Male",
+      "3. Junior",
+      "FL",
+      "English",
+      "Drama Club"
+    ],
+    [
+      "Ellen",
+      "Female",
+      "1. Freshman",
+      "WI",
+      "Physics",
+      "Drama Club"
+    ]
+  ],
+  "request_url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/export?format=csv&gid=0",
+  "review_count": 0,
+  "rows": [
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Female",
+        "Home State": "CA",
+        "Major": "English",
+        "Student Name": "Alexandra"
+      },
+      "row_number": 2,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Female",
+        "Home State": "CA",
+        "Major": "English",
+        "Student Name": "Alexandra"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "SD",
+        "Major": "Math",
+        "Student Name": "Andrew"
+      },
+      "row_number": 3,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "SD",
+        "Major": "Math",
+        "Student Name": "Andrew"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "NC",
+        "Major": "English",
+        "Student Name": "Anna"
+      },
+      "row_number": 4,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "NC",
+        "Major": "English",
+        "Student Name": "Anna"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "SD",
+        "Major": "Art",
+        "Student Name": "Becky"
+      },
+      "row_number": 5,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "SD",
+        "Major": "Art",
+        "Student Name": "Becky"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Male",
+        "Home State": "WI",
+        "Major": "English",
+        "Student Name": "Benjamin"
+      },
+      "row_number": 6,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Male",
+        "Home State": "WI",
+        "Major": "English",
+        "Student Name": "Benjamin"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "MD",
+        "Major": "Art",
+        "Student Name": "Carl"
+      },
+      "row_number": 7,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "MD",
+        "Major": "Art",
+        "Student Name": "Carl"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "NE",
+        "Major": "English",
+        "Student Name": "Carrie"
+      },
+      "row_number": 8,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "NE",
+        "Major": "English",
+        "Student Name": "Carrie"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Female",
+        "Home State": "MD",
+        "Major": "Math",
+        "Student Name": "Dorothy"
+      },
+      "row_number": 9,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Female",
+        "Home State": "MD",
+        "Major": "Math",
+        "Student Name": "Dorothy"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Male",
+        "Home State": "MA",
+        "Major": "Math",
+        "Student Name": "Dylan"
+      },
+      "row_number": 10,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Male",
+        "Home State": "MA",
+        "Major": "Math",
+        "Student Name": "Dylan"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "FL",
+        "Major": "English",
+        "Student Name": "Edward"
+      },
+      "row_number": 11,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "FL",
+        "Major": "English",
+        "Student Name": "Edward"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Female",
+        "Home State": "WI",
+        "Major": "Physics",
+        "Student Name": "Ellen"
+      },
+      "row_number": 12,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Female",
+        "Home State": "WI",
+        "Major": "Physics",
+        "Student Name": "Ellen"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Female",
+        "Home State": "MA",
+        "Major": "Art",
+        "Student Name": "Fiona"
+      },
+      "row_number": 13,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Female",
+        "Home State": "MA",
+        "Major": "Art",
+        "Student Name": "Fiona"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Male",
+        "Home State": "CA",
+        "Major": "Physics",
+        "Student Name": "John"
+      },
+      "row_number": 14,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Male",
+        "Home State": "CA",
+        "Major": "Physics",
+        "Student Name": "John"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "SC",
+        "Major": "Math",
+        "Student Name": "Jonathan"
+      },
+      "row_number": 15,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "SC",
+        "Major": "Math",
+        "Student Name": "Jonathan"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "AK",
+        "Major": "English",
+        "Student Name": "Joseph"
+      },
+      "row_number": 16,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "AK",
+        "Major": "English",
+        "Student Name": "Joseph"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Female",
+        "Home State": "NY",
+        "Major": "Math",
+        "Student Name": "Josephine"
+      },
+      "row_number": 17,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Female",
+        "Home State": "NY",
+        "Major": "Math",
+        "Student Name": "Josephine"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "NH",
+        "Major": "English",
+        "Student Name": "Karen"
+      },
+      "row_number": 18,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "NH",
+        "Major": "English",
+        "Student Name": "Karen"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "NE",
+        "Major": "Physics",
+        "Student Name": "Kevin"
+      },
+      "row_number": 19,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Drama Club",
+        "Gender": "Male",
+        "Home State": "NE",
+        "Major": "Physics",
+        "Student Name": "Kevin"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Female",
+        "Home State": "SC",
+        "Major": "Art",
+        "Student Name": "Lisa"
+      },
+      "row_number": 20,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Female",
+        "Home State": "SC",
+        "Major": "Art",
+        "Student Name": "Lisa"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "AK",
+        "Major": "Physics",
+        "Student Name": "Mary"
+      },
+      "row_number": 21,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "AK",
+        "Major": "Physics",
+        "Student Name": "Mary"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "CA",
+        "Major": "Physics",
+        "Student Name": "Maureen"
+      },
+      "row_number": 22,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Basketball",
+        "Gender": "Female",
+        "Home State": "CA",
+        "Major": "Physics",
+        "Student Name": "Maureen"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Male",
+        "Home State": "NY",
+        "Major": "Art",
+        "Student Name": "Nick"
+      },
+      "row_number": 23,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Male",
+        "Home State": "NY",
+        "Major": "Art",
+        "Student Name": "Nick"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "NC",
+        "Major": "Physics",
+        "Student Name": "Olivia"
+      },
+      "row_number": 24,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Female",
+        "Home State": "NC",
+        "Major": "Physics",
+        "Student Name": "Olivia"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "RI",
+        "Major": "Math",
+        "Student Name": "Pamela"
+      },
+      "row_number": 25,
+      "values": {
+        "Class Level": "3. Junior",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "RI",
+        "Major": "Math",
+        "Student Name": "Pamela"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "NY",
+        "Major": "Art",
+        "Student Name": "Patrick"
+      },
+      "row_number": 26,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "NY",
+        "Major": "Art",
+        "Student Name": "Patrick"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Male",
+        "Home State": "CA",
+        "Major": "English",
+        "Student Name": "Robert"
+      },
+      "row_number": 27,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Male",
+        "Home State": "CA",
+        "Major": "English",
+        "Student Name": "Robert"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Male",
+        "Home State": "NH",
+        "Major": "Physics",
+        "Student Name": "Sean"
+      },
+      "row_number": 28,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Track & Field",
+        "Gender": "Male",
+        "Home State": "NH",
+        "Major": "Physics",
+        "Student Name": "Sean"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "NY",
+        "Major": "Math",
+        "Student Name": "Stacy"
+      },
+      "row_number": 29,
+      "values": {
+        "Class Level": "1. Freshman",
+        "Extracurricular Activity": "Baseball",
+        "Gender": "Female",
+        "Home State": "NY",
+        "Major": "Math",
+        "Student Name": "Stacy"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "RI",
+        "Major": "Art",
+        "Student Name": "Thomas"
+      },
+      "row_number": 30,
+      "values": {
+        "Class Level": "2. Sophomore",
+        "Extracurricular Activity": "Lacrosse",
+        "Gender": "Male",
+        "Home State": "RI",
+        "Major": "Art",
+        "Student Name": "Thomas"
+      }
+    },
+    {
+      "changes": [],
+      "duplicate": false,
+      "issues": [],
+      "raw": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "FL",
+        "Major": "Math",
+        "Student Name": "Will"
+      },
+      "row_number": 31,
+      "values": {
+        "Class Level": "4. Senior",
+        "Extracurricular Activity": "Debate",
+        "Gender": "Male",
+        "Home State": "FL",
+        "Major": "Math",
+        "Student Name": "Will"
+      }
+    }
+  ],
+  "skipped_title_rows": 0,
+  "url": "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
+}

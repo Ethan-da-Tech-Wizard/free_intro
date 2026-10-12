@@ -1,0 +1,29 @@
+PASS Launcher status identifies the isolated instance
+PASS Regenerate every CSV, XLSX, PDF and HVAC scan
+PASS Open hvac workbook in real LibreOffice and convert it to CSV
+PASS Read hvac intake PDF with Poppler
+PASS Open sports workbook in real LibreOffice and convert it to CSV
+PASS Read sports intake PDF with Poppler
+PASS Open legal workbook in real LibreOffice and convert it to CSV
+PASS Read legal intake PDF with Poppler
+PASS Open clinic workbook in real LibreOffice and convert it to CSV
+PASS Read clinic intake PDF with Poppler
+PASS Open retail workbook in real LibreOffice and convert it to CSV
+PASS Read retail intake PDF with Poppler
+PASS Open reseller workbook in real LibreOffice and convert it to CSV
+PASS Read reseller intake PDF with Poppler
+PASS Open property workbook in real LibreOffice and convert it to CSV
+PASS Read property intake PDF with Poppler
+PASS Open events workbook in real LibreOffice and convert it to CSV
+PASS Read events intake PDF with Poppler
+PASS Run Tesseract on the actual supplied PNG
+PASS Archi opens and renders Showcase map
+PASS Archi opens and renders HVAC: one service call, three systems
+PASS Archi opens and renders Sports: a personal report that refreshes itself
+PASS Archi opens and renders Law office: intake to matter file and document packet
+PASS Archi opens and renders Clinic: registration to appointment preparation
+PASS Archi opens and renders Store: receive stock and update the online catalog
+PASS Archi opens and renders Individual seller: one item record to listing and sale paperwork
+PASS Archi opens and renders Property manager: repair request to contractor and owner report
+PASS Archi opens and renders Community organizer: registration to roster, badge, and schedule
+PASS Archi opens and renders Structure and evidence

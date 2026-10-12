@@ -1,0 +1,18 @@
+[
+  {
+    "id": "works",
+    "title": "The Works",
+    "file": "THE_WORKS.html",
+    "chapters": 27,
+    "checkpoints": 359,
+    "words": 17233
+  },
+  {
+    "id": "business",
+    "title": "The Business Owner Playbook",
+    "file": "BUSINESS_PLAYBOOK.html",
+    "chapters": 23,
+    "checkpoints": 252,
+    "words": 11951
+  }
+]

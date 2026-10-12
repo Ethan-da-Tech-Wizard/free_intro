@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-09-24T15:16:10.482834+00:00",
+  "normal_server_reused": true,
+  "graceful_stop_and_restart": true,
+  "before": {
+    "completed": 24,
+    "manual_fields": 495,
+    "records": 58
+  },
+  "after": {
+    "completed": 24,
+    "manual_fields": 495,
+    "records": 58
+  },
+  "saved_run_ids_and_statuses_preserved": true,
+  "book_routes": "200",
+  "schedule_enabled": false
+}

@@ -1,0 +1,16 @@
+Second Story / Intake
+Synthetic demonstration data · Relayworks
+
+Item SKU: USED-072
+Listing title: Vintage oak side table
+Description: Solid oak; small mark on rear leg
+Condition: Used - good
+Price (USD): 65
+Weight (kg): 7.2
+Dimensions: 45 x 40 x 52 cm
+Seller: Casey Example
+Return address: 55 Sample Street
+
+Relayworks / page 1 / inspect source and run history for provenance
+
+

@@ -1,0 +1,11 @@
+npm notice run capture
+npm notice run node scripts/capture.mjs
+CAPTURED hvac 16 screenshots
+CAPTURED sports 15 screenshots
+CAPTURED legal 17 screenshots
+CAPTURED clinic 17 screenshots
+CAPTURED retail 15 screenshots
+CAPTURED reseller 16 screenshots
+CAPTURED property 16 screenshots
+CAPTURED events 16 screenshots
+COMPLETE 134 actual screenshots, no browser errors.

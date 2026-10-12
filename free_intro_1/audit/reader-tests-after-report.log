@@ -1,0 +1,8 @@
+PASS works file TOC, search, ticks, notes, export/import, mobile, complete print view
+PASS business file TOC, search, ticks, notes, export/import, mobile, complete print view
+PASS works http TOC, search, ticks, notes, export/import, mobile, complete print view
+PASS business http TOC, search, ticks, notes, export/import, mobile, complete print view
+PASS full manual HVAC lesson: 32 field entries, 3 saved records and documents
+PASS HVAC automation, completion total, and second job tutorial
+PASS event capacity, waitlist hold, deliberate capacity correction, and check-in tutorial
+PASS no browser errors; all practice changes were in isolated temporary stores
