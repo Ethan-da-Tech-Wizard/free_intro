@@ -80,3 +80,5 @@ python3 app/server.py --port 8865 --workplace-port 8866 --data-dir /tmp/relaywor
 Regenerate diagrams with `python3 scripts/build_planning_assets.py --archi /home/user/pg/archi/build/archi`. This replaces generated diagrams and the catalog; preserve hand-edited Archi boards separately.
 
 Book maintenance: edit `docs/THE_WORKS.md` or `docs/BUSINESS_PLAYBOOK.md`, then run `python3 scripts/build_books.py` and `node scripts/print_books.mjs`. The builder expands the field reference from `app/config.py`; editable sources contain these expansion markers, while `books/*.md` contain the complete expanded text. Reader styling/behavior live in `web/books.css` and `web/books.js`. `node tests/books.mjs` verifies the file/web readers and selected step-by-step lessons using isolated temporary application stores and browser profiles; it does not reset your normal demo. `python3 scripts/make_practice_files.py` regenerates the supplied practice inputs.
+
+Screenshots omitted: app and browser screenshots (evidence, verification and audit images) are not included in this copy. The diagrams in `diagrams/` are kept.

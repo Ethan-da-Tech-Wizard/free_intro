@@ -47,3 +47,5 @@ Examples and practice records are demonstration material. Google Sheets and Open
 ## License
 
 Original project code retains **MIT** terms in [LICENSE](LICENSE). Third-party libraries, media, data, models, and tools retain their own terms. See the [license review](docs/LICENSE_REVIEW.md) and [dependency inventory](docs/DEPENDENCIES.csv).
+
+Screenshots omitted: app and browser screenshots (evidence, verification and audit images) are not included in this copy. The diagrams in `diagrams/` are kept.
