@@ -31,7 +31,7 @@ Start with **HVAC & field service → Do it manually**. Type the customer facts 
 
 - [Presenter guide](docs/PRESENTER_GUIDE.md): presentation routes and recovery instructions.
 - [Implementation and acceptance](docs/IMPLEMENTATION.md): running structure, checks, boundaries, and scaling.
-- [Team charter](TEAM_CHARTER.md): senior engineering roles and SDLC responsibilities.
+- [Team charter](TEAM_CHARTER.md): assistant role lenses and development responsibilities; these are not claims of employees or professional seniority.
 - [Eight workflows](docs/WORKFLOW_CATALOG.md): before/after structures, rules, and candidate tools.
 - [Research and costs](docs/RESEARCH.md): official sources, provider limits, and access requirements.
 - [Evidence manifest](evidence/manifest.json): screenshot URLs, timestamps, record IDs, and hashes.
