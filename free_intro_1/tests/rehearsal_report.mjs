@@ -1,3 +1,8 @@
+// Program: free_intro - rehearsal_report.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Read-only verification of the findings report: final saved records, evidence links, replay controls and the printed editions, with a result file saved to audit/report-verification.
+
 /** Read-only verification of the delivered report, evidence links, and final saved state. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -6,19 +11,31 @@ import {pathToFileURL} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {chromium,expect} from '@playwright/test';
 
+// Project root, demo address and the folder for this check's results.
 const root=path.resolve(import.meta.dirname,'..'),base='http://127.0.0.1:8875';
 const out=path.join(root,'audit/report-verification');await fs.mkdir(out,{recursive:true});
 await fs.writeFile(path.join(out,'result.json'),JSON.stringify({status:'running',started_at:new Date().toISOString()})+'\n');
+// Inputs: the final-state manifest, checklist coverage and report summary.
 const final=JSON.parse(await fs.readFile(path.join(root,'audit/final-state/manifest.json'),'utf8'));
 const checks=JSON.parse(await fs.readFile(path.join(root,'audit/checklist-coverage.json'),'utf8'));
 const summary=JSON.parse(await fs.readFile(path.join(root,'audit/summary.json'),'utf8'));
 const errors=[],steps=[];let linkCount=0;
+/**
+ * Record and print a passed check.
+ */
 function pass(message){steps.push(message);console.log('PASS',message);}
+/**
+ * GET a JSON URL and require a successful reply.
+ */
 async function get(url){const r=await fetch(url);assert.ok(r.ok,`${r.status} ${url}`);return r.json();}
+/**
+ * Wait for fonts and rendering to settle, then take a full-page screenshot.
+ */
 async function capture(page,name){
  await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
  await page.screenshot({path:path.join(out,name),fullPage:true,animations:'disabled'});
 }
+// Check the server is this project's own, then compare every app's live records with the saved final state and check each PDF names its record.
 assert.equal((await get(base+'/api/config')).data_dir,path.join(root,'runtime'));
 for(const scenario of final.scenarios){
  for(const app of scenario.apps){
@@ -31,6 +48,7 @@ for(const scenario of final.scenarios){
 assert.equal((await get(base+'/api/schedules')).enabled,false);
 pass('All 24 workplace stores retain the exact 126 final records; each PDF identifies its saved record; timer off.');
 
+// Browser checks of the report page, once from disk and once over HTTP.
 const browser=await chromium.launch({headless:true});
 try{
  for(const mode of ['file','http']){
@@ -40,6 +58,7 @@ try{
   assert.equal(await page.locator('.business-card').count(),8);
   assert.equal(await page.locator('.business-card li').count(),24);
   await capture(page,mode+'-results.png');
+  // Over HTTP: every local link in the report must point to an existing file and the report scripts and data must be served.
   if(mode==='http'){
    const links=await page.locator('a[href]').evaluateAll(nodes=>[...new Set(nodes.map(n=>n.getAttribute('href')))]);
    for(const href of links){
@@ -53,6 +72,7 @@ try{
    }
    pass('Every report file link exists; report scripts, findings, sources, screenshots, CSV and PDF editions are served successfully.');
   }
+  // Screenshot replay: the counter must follow the next and previous buttons.
   await page.getByRole('link',{name:'Watch the steps',exact:true}).click();
   await expect(page.locator('#frame-counter')).toHaveText('1 / '+summary.frames);
   await page.locator('#frame-image').evaluate(img=>img.decode());

@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Program: free_intro - server.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Starts two local HTTP servers (the portal web/API and the separately authenticated workplace-app API) and routes every request to the engine or static files.
 """Relayworks: local portal + separately authenticated workplace HTTP API."""
 import argparse
 import base64
@@ -18,24 +22,36 @@ import urllib.parse
 import uuid
 import zipfile
 
+# ---- Imports from this app ----
 from config import ROOT, DEFINITIONS, defaults, public_config
 from data_tools import (SAMPLE_SHEET, google_sheet, openf1, import_file, messy_matrix,
                         normalize_table, suggest_mapping, pdf_bytes, xlsx_bytes, now)
 from engine import Engine, Workplaces, Problem, validate, encoded
 
 
+# ---- HTTP server ----
 class Server(ThreadingHTTPServer):
+    """Threaded HTTP server; worker threads exit with the process and the port can be reused quickly."""
     daemon_threads=True
     allow_reuse_address=True
 
 
+# ---- Request handler ----
 class Handler(BaseHTTPRequestHandler):
+    """One request handler serves both roles; server.role selects "workplaces" or "portal" routing."""
     protocol_version='HTTP/1.1'
 
     def log_message(self,fmt,*args):
+        """Print access-log lines only when the server was started with --verbose."""
         if self.server.verbose:super().log_message(fmt,*args)
 
     def send(self,data,status=200,content_type='application/json',filename=None):
+        """Write a complete HTTP response.
+
+        Dicts are sent as JSON. Security headers are always added (no sniffing, no referrer,
+        no caching), HTML gets a strict Content-Security-Policy, and a filename makes the
+        browser download the body as an attachment.
+        """
         if content_type=='application/json':data=encoded(data).encode()
         elif isinstance(data,str):data=data.encode()
         self.send_response(status)
@@ -52,19 +68,23 @@ class Handler(BaseHTTPRequestHandler):
         except (BrokenPipeError,ConnectionResetError):pass
 
     def body(self):
+        """Read and parse the JSON request body (limit 12 MB); it must be a JSON object."""
         length=int(self.headers.get('Content-Length','0'))
         if length<0 or length>12_000_000:raise Problem('Request exceeds the 12 MB demo limit.',413)
         value=json.loads(self.rfile.read(length) or b'{}')
         if not isinstance(value,dict):raise Problem('A JSON object is required.')
         return value
 
+    # Entry points called by the HTTP library; both use one shared router.
     def do_GET(self):self.handle_route('GET')
     def do_POST(self):self.handle_route('POST')
 
     def handle_route(self,method):
+        """Check the request is local, parse it, route it, and turn errors into JSON error replies."""
         try:
             # Bound to loopback, with Host/Origin checks against browser DNS rebinding.
             host=self.headers.get('Host','')
+            # Only the loopback names with this server's port are accepted as Host (and Origin for writes).
             expected={f'127.0.0.1:{self.server.server_port}',f'localhost:{self.server.server_port}'}
             if host not in expected:raise Problem('Use the local showcase address.',403)
             if method=='POST' and self.headers.get('Origin') and self.headers['Origin'] not in {'http://'+h for h in expected}:
@@ -74,12 +94,15 @@ class Handler(BaseHTTPRequestHandler):
             body=self.body() if method=='POST' else {}
             if self.server.role=='workplaces':return self.workplace(method,path,body)
             return self.portal(method,path,query,body)
+        # Expected errors keep their own status; bad input is 422; anything else is logged and returned as a generic 500.
         except Problem as error:self.send({'error':str(error),'details':error.details},error.status)
         except (ValueError,KeyError,TypeError,zipfile.BadZipFile) as error:self.send({'error':str(error)},422)
         except Exception:
             traceback.print_exc();self.send({'error':'The local service could not complete that request. See its terminal log.'},500)
 
+    # ---- Workplace-app API (bearer-token protected) ----
     def workplace(self,method,path,body):
+        """Serve the simulated workplace apps: /v1/<app>/state, settings, reset, and records."""
         if self.headers.get('Authorization')!='Bearer '+self.server.token:raise Problem('A local API grant is required.',401)
         parts=path.strip('/').split('/');stores=self.server.stores
         if len(parts)<3 or parts[0]!='v1':raise Problem('Unknown endpoint.',404)
@@ -93,15 +116,21 @@ class Handler(BaseHTTPRequestHandler):
             return self.send({'records':stores.list(app_id)})
         raise Problem('Unknown endpoint.',404)
 
+    # ---- Portal routes ----
     def portal(self,method,path,query,body):
+        """Serve the browser UI and its JSON/file endpoints: config, preview, runs, downloads,
+        resets, workplace pass-through, data sources, field mapping, schedules, evidence, and static files.
+        """
         engine=self.server.engine
         p=path.strip('/').split('/')
         if path=='/api/config':
             return self.send({'scenarios':public_config(),'sample_sheet':SAMPLE_SHEET,'tools':{t:bool(shutil.which(t)) for t in ['pdftotext','pdftoppm','tesseract','libreoffice']},'workplace_port':self.server.workplace_port,'data_dir':str(engine.directory)})
         if path=='/api/dashboard':return self.send(engine.dashboard())
+        # Preview shows exactly what each destination app would receive, without saving anything.
         if path=='/api/preview' and method=='POST':
             scenario=body['scenario'];data=validate(scenario,body['data'])
             return self.send({'data':data,'targets':[dict(t,payload={v:data[k] for k,v in t['mapping'].items()}) for t in DEFINITIONS[scenario]['targets']]})
+        # Start a workflow run (202 Accepted: it finishes in the background).
         if path=='/api/runs' and method=='POST':
             return self.send(engine.enqueue(body['scenario'],body['data'],body.get('source'),body.get('kind','intake'),body.get('action'),body.get('event_id')),202)
         if len(p)>=3 and p[:2]==['api','runs']:
@@ -110,12 +139,14 @@ class Handler(BaseHTTPRequestHandler):
             if p[3]=='resume' and method=='POST':return self.send({'run':engine.resume(run_id)},202)
             if p[3]=='report.pdf':return self.send(engine.report(run_id),content_type='application/pdf',filename='workflow-'+run_id+'.pdf')
             if p[3]=='calendar.ics':return self.send(engine.calendar(run_id),content_type='text/calendar; charset=utf-8',filename='event-'+run_id+'.ics')
+            # Downloadable run reports in several formats: PDF, calendar, spreadsheet, and an evidence zip.
             if p[3]=='report.xlsx':
                 run=engine.run(run_id);matrix=[['Destination','Record ID','Field','Value']]
                 for out in run['outputs']:
                     matrix.extend([out['app_id'],out['record']['id'],k,str(v)] for k,v in out['record']['payload'].items() if not k.startswith('_'))
                 return self.send(xlsx_bytes(matrix),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',filename='workflow-'+run_id+'.xlsx')
             if p[3]=='evidence.zip':return self.evidence_zip(run_id)
+        # Reset a scenario: refuse while a job is active, archive its old runs, empty the apps, and bump the generation so inputs can run again.
         if path=='/api/reset' and method=='POST':
             scenario=body['scenario']
             if scenario not in DEFINITIONS:raise Problem('Unknown scenario.',404)
@@ -126,6 +157,7 @@ class Handler(BaseHTTPRequestHandler):
                 engine.api('POST',f'/v1/{scenario}/reset',{})
                 engine.set_setting('generation:'+scenario,engine.setting('generation:'+scenario,0)+1)
             return self.send({'reset':True})
+        # Manual-entry side of the demo: save records, export CSV, and download a PDF per record.
         if len(p)>=4 and p[:2]==['api','workplaces']:
             app_id=p[2];scenario,index=app_id.rsplit('-',1);scene=DEFINITIONS[scenario];target=scene['targets'][int(index)]
             if p[3]=='settings' and method=='POST':return self.send(engine.api('POST',f'/v1/{app_id}/settings',body))
@@ -156,6 +188,7 @@ class Handler(BaseHTTPRequestHandler):
                 lines+=['']+[f"{k.replace('_',' ').title()}: {v}" for k,v in payload.items() if not k.startswith('_') and k not in target['mapping'].values() and k!='status']
                 if scenario=='hvac' and int(index)==2:lines+=['','Diagnostic fee + approved labor hours x hourly rate + approved parts.','Draft for review. No payment has been charged.']
                 return self.send(pdf_bytes(scene['company']+' / '+heading,lines),content_type='application/pdf',filename=app_id+'-'+record['id']+'.pdf')
+        # Data sources: generated messy workbook, Google Sheets, OpenF1, uploads, and recorded copies for offline use.
         if path=='/api/sources' and method=='GET':return self.send({'sources':engine.sources()})
         if len(p)==3 and p[:2]==['api','sources']:
             name=p[2]
@@ -173,6 +206,7 @@ class Handler(BaseHTTPRequestHandler):
                 source.update(original_kind=source['kind'],kind='recorded '+source['kind'],replayed_at=now(),note='Recorded provider response from '+source['fetched_at']+'. This is a replay, not a fresh network request.')
             else:raise Problem('Unknown source connector.',404)
             return self.send(engine.add_source(source),201)
+        # Apply a column mapping to one source row and return the form values plus where each came from.
         if path=='/api/mapping' and method=='POST':
             scene=DEFINITIONS[body['scenario']];source=engine.source(body['source_id']);row=source['rows'][int(body.get('row',0))]
             mapping=body.get('mapping') or suggest_mapping(source['columns'],scene['fields'])
@@ -192,6 +226,7 @@ class Handler(BaseHTTPRequestHandler):
             source=engine.source(p[2]);scenario=query.get('scenario',['hvac'])[0]
             default=suggest_mapping(source['columns'],DEFINITIONS[scenario]['fields'])
             return self.send({'mapping':engine.setting('mapping:'+scenario+':'+ '|'.join(source['columns']),default)})
+        # Scheduled refresh settings (interval is at least 60 seconds).
         if path=='/api/schedules':
             if method=='POST':
                 config={k:body.get(k) for k in ['enabled','kind','url','scenario','mapping']}
@@ -203,12 +238,14 @@ class Handler(BaseHTTPRequestHandler):
         if path=='/api/evidence':
             manifest=ROOT/'evidence/manifest.json'
             return self.send(json.loads(manifest.read_text()) if manifest.exists() else {'captures':[]})
+        # Generated sample files (PDF, XLSX, CSV) for each scenario.
         if path.startswith('/fixtures/'):
             filename=p[-1];scenario,ext=filename.rsplit('.',1);scene=DEFINITIONS[scenario]
             if ext=='pdf':return self.send(pdf_bytes(scene['company']+' / Intake',[f"{f['label']}: {f['default']}" for f in scene['fields']]),content_type='application/pdf',filename=filename)
             matrix=messy_matrix(scene)
             if ext=='xlsx':return self.send(xlsx_bytes(matrix),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',filename=filename)
             if ext=='csv':return self.send(csv_bytes(matrix),content_type='text/csv; charset=utf-8',filename=filename)
+        # Static pages and assets; each prefix is mapped to one directory.
         if path in ['/','/workplace']:return self.static(ROOT/'web','index.html')
         if path in ['/START_HERE.html','/THE_WORKS.html','/BUSINESS_PLAYBOOK.html']:return self.static(ROOT,path[1:])
         if path=='/web/books.js':return self.static(ROOT/'web','books.js')
@@ -217,6 +254,7 @@ class Handler(BaseHTTPRequestHandler):
         raise Problem('Page not found.',404)
 
     def static(self,root,relative):
+        """Serve a file from root, refusing paths that escape it, with a guessed content type."""
         file=(root/relative).resolve()
         if not file.is_relative_to(root.resolve()) or not file.is_file():raise Problem('File not found.',404)
         mime=mimetypes.guess_type(file.name)[0] or 'application/octet-stream'
@@ -224,6 +262,7 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(file.read_bytes(),content_type=mime)
 
     def evidence_zip(self,run_id):
+        """Bundle a run trace, its PDF packet, workflow diagram, and captured screenshots into a zip download."""
         engine=self.server.engine;run=engine.run(run_id);mem=io.BytesIO()
         with zipfile.ZipFile(mem,'w',zipfile.ZIP_DEFLATED) as archive:
             archive.writestr('run-and-http-trace.json',encoded(run))
@@ -236,7 +275,13 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(mem.getvalue(),content_type='application/zip',filename='relayworks-'+run_id+'.zip')
 
 
+# ---- Helpers and entry point ----
 def csv_bytes(matrix):
+    """Encode rows as CSV bytes (UTF-8 with BOM).
+
+    Values starting with =, +, - or @ get a leading apostrophe so spreadsheet programs
+    do not run them as formulas.
+    """
     out=io.StringIO();writer=csv.writer(out)
     # Export as values; prevent spreadsheet applications executing user-supplied formulas.
     for row in matrix:writer.writerow(["'"+str(v) if str(v).lstrip().startswith(('=','+','-','@')) else v for v in row])
@@ -244,6 +289,11 @@ def csv_bytes(matrix):
 
 
 def scheduler(engine,stop):
+    """Background loop that periodically pulls the scheduled source and queues runs.
+
+    Runs every 2 seconds until stop is set. Rows that are duplicates or have issues are held,
+    not submitted. Disabling the schedule during a pull is respected.
+    """
     while not stop.wait(2):
         config=engine.setting('schedule',{})
         if not config.get('enabled') or time.time()<config.get('next_run',0):continue
@@ -269,6 +319,10 @@ def scheduler(engine,stop):
 
 
 def main():
+    """Parse command-line options, start both servers, and serve until interrupted.
+
+    A random token is generated each start so only the portal can call the workplace API.
+    """
     parser=argparse.ArgumentParser(description='Run the free local automation showcase.')
     parser.add_argument('--port',type=int,default=8765);parser.add_argument('--workplace-port',type=int,default=8766)
     parser.add_argument('--data-dir',default=str(ROOT/'runtime'));parser.add_argument('--verbose',action='store_true')
@@ -285,4 +339,5 @@ def main():
     finally:stop.set();portal.server_close();api.shutdown();api.server_close();engine.pool.shutdown(wait=True)
 
 
+# Run only when executed directly, not when imported.
 if __name__=='__main__':main()

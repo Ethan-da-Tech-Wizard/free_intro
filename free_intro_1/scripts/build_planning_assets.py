@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Program: free_intro - build_planning_assets.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Generates the editable planning diagrams (Archi board and PNG exports) and docs/WORKFLOW_CATALOG.md from the scenario catalogue.
+
 """Render planning documents and editable Archi boards from the scenario catalog.
 
 These outputs describe the local application; screenshots and traces supply execution evidence.
@@ -15,7 +20,9 @@ import subprocess
 import tempfile
 
 
+# Project root: the folder above scripts/.
 ROOT = Path(__file__).resolve().parents[1]
+# Pastel fill colours used for diagram boxes.
 BLUE = "#e6f0ff"
 GREEN = "#dff2e8"
 ORANGE = "#fff0d9"
@@ -25,13 +32,16 @@ GRAY = "#edf1f5"
 
 
 class View:
+    """One diagram page: a list of boxes (shapes) and connecting arrows in the board file format."""
     def __init__(self, view_id, title, notes=""):
+        """Start an empty view with an id, title, notes and default zoom."""
         self.value = {
             "id": view_id, "title": title, "notes": notes,
             "viewport": {"x": -40, "y": -40, "zoom": 0.62},
             "shapes": [], "arrows": [],
         }
 
+    # Add a box at a position and return its numeric id so arrows can refer to it.
     def box(self, x, y, text, color=BLUE, width=280, height=115,
             kind="process", description="", link=""):
         identifier = len(self.value["shapes"]) + 1
@@ -43,6 +53,7 @@ class View:
         })
         return identifier
 
+    # Add an arrow between two box ids, with an optional label, route points and label position.
     def edge(self, start, end, label="", points=None, label_at=None):
         edge = {"fromId": start, "toId": end, "label": label}
         if points:
@@ -52,6 +63,7 @@ class View:
         self.value["arrows"].append(edge)
 
 
+# Build the before-and-after diagram for one scenario from its catalogue entry.
 def scenario_view(scenario):
     view = View(scenario["id"], scenario["title"], scenario["story"])
     view.box(0, 0, scenario["title"] + "\nWorking local demonstration / real API transfers",
@@ -118,6 +130,7 @@ def scenario_view(scenario):
     return view.value
 
 
+# Build the overview page that lists all scenarios.
 def overview_view(scenarios):
     view = View("overview", "Showcase map", "Select a linked workplace card in Archi to open its before/after view.")
     view.box(0, 0, "AUTOMATION SHOWCASE\nRealistic work / visible proof / $0 required service charges",
@@ -135,6 +148,7 @@ def overview_view(scenarios):
     return view.value
 
 
+# Build the diagram of how the portal, engine and workplace apps connect.
 def architecture_view():
     view = View("architecture", "Structure and evidence", "Implemented local service boundaries. Vendor products in the research are separate integration candidates.")
     view.box(0, 0, "ONE SHOWCASE / TWO VIEWS OF THE SAME RUN\nBusiness results and optional technical evidence",
@@ -171,6 +185,7 @@ def architecture_view():
 
 
 def validate_board(board):
+    """Sanity-check the board: unique ids, a valid active view, positive sizes, and arrows and links that point at real items."""
     views = board["views"]
     view_ids = {view["id"] for view in views}
     assert len(view_ids) == len(views)
@@ -186,6 +201,7 @@ def validate_board(board):
 
 
 def write_catalog(data):
+    """Write docs/WORKFLOW_CATALOG.md, one section per scenario, from the catalogue data."""
     lines = [
         "# Detailed workflow catalog", "", "Generated from [scenarios.json](scenarios.json).",
         "", "Status: eight implemented local workflows with actual browser evidence. Vendor products remain researched integration candidates.",
@@ -220,6 +236,7 @@ def write_catalog(data):
 
 
 def export_pngs(board, binary):
+    """Render every view to a PNG with the Archi binary in an isolated, headless environment and check each file is a readable PNG."""
     with tempfile.TemporaryDirectory(prefix="free-intro-archi-") as temp:
         temporary = Path(temp)
         runtime = temporary / "runtime"
@@ -247,6 +264,7 @@ def export_pngs(board, binary):
 
 
 def main():
+    """Load and check the catalogue, build and validate the board, write the board file and catalogue, and optionally export PNGs."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archi", type=Path, help="Optional existing Archi binary for PNG exports")
     args = parser.parse_args()
@@ -268,5 +286,6 @@ def main():
         export_pngs(board, args.archi.resolve())
 
 
+# Run main() when executed as a script.
 if __name__ == "__main__":
     main()

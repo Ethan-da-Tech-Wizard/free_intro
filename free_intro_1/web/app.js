@@ -1,45 +1,91 @@
+// Program: free_intro - app.js
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Browser single-page app for the demo portal: renders the overview, scenario tabs, manual forms, source import, run results, history and the simulated workplace apps from the local JSON API.
+
+// Small DOM helpers: $ finds one element, $$ finds all as an array.
 const $ = (s,root=document)=>root.querySelector(s);
 const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
+// Escape text for safe insertion into HTML (the app builds markup as template strings).
 const esc = v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// SVG path data for each icon name; unknown names fall back to the grid icon.
 const icons={wind:'M3 7h12a3 3 0 1 0-3-3M2 12h17a3 3 0 1 1-3 3M4 17h5a3 3 0 1 1-3 3',activity:'M2 12h4l3-8 5 16 3-8h5',scale:'M12 3v18M5 21h14M3 7h18M6 7l-4 8h8L6 7m12 0-4 8h8l-4-8',heart:'M20 5a5 5 0 0 0-8 1 5 5 0 0 0-8-1c-5 5 3 11 8 15 5-4 13-10 8-15Z',store:'M3 9v12h18V9M2 9l2-6h16l2 6M2 9c0 4 5 4 5 0 0 4 5 4 5 0 0 4 5 4 5 0 0 4 5 4 5 0M9 21v-7h6v7',tag:'M3 3h9l9 9-9 9-9-9V3ZM7 7h.01',building:'M4 21V3h13v18M17 9h4v12M8 7h1m3 0h1M8 11h1m3 0h1M8 15h1m3 0h1M9 21v-3h3v3',users:'M16 21v-3a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v3M9 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8m10 11a4 4 0 0 1 3 4v3M16 3a4 4 0 0 1 0 8',grid:'M3 3h7v7H3V3m11 0h7v7h-7V3M3 14h7v7H3v-7m11 0h7v7h-7v-7',link:'M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-2 2m3 6a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2',image:'M3 3h18v18H3V3m0 14 5-6 5 5 3-3 5 6M15 7h.01',clock:'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18m0 4v5l4 2',arrow:'M4 12h16m-6-6 6 6-6 6',check:'M5 12l4 4L19 6',file:'M5 2h9l5 5v15H5V2m9 0v6h5M8 12h8m-8 4h8',sheet:'M3 3h18v18H3V3m0 6h18M9 3v18m-6-6h18',zap:'m13 2-9 12h7l-1 8 10-13h-7l1-7',code:'m8 6-6 6 6 6m8-12 6 6-6 6m-3-14-2 16',download:'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5',refresh:'M21 4v6h-6M3 20v-6h6M4 8a8 8 0 0 1 14-3l3 5M3 14l3 5a8 8 0 0 0 14-3',external:'M14 3h7v7m0-7L10 14M10 3H3v18h18v-7',lock:'M5 10h14v11H5V10m3 0V6a4 4 0 0 1 8 0v4m-4 5v2',play:'m7 4 14 8-14 8V4',menu:'M4 6h16M4 12h16M4 18h16',close:'m6 6 12 12M6 18 18 6',alert:'m12 3 10 18H2L12 3m0 6v5m0 3h.01',globe:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18m0 0c-5 5-5 13 0 18 5-5 5-13 0-18M3 12h18',mail:'M3 5h18v14H3V5m0 0 9 7 9-7'};
+// Markup helpers that return HTML strings: icon, status badge, action button and link.
 const icon=n=>`<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="${icons[n]||icons.grid}"/></svg>`;
 const badge=(text,type='')=>`<span class="pill ${type}"><span class="dot"></span>${esc(text)}</span>`;
 const button=(label,action,ic='',kind='',extra='')=>`<button class="btn ${kind}" data-action="${action}" ${extra}>${ic?icon(ic):''}${esc(label)}</button>`;
 const link=(label,url,ic='',kind='',blank=false)=>`<a class="btn ${kind}" href="${esc(url)}" ${blank?'target="_blank" rel="noopener"':''}>${ic?icon(ic):''}${esc(label)}</a>`;
+// Format helpers: pretty JSON text (escaped) and a local date-time string.
 const json=v=>esc(JSON.stringify(v,null,2));
 const stamp=v=>v?new Date(v).toLocaleString():'';
+// Single shared state object: loaded config and dashboard, form inputs, imported sources, runs and previews per scenario, and the current route.
 const S={config:null,dashboard:null,inputs:{},sources:{},runs:{},previews:{},page:'',route:[],evidence:null};
+// Timers for run polling and the toast message, plus a counter that lets a stale route render be ignored.
 let pollTimer,toastTimer,routeVersion=0;
 
+/**
+ * Call the local API (GET without a body, POST with JSON) and return the parsed JSON.
+ * On an error status it throws an Error carrying the server message, details and status.
+ */
 async function api(path,body){
   const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});
   const data=await response.json();
   if(!response.ok){const error=new Error(data.error||'Request failed.');error.details=data.details;error.status=response.status;throw error;}
   return data;
 }
+/**
+ * Show a short status message (red if it is an error) that hides itself after five seconds.
+ */
 function toast(message,error=false){const el=$('#toast');el.textContent=message;el.className='visible'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.className='',5000);}
+/**
+ * Show an error inside the target element (default: the form error area), or as a toast if it is missing.
+ */
 function showError(error,target){
   const html=`<div class="notice error" role="alert"><strong>${esc(error.message)}</strong>${error.details?`<ul>${error.details.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`:''}</div>`;
   const el=$(target||'#form-error');if(el)el.innerHTML=html;else toast(error.message,true);
 }
+/**
+ * Find a scenario definition by id, defaulting to the first one.
+ */
 function scene(id){return S.config.scenarios.find(s=>s.id===id)||S.config.scenarios[0];}
+/**
+ * Current form values for a scenario: the user's saved edits or the defaults.
+ */
 function values(s){return S.inputs[s.id]||Object.fromEntries(s.fields.map(f=>[f.key,f.default]));}
+/**
+ * Render a list of field definitions as labelled inputs filled from data.
+ */
 function fields(list,data={},prefix=''){
   return list.map(f=>`<label class="field"><span>${esc(f.label)}${f.required?' <i>·</i>':''}</span><input name="${esc(f.key)}" id="${prefix}${esc(f.key)}" value="${esc(data[f.key]??'')}" type="${f.type==='number'?'number':f.type==='email'?'email':'text'}" ${f.type==='number'?'min="0" step="any"':''} ${f.required?'required':''} autocomplete="off"></label>`).join('');
 }
+// Read a form into a plain object.
 function formData(form){return Object.fromEntries(new FormData(form));}
+// Remember what is typed in the intake form so it survives re-rendering.
 function saveInput(s){const form=$('#intake-form');if(form){const old=values(s);S.inputs[s.id]={...old,...formData(form),_review_confirmed:!!$('#review-confirmed')?.checked};}return values(s);}
+// Sidebar navigation markup.
 function nav(){return `<aside class="sidebar"><a class="brand" href="#home"><span class="brand-mark">↗</span>relayworks<em>LAB</em></a><div class="workspace-tag"><div class="square">rw.</div><div><strong class="tiny">free_intro_1</strong><p class="tiny muted">Rehearsed working copy</p></div></div><nav aria-label="Main navigation">${[['home','grid','Overview'],['connections','link','Sources & connections'],['evidence','image','Before & after'],['history','clock','Run history']].map(([id,ic,title])=>`<a class="nav-link ${S.route[0]===id?'active':''}" href="#${id}">${icon(ic)}${title}</a>`).join('')}<a class="nav-link" href="/START_HERE.html" target="_blank" rel="noopener">${icon('file')}Guides & checklists</a><a class="nav-link" href="/AUDIT.html" target="_blank" rel="noopener">${icon('check')}Rehearsal findings</a><p class="nav-label">THE WORKFLOWS</p>${S.config.scenarios.map(s=>`<a class="nav-link ${S.route[1]===s.id?'active':''}" href="#scenario/${s.id}/overview">${icon(s.icon)}${esc(s.short)}</a>`).join('')}</nav><div class="sidebar-bottom"><div class="local-card">${badge('Running on your machine')}<p>Real transfers. Synthetic workplaces.<br>No required subscriptions.</p></div><p class="tiny muted" style="padding:12px 10px 0">Built to show how things work.</p></div></aside>`;}
+/**
+ * Render the page frame (sidebar and top bar) around the given content.
+ */
 function shell(content,title='Overview'){
   $('#app').innerHTML=`<div class="shell">${nav()}<div class="main-shell"><header class="topbar"><div><button class="mobile-menu" data-action="menu" aria-label="Toggle navigation">${icon('menu')}</button><span>Workspace</span><span class="slash">/</span><strong>${esc(title)}</strong></div><div class="topbar-right"><span class="muted">THE AUTOMATION SHOWCASE</span>${badge('Local & connected')}<span class="avatar" title="Presenter workspace">YOU</span></div></header><main id="main" class="content">${content}</main></div></div>`;
 }
+// Page heading block with an optional actions area.
 function title(eyebrow,heading,description,actions=''){return `<div class="page-title"><div><div class="eyebrow">${esc(eyebrow)}</div><h1>${heading}</h1><p>${esc(description)}</p></div><div class="actions">${actions}</div></div>`;}
+// List label/value pairs for the source paper.
 function factRows(data,fieldsList){return fieldsList.map(f=>`<div class="fact"><span>${esc(f.label)}</span><strong>${esc(data[f.key])}</strong></div>`).join('');}
+// The "paper" intake request card shown beside the forms.
 function sourcePaper(s){return `<div class="paper"><h3>${esc(s.company)}</h3><p>Intake request · synthetic demonstration data</p><div class="facts">${factRows(values(s),s.fields)}</div></div>`;}
+/**
+ * Render the home page with the dashboard summary and the scenario cards.
+ */
 function home(){
   const m=S.dashboard.metrics;
   shell(`<div class="section-title"><div><div class="eyebrow">THE POSSIBILITIES ARE ALREADY HERE</div><h2>Your automation playground.</h2></div>${link('Guides & checklists','/START_HERE.html','file','small',true)}</div><section class="hero"><div class="hero-copy"><div class="eyebrow">LESS COPYING. MORE DOING.</div><h1>Your data has<br>places to <span class="serif">be.</span></h1><p>Spreadsheets, paperwork, and apps that don’t talk. Turn the everyday handoff into something that just works.</p><div class="actions">${link('Start with a service call','#scenario/hvac/manual','play','primary')}${link('Bring on the messy data','#connections','arrow','subtle')}</div></div><div class="hero-graphic" aria-label="Files, sheets, and APIs connect through Relayworks to three workplaces"><div class="flow-mini"><div class="flow-source"><div class="flow-box">${icon('sheet')}Spreadsheet</div><div class="flow-box">${icon('file')}PDF intake</div><div class="flow-box">${icon('globe')}Public API</div></div><div class="flow-line"></div><div class="flow-hub">${icon('zap')}</div><div class="flow-line"></div><div class="flow-dest"><div class="flow-box">${icon('users')}Customer</div><div class="flow-box">${icon('clock')}Operations</div><div class="flow-box">${icon('check')}Billing</div></div></div><div class="flow-note">READ → CLEAN → MAP → SAVE → VERIFY</div></div></section><div class="stats">${[['8','Complete workflows','From field service to your side hustle','grid'],['24','Independent workplace apps','Each with its own saved records','link'],['$0','Required service charges','Runs locally with free public sources','lock'],[m.completed,'Verified runs',m.records+' destination records currently saved','check']].map(([n,label,note,ic])=>`<div class="stat"><div class="stat-top">${label}${icon(ic)}</div><strong>${n}</strong><p>${note}</p></div>`).join('')}</div><div class="section-title"><div><h2>Everyday work. Connected.</h2><p>Pick a workflow. Do it by hand, then watch the information move.</p></div>${badge('8 ready to demonstrate','gray')}</div><div class="workflow-grid">${S.config.scenarios.map((s,i)=>`<a class="workflow-card" href="#scenario/${s.id}/overview" style="--accent:${s.color}"><div class="card-top"><span class="app-icon">${icon(s.icon)}</span>${badge(i===0?'Start here':i===1?'Public API':i===7?'Google Sheets':'Working demo',i===0?'':'gray')}</div><h3>${esc(s.short)}</h3><p>${esc(s.tagline)}</p><div class="card-foot"><span>3 apps <span style="padding:0 5px">·</span> Manual → automated</span><strong>Explore ${icon('arrow')}</strong></div></a>`).join('')}</div><div class="footer-note">${icon('lock')}You control the demonstration. No real customers, messages, purchases, or payments.</div>`);
 }
+/**
+ * Render one scenario with its five tabs (workflow, manual, automate, results, under the hood).
+ */
 function scenarioPage(s,tab){
   const tabs=[['overview','The workflow'],['manual','Do it manually'],['automate','Automate it'],['results','Saved results'],['technical','Under the hood']];
   let content=title(s.company,esc(s.short),s.tagline,`${link('Before & after','#evidence/'+s.id,'image','small')}${button('Reset workplaces','reset','refresh','small',`data-scenario="${s.id}"`)}`);
@@ -54,18 +100,23 @@ function scenarioPage(s,tab){
   if(tab==='automate')$('#intake-form')?.addEventListener('input',()=>saveInput(s));
   if(S.runs[s.id]&&['queued','running'].includes(S.runs[s.id].status))startPoll(s.id);
 }
+// Tab: the familiar manual version versus the automated one.
 function overview(s){
   const count=s.stage_fields.reduce((a,v)=>a+v.length,0);
   return `<div class="two-col"><section class="panel"><div class="panel-head"><div><h2>The familiar version</h2><p>${esc(s.actor)} · a day with disconnected tools</p></div>${badge('Before','gray')}</div><p class="muted" style="font-size:13px">${esc(s.story)}</p><ol class="steps-list">${s.manual_steps.map(t=>`<li>${esc(typeof t==='string'?t:JSON.stringify(t))}</li>`).join('')}</ol><div class="metrics-line"><div><strong>${count}</strong><span>fields across the three demo forms</span></div><div><strong>${s.fields.length}</strong><span>facts in one shared intake</span></div></div>${link('Try the manual handoff','#scenario/'+s.id+'/manual','arrow','primary')}</section><aside class="panel"><div class="panel-head"><div><h2>The connected version</h2><p>One reviewed input, three verified destinations.</p></div></div><div class="sequence">${s.targets.map((t,i)=>`<div><header class="actions"><span class="number">0${i+1}</span><h3>${esc(t.name)}</h3></header><p class="muted" style="font-size:11px;margin:8px 0 0 35px">${esc(t.output)}</p></div>`).join('')}</div><div class="divider"></div><div class="source-tag">${icon('check')}Every destination is a separate local database, reached through an authenticated HTTP API.</div><div class="section-gap">${link('Run the automation','#scenario/'+s.id+'/automate','zap','primary')}</div></aside></div><section class="panel section-gap"><div class="panel-head"><div><h2>Follow the workflow</h2><p>Before and after, with the handoffs made visible.</p></div>${link('Open full diagram','/diagrams/'+s.id+'.png','external','small',true)}</div><a href="/diagrams/${s.id}.png" target="_blank" rel="noopener"><img class="flow-diagram" src="/diagrams/${s.id}.png" alt="${esc(s.short)} manual and automated workflow" loading="lazy"></a><p class="diagram-caption">Editable source: <a class="provider-link" href="/diagrams/showcase.archi.json" download>Archi project · all ten views</a>. Detailed real-tool options are documented separately from the working local demo.</p></section>`;
 }
+// Tab: step-by-step guide to typing the data into each of the three apps by hand.
 function manual(s){
   return `<div class="walkthrough"><div><strong>Take the long way once.</strong><br>Copy the source facts into each workplace. Each form saves only to its own application.</div>${link('Then automate the same work','#scenario/'+s.id+'/automate','arrow','primary')}</div><div class="two-col"><section><div class="section-title"><h3>Your source document</h3>${link('Download PDF','/fixtures/'+s.id+'.pdf','download','small')}</div>${sourcePaper(s)}</section><aside><div class="section-title"><h3>Three places to enter it</h3>${badge('Manual path','warn')}</div><div class="sequence">${s.targets.map((t,i)=>`<div class="sequence-card"><header><span class="number">0${i+1}</span><h3>${esc(t.name)}</h3></header><p>${s.stage_fields[i].length} fields. Open the app, type the information, and save the record.</p>${link('Open '+t.name,`/workplace?scenario=${s.id}&app=${i}`,'external','',true)}</div>`).join('')}</div><div class="notice">These purpose-built workplaces model disconnected systems. Existing imports or autofill in a real business product belong in that product’s baseline.</div><div class="panel"><h3>Want a messier starting point?</h3><p class="muted" style="font-size:11px;margin:10px 0">Title rows, repeated customers, padded names, odd currency, and values that need a human decision.</p><div class="actions">${link('Ugly Excel','/fixtures/'+s.id+'.xlsx','sheet','small')}${button('Inspect messy data','fixture','arrow','small',`data-scenario="${s.id}"`)}</div></div></aside></div>`;
 }
+// Tab: single intake form, source provenance, mapping preview and run button.
 function automate(s){
   const data=values(s),provenance=S.sources[s.id],preview=S.previews[s.id];
   return `<div class="two-col"><section class="panel"><div class="panel-head"><div><h2>Enter it once.</h2><p>Review these facts. Relayworks handles the handoffs.</p></div>${badge(provenance?'Imported input':'Synthetic sample','gray')}</div><div class="actions" style="margin-bottom:17px">${button('Messy workbook','fixture','sheet','small',`data-scenario="${s.id}"`)}${button('Upload a file','upload-dialog','file','small',`data-scenario="${s.id}"`)}${link('Google Sheets','#connections','link','small')}${s.id==='sports'?button('Pull real sports data','openf1','globe','small'):''}</div><div class="source-tag">${icon('file')}${esc(provenance?provenance.kind+' · '+(provenance.name||'')+' · source row '+(provenance.row_number||1):'Created demo data · editable · no account required')}${provenance?.synthetic_defaults?.length?`<br>Demo defaults supply: ${provenance.synthetic_defaults.map(esc).join(', ')}. Mapped values come from the source.`:''}</div><div id="form-error"></div><form id="intake-form" class="section-gap"><div class="form-grid">${fields(s.fields,data,'intake-')}</div>${data._review_reason?`<div class="notice">${esc(data._review_reason)}<label class="check-label"><input type="checkbox" id="review-confirmed" ${data._review_confirmed?'checked':''}>I checked and corrected these values.</label></div>`:''}<div class="form-footer">${button('Populate all three apps','run','zap','primary',`data-scenario="${s.id}" type="button"`)}${button('Preview field mapping','preview','code','',`data-scenario="${s.id}" type="button"`)}</div></form></section><aside><section class="panel"><div class="panel-head"><div><h3>Where the information goes</h3><p>Each app receives its own field names.</p></div></div><div class="sequence">${s.targets.map((t,i)=>`<div class="sequence-card"><header><span class="app-icon" style="--accent:${t.color}">${icon(['users','clock','file'][i])}</span><h3>${esc(t.name)}</h3></header><p>${esc(t.output)}</p><span class="tiny muted">${Object.keys(t.mapping).length} mapped fields · separate saved record</span></div>`).join('')}</div><div class="notice info">The run writes each record, retrieves it again, and compares the saved values. You can inspect the actual requests.</div></section>${preview?`<section class="panel"><h3>Mapping preview</h3>${preview.targets.map(t=>`<details class="section-gap"><summary class="tiny">${esc(t.name)}</summary><pre>${json(t.payload)}</pre></details>`).join('')}</section>`:`<section class="panel"><h3>Built for the second run, too.</h3><p class="muted" style="font-size:11px;margin-top:10px">Repeating the same business input returns the existing run. Interrupted work resumes from the last verified destination.</p></section>`}</aside></div>`;
 }
+// Banner summarising a run's state and elapsed time.
 function runBanner(run){return `<div class="run-banner ${run.status}"><span class="app-icon">${icon(run.status==='complete'?'check':run.status==='needs_attention'?'alert':'refresh')}</span><div><h3>${run.status==='complete'?'Three destinations. Verified.':run.status==='needs_attention'?'One handoff needs attention.':run.status==='archived'?'Captured run · workplaces have since been reset.':'Moving the information…'}</h3><p>${esc(run.message||'The service is saving and checking the destination records.')} <span class="mono">${esc(run.id)}</span></p></div><div class="actions">${badge(run.status.replaceAll('_',' '),run.status==='needs_attention'?'warn':'')}<span class="tiny muted">${run.elapsed_ms} ms processing</span></div></div>`;}
+// Tab: the three verified destination records of the latest run, with follow-up actions.
 function results(s){
   const run=S.runs[s.id];
   if(!run)return empty('No automated run yet.','Use the single intake to create and verify the destination records.',link('Prepare the input','#scenario/'+s.id+'/automate','zap','primary'));
@@ -74,17 +125,25 @@ function results(s){
     return `<section class="destination" style="--accent:${t.color}"><header><h3>${esc(t.name)}</h3>${icon(record?'check':'clock')}</header><div class="destination-body">${record?`${badge(record.payload.status)}<div class="record-id mono">Record ${esc(record.id)} · revision ${record.revision}</div>${Object.entries(record.payload).filter(([k])=>!k.startsWith('_')&&k!=='status').map(([k,v])=>`<div class="fact"><span>${esc(k.replaceAll('_',' '))}</span><strong>${esc(v)}</strong></div>`).join('')}${link('Open saved record',`/workplace?scenario=${s.id}&app=${t.index}&record=${record.id}`,'external','',true)}`:`<p class="muted" style="font-size:12px">${run.status==='needs_attention'?'Waiting for the interrupted transfer to resume.':'Waiting for a verified record.'}</p>`}</div></section>`;
   }).join('')}</div><div class="panel section-gap"><div class="section-title"><div><h3>The work can keep moving.</h3><p>Continue the business process or take the evidence with you.</p></div></div><div class="actions">${button(s.action_label,'followup','arrow','primary',`data-scenario="${s.id}" ${run.status!=='complete'?'disabled':''}`)}${link('PDF packet',`/api/runs/${run.id}/report.pdf`,'download')}${link('Excel export',`/api/runs/${run.id}/report.xlsx`,'sheet')}${link('Evidence bundle',`/api/runs/${run.id}/evidence.zip`,'download')}${link('Inspect the run','#scenario/'+s.id+'/technical','code')}${['needs_attention','interrupted'].includes(run.status)?button('Resume saved job','resume','refresh','primary',`data-scenario="${s.id}"`):''}</div><p class="diagram-caption">Generated documents are demo drafts. Delivery addresses use example.invalid; messages stay in the local report app.</p></div>`;
 }
+// Placeholder panel for pages with nothing to show yet.
 function empty(heading,copy,action=''){return `<div class="empty">${icon('grid')}<h3>${heading}</h3><p>${copy}</p>${action}</div>`;}
+// Tab: actual HTTP traffic, destination settings and database state for the run.
 function technical(s){
   const run=S.runs[s.id],apps=S.dashboard.apps[s.id];
   return `${run?runBanner(run):''}<div class="two-col"><section><div class="panel"><div class="panel-head"><div><h2>Actual HTTP traffic</h2><p>POST a record → GET the saved record → compare the values.</p></div>${badge('Local API','gray')}</div>${run?.steps.length?run.steps.map(step=>`<details class="trace-step" ${step.status>=400?'open':''}><summary><span class="method">${step.method}</span><code>${esc(step.path)}</code>${badge(step.status,step.status>=400?'bad':'')}<span class="duration">${step.duration_ms} ms</span></summary><pre>${json(step.data)}</pre></details>`).join(''):empty('Waiting for a run.','Execute a workflow to inspect its real request and response bodies.')}${run?`<details class="section-gap"><summary class="tiny">Source provenance</summary><pre>${json(run.source)}</pre></details>`:''}</div><div class="panel"><h3>The translation layer</h3><p class="muted" style="font-size:11px;margin:9px 0 17px">A shared fact becomes the field name expected by each destination.</p><div class="table-scroll"><table><thead><tr><th>Intake fact</th>${s.targets.map(t=>`<th>${esc(t.name)}</th>`).join('')}</tr></thead><tbody>${s.fields.map(f=>`<tr><td>${esc(f.key)}</td>${s.targets.map(t=>`<td><code>${esc(t.mapping[f.key]||'—')}</code></td>`).join('')}</tr>`).join('')}</tbody></table></div></div></section><aside><section class="panel"><h3>Make a handoff fail. Recover it.</h3><p class="muted" style="font-size:11px;margin:10px 0 17px">These controls change the real destination API’s response. Completed steps remain saved.</p>${s.targets.map((t,i)=>`<div class="sequence-card" style="margin-top:10px"><h3>${esc(t.name)}</h3><div class="actions" style="margin:10px 0">${badge(apps[i].online?'Online':'Unavailable',apps[i].online?'':'bad')}${badge(apps[i].authorized?'Access granted':'Access revoked',apps[i].authorized?'gray':'warn')}</div><div class="actions">${button(apps[i].online?'Take offline':'Restore service','setting',apps[i].online?'alert':'check','small',`data-app="${t.id}" data-key="online" data-value="${!apps[i].online}"`)}${button(apps[i].authorized?'Revoke access':'Grant access','setting','lock','small',`data-app="${t.id}" data-key="authorized" data-value="${!apps[i].authorized}"`)}</div></div>`).join('')}<div class="section-gap">${run&&['needs_attention','interrupted'].includes(run.status)?button('Resume from saved step','resume','refresh','primary',`data-scenario="${s.id}"`):link('Start another run','#scenario/'+s.id+'/automate','play')}</div><div class="notice info">The local grant is demonstrated with a server-enforced 403 response. It does not claim that a commercial vendor approved access.</div></section><section class="panel"><h3>Cost & capacity</h3><div class="cost-grid section-gap"><div><strong>$0</strong><p>Required subscriptions and paid API calls.</p></div><div><strong>3</strong><p>Concurrent workers in this local demo.</p></div></div><p class="muted" style="font-size:11px;margin-top:15px">${esc(s.scale)}</p><p class="muted" style="font-size:11px;margin-top:12px">24 SQLite files keep workplace records independent. Jobs, source provenance, and request traces survive a restart. This is a single-machine showcase, not a benchmark of a production deployment.</p><div class="section-gap">${link('Research & provider limits','/docs/RESEARCH.md','external','small',true)}</div></section></aside></div><section class="panel section-gap"><h3>System structure</h3><img class="flow-diagram section-gap" src="/diagrams/architecture.png" alt="Automation system structure" loading="lazy"></section>`;
 }
+/**
+ * Render the data-source page (Google Sheets, sample historical sports data, file upload, messy workbook, schedule).
+ */
 function connections(){
   shell(title('REAL INPUTS. IMPERFECT DATA.','The mess is <span class="serif">welcome.</span>','Pull a public Google Sheet, drop in an ugly workbook, or fetch a historical sports report. Inspect what came back before it moves anywhere.')+`<div class="three-col"><section class="panel source-card"><span class="app-icon">${icon('sheet')}</span><h3>Google Sheets</h3><p>Read Google’s public sample classroom sheet. Map its names and classes into the event workflow; missing business facts are clearly marked demo defaults.</p><label class="field"><span>Public sheet URL</span><input id="sheet-url" value="${esc(S.config.sample_sheet)}" aria-label="Public sheet URL"></label>${button('Pull from Google Sheets','google','link','primary')}<p class="tiny no-margin" style="padding-top:15px">Public read access · no key · actual CSV request</p><a class="provider-link tiny" href="${esc(S.config.sample_sheet)}" target="_blank" rel="noopener">Open the original Google Sheet ↗</a></section><section class="panel source-card"><span class="app-icon" style="--accent:#9b7944">${icon('file')}</span><h3>Files from the real world</h3><p>CSV, Excel, labelled PDFs, or scanned pages. Local tools extract the fields; you review and map the values.</p><label class="file-drop"><span class="tiny">Drop or choose a file</span><input id="upload-input" type="file" accept=".csv,.tsv,.xlsx,.pdf,.png,.jpg,.jpeg"><p>Up to 8 MB · first Excel worksheet<br>Scan OCR reads the first three PDF pages</p></label><div class="actions section-gap">${Object.entries(S.config.tools).filter(([k])=>k!=='libreoffice').map(([k,v])=>badge(k,v?'gray':'warn')).join('')}</div></section><section class="panel source-card"><span class="app-icon" style="--accent:#8057d5">${icon('activity')}</span><h3>A real sports data API</h3><p>Fetch a historical F1 session, driver details, and lap data. Calculate the best recorded lap and populate a calendar and local briefing.</p><div class="source-tag">OpenF1 · session 9158 · driver 1<br>Three real GET requests, with timestamps.</div>${button('Fetch historical F1 data','openf1','globe','primary')}<p class="tiny no-margin" style="padding-top:15px">$0 historical endpoint · live service excluded</p><a class="provider-link tiny" href="https://openf1.org/docs/" target="_blank" rel="noopener">Provider documentation ↗</a></section></div><div id="connection-error"></div><section class="panel section-gap"><div class="section-title"><div><h2>Made ugly on purpose.</h2><p>These workbooks are generated here. The problems are deliberate; the cleanup actually runs.</p></div>${badge('Synthetic fixtures','gray')}</div><div class="table-scroll"><table><thead><tr><th>Business</th><th>What’s in the file</th><th>Take the source</th><th>Inspect it</th></tr></thead><tbody>${S.config.scenarios.map(s=>`<tr><td><strong>${esc(s.company)}</strong><br><span class="tiny muted">${esc(s.short)}</span></td><td>Title rows, extra spaces, duplicates${s.fields.some(f=>f.type==='email')?', broken email':''}${s.fields.some(f=>f.key==='slot'||f.key==='event_date')?', ambiguous dates':''}</td><td><div class="actions">${link('XLSX','/fixtures/'+s.id+'.xlsx','','small')}${link('CSV','/fixtures/'+s.id+'.csv','','small')}${link('PDF','/fixtures/'+s.id+'.pdf','','small')}</div></td><td>${button('Clean & map','fixture','arrow','small',`data-scenario="${s.id}"`)}</td></tr>`).join('')}</tbody></table></div></section><div class="two-col section-gap"><section class="panel"><h3>Repeat a source pull automatically.</h3><p class="muted" style="font-size:12px;margin:10px 0 18px">While this server is running, re-read the public source on a timer and populate its workflow. Unchanged rows deduplicate; problematic rows are held.</p><div class="form-grid"><label class="field"><span>Source</span><select id="schedule-kind"><option value="google">Google Sheet → event registration</option><option value="openf1">OpenF1 → personal sports report</option></select></label><label class="field"><span>Interval</span><select id="schedule-interval"><option value="300">Every 5 minutes</option><option value="60">Every 1 minute</option><option value="900">Every 15 minutes</option></select></label></div><div class="actions section-gap">${button('Enable schedule','schedule-on','clock','primary')}${button('Stop schedule','schedule-off','close')}</div><div id="schedule-status" class="source-tag section-gap">Schedule is off until you enable it.</div></section><section class="panel"><h3>What a real connection needs</h3><p class="muted" style="font-size:12px;margin:10px 0">Public sources can be read directly. A private business system needs its supported API, an account owner’s grant, and correctly scoped credentials.</p><p class="muted" style="font-size:12px">The research covers Google, OpenF1, OpenEMR, docassemble, WooCommerce, and eBay. Those business vendors are documented candidates; the 24 connected workplaces here are our own local demonstration apps.</p><div class="section-gap">${link('Read sources, access & costs','/docs/RESEARCH.md','external','',true)}</div></section></div>`,'Sources & connections');
   $('#upload-input').addEventListener('change',e=>upload(e.target.files[0],S.lastScenario||'hvac'));
   $('#connection-error').insertAdjacentHTML('beforebegin',`<div class="notice info"><strong>Presenting without internet?</strong> Use a verified provider response saved with its original fetch time. Recorded sources are labelled as replays.<div class="actions" style="margin-top:10px">${button('Replay Google sample','recorded-google','sheet','small')}${button('Replay F1 sample','recorded-openf1','activity','small')}</div></div>`);
   api('/api/schedules').then(showSchedule).catch(()=>{});
 }
+/**
+ * Render the source inspector: original and cleaned values side by side, with a field mapping the user can adjust.
+ */
 async function sourcePage(id,scenarioId){
   const s=scene(scenarioId),source=await api('/api/sources/'+id),mapping=(await api(`/api/sources/${id}/mapping?scenario=${s.id}`)).mapping;
   S.activeSource={source,mapping,scenario:s.id};
@@ -92,16 +151,27 @@ async function sourcePage(id,scenarioId){
   shell(title('SOURCE INSPECTOR',esc(source.name),'Original values stay visible beside the cleaned result. A suggested mapping is a starting point; the final intake remains editable.',badge(source.kind,'gray'))+`<div class="stats">${[[rows.length,'Nonblank rows'],[source.header_row,'Header found at row'],[source.cleanup_count,'Formatting fixes'],[source.review_count,'Rows needing review']].map(([n,l])=>`<div class="stat"><span class="stat-top">${l}</span><strong>${n}</strong></div>`).join('')}</div><div class="source-tag">${icon('globe')}${esc(source.note||source.auth||source.kind)} · fetched ${esc(stamp(source.fetched_at))}${source.http_status?` · HTTP ${source.http_status}`:''}${source.request_url?`<br><span class="mono">${esc(source.request_url)}</span>`:''}</div><section class="panel section-gap"><div class="panel-head"><div><h2>Before cleanup</h2><p>Source title rows, blanks, spacing, and values as received.</p></div>${badge('Original source','warn')}</div><div class="table-scroll"><table><tbody>${source.raw_preview.map((r,i)=>`<tr><th>${i+1}</th>${r.map(v=>`<td class="raw-cell">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section><section class="panel"><div class="panel-head"><div><h2>After cleanup</h2><p>Nothing ambiguous is silently guessed. Duplicate rows stay visible.</p></div>${badge('Review before sending','gray')}</div><div class="table-scroll"><table><thead><tr><th>Source row</th><th>Review state</th>${source.columns.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><td>${r.row_number}</td><td>${badge(r.duplicate?'Duplicate':r.issues.length?'Review':'Ready',r.issues.length?'warn':'')}<p class="tiny">${r.issues.map(esc).join('<br>')}</p></td>${source.columns.map(c=>`<td>${esc(r.values[c])}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section><section class="panel"><div class="panel-head"><div><h2>Choose where it goes.</h2><p>Map each destination fact to a source column. Unmapped values use labelled demo defaults.</p></div></div><div class="table-controls"><label class="field"><span>Workflow</span><select id="source-scenario">${S.config.scenarios.map(x=>`<option value="${x.id}" ${x.id===s.id?'selected':''}>${esc(x.short)}</option>`).join('')}</select></label><label class="field"><span>Row to review</span><select id="source-row">${rows.map((r,i)=>`<option value="${i}">Row ${r.row_number}${r.duplicate?' · duplicate':r.issues.length?' · review needed':''}</option>`).join('')}</select></label></div><form id="mapping-form"><div class="mapping-grid">${s.fields.map(f=>`<label class="field"><span>${esc(f.label)}</span><select name="${f.key}"><option value="">Demo default: ${esc(f.default)}</option>${source.columns.map(c=>`<option value="${esc(c)}" ${mapping[f.key]===c?'selected':''}>${esc(c)}</option>`).join('')}</select></label>`).join('')}</div></form><div class="form-footer">${button('Use this row in the intake','use-row','arrow','primary')}${button('Populate all ready rows','bulk','zap')}</div><div id="form-error"></div><div id="bulk-result"></div></section>${source.extracted_text?`<section class="panel"><h3>Extracted document text · ${esc(source.extraction_tool)}</h3><pre class="section-gap">${esc(source.extracted_text)}</pre></section>`:''}${source.requests?`<section class="panel"><h3>Actual provider requests</h3><pre class="section-gap">${json(source.requests)}</pre><details class="section-gap"><summary class="tiny">Provider records used for the calculation</summary><pre>${json(source.raw_records)}</pre></details></section>`:''}`,'Source inspector');
   $('#source-scenario').addEventListener('change',e=>location.hash=`source/${id}/${e.target.value}`);
 }
+// Read the mapping form into {field: column}, skipping empty choices.
 function sourceMap(){return Object.fromEntries(Object.entries(formData($('#mapping-form'))).filter(([,v])=>v));}
+/**
+ * Ask the server to turn one source row into intake data using the current mapping.
+ */
 async function useRow(row=Number($('#source-row').value)){
   const a=S.activeSource;return api('/api/mapping',{source_id:a.source.id,scenario:a.scenario,row,mapping:sourceMap()});
 }
+/**
+ * Render the gallery of recorded before-and-after browser captures, optionally for one scenario.
+ */
 async function evidence(filter){
   S.evidence=await api('/api/evidence');const captures=S.evidence.captures.filter(c=>!filter||c.scenario_id===filter);
   shell(title('ACTUAL BROWSER CAPTURES','See the <span class="serif">difference.</span>','The same synthetic business facts, entered manually and then propagated by the running tools. Each capture records its time, URL, and saved record reference.')+`<nav class="tabs"><a class="tab ${!filter?'active':''}" href="#evidence">All workflows</a>${S.config.scenarios.map(s=>`<a class="tab ${filter===s.id?'active':''}" href="#evidence/${s.id}">${esc(s.company)}</a>`).join('')}</nav>${captures.length?`<div class="evidence-grid">${captures.map(c=>`<a class="evidence-card" href="/${esc(c.path)}" target="_blank" rel="noopener"><img loading="lazy" src="/${esc(c.path)}" alt="${esc(c.label)}"><div><h3>${esc(scene(c.scenario_id).company)} · ${esc(c.label)}</h3><p>${esc(c.mode)} · ${esc(stamp(c.captured_at))}${c.target_record_id?' · '+esc(c.target_record_id):''}</p></div></a>`).join('')}</div><p class="diagram-caption">These retained captures describe the documented demonstration, not necessarily your most recent run. <a class="provider-link" href="/evidence/manifest.json" target="_blank">Inspect capture metadata and hashes.</a></p>`:empty('Capture gallery is being prepared.','The capture script opens each real workplace and saves its manual and automated states. Run npm run capture to refresh the gallery.')}`,'Before & after');
 }
+// Render the run history page.
 function history(){shell(title('PERSISTENT EXECUTION RECORD','Every handoff has a history.','Open a run to inspect its saved outputs, source provenance, and actual API traffic.')+`<section class="panel"><div class="table-scroll"><table><thead><tr><th>Workflow</th><th>Reference</th><th>State</th><th>Started</th><th>Processing</th><th></th></tr></thead><tbody>${S.dashboard.runs.map(r=>`<tr class="history-row"><td>${esc(scene(r.scenario).short)}<br><span class="tiny muted">${esc(r.kind)}</span></td><td class="mono">${esc(r.id)}</td><td>${badge(r.status.replaceAll('_',' '),r.status==='needs_attention'?'warn':r.status==='archived'?'gray':'')}</td><td>${esc(stamp(r.created))}</td><td>${r.elapsed_ms} ms</td><td>${button('Inspect','inspect-run','arrow','small',`data-run="${r.id}"`)}</td></tr>`).join('')||'<tr><td colspan="6">Run your first workflow to see its execution record here.</td></tr>'}</tbody></table></div></section>`,'Run history');}
 
+/**
+ * Render a simulated destination app (separate window) with its own form and, when opened from a record, that record read-only.
+ */
 async function workplace(){
   const params=new URLSearchParams(location.search),s=scene(params.get('scenario')),index=Number(params.get('app')||0),target=s.targets[index];
   if(!target)throw new Error('Unknown workplace.');
@@ -115,6 +185,9 @@ async function workplace(){
   if(record)$('#workplace-form').insertAdjacentHTML('afterend',`<div class="form-footer">${link('Download populated document',`/api/workplaces/${target.id}/document.pdf/${record.id}`,'download','primary')}</div>`);
 }
 
+/**
+ * Hash-based router: load config and dashboard, then render the page named in the URL. A newer navigation cancels an older one.
+ */
 async function route(){
   const version=++routeVersion;clearTimeout(pollTimer);
   try{
@@ -134,24 +207,36 @@ async function route(){
     else home();
   }catch(error){toast(error.message,true);if(!S.config)$('#app').innerHTML=`<main class="content">${empty('The local service is not available.',esc(error.message),button('Try again','reload','refresh','primary'))}</main>`;}
 }
+/**
+ * Re-fetch a running job every 350 ms and re-render until it finishes.
+ */
 function startPoll(id){clearTimeout(pollTimer);pollTimer=setTimeout(async()=>{
   try{S.runs[id]=await api('/api/runs/'+S.runs[id].id);S.dashboard=await api('/api/dashboard');if(S.route[0]==='scenario'&&S.route[1]===id){scenarioPage(scene(id),S.route[2]);}else if(['queued','running'].includes(S.runs[id].status))startPoll(id);}
   catch(e){toast(e.message,true);}
 },350);}
+/**
+ * Start a run from intake data, remember the returned run and move to the results tab.
+ */
 async function runWorkflow(s,data,kind='intake',action, eventId){
   const result=await api('/api/runs',{scenario:s.id,data,source:S.sources[s.id]||{kind:'synthetic demo intake'},kind,action,event_id:eventId});
   S.runs[s.id]=result.run;toast(result.reused?'Same input detected. Opened the existing run.':'Workflow started.');
   S.inputs[s.id]={...data};
   if(location.hash===`#scenario/${s.id}/results`)await route();else location.hash=`scenario/${s.id}/results`;
 }
+// Open the shared dialog with a title and content.
 function modal(title,content){const el=$('#modal');el.innerHTML=`<div class="modal-head"><h2>${esc(title)}</h2>${button('Close','close','close','small subtle')}</div>${content}`;el.showModal();}
+/**
+ * Read a chosen file as base64 (max 8 MB) and send it to the server for import.
+ */
 async function upload(file,scenarioId){
   if(!file)return;if(file.size>8000000){toast('Choose a file smaller than 8 MB.',true);return;}
   toast('Reading the document with local tools…');
   try{const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.onerror=reject;reader.readAsDataURL(file);});const source=await api('/api/sources/upload',{name:file.name,base64});$('#modal').close();location.hash=`source/${source.id}/${scenarioId}`;}
   catch(error){showError(error,'#connection-error');}
 }
+// Display the saved schedule state.
 function showSchedule(c){const el=$('#schedule-status');if(el)el.textContent=c.enabled?`Enabled · every ${c.interval} seconds. ${c.message||''}${c.last_run?' Last checked: '+stamp(c.last_run):''}`:'Schedule is off. Enable it to keep pulling while the server runs.';}
+// One delegated click handler: every button carries a data-action that is dispatched below.
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-action]');if(!b)return;
   const action=b.dataset.action,s=scene(b.dataset.scenario||S.route[1]||'hvac');
@@ -167,6 +252,7 @@ document.addEventListener('click',async e=>{
     if(action==='openf1'){toast('Fetching the historical session, driver, and laps…');const source=await api('/api/sources/openf1',{});location.hash=`source/${source.id}/sports`;}
     if(action==='upload-dialog'){modal('Bring in a source file',`<p>Choose CSV, XLSX, a labelled PDF, or a scanned page. You can inspect and correct the extracted values before sending them.</p><input id="modal-file" type="file" accept=".csv,.tsv,.xlsx,.pdf,.png,.jpg,.jpeg"><div id="connection-error"></div>`);$('#modal-file').addEventListener('change',e=>upload(e.target.files[0],s.id));}
     if(action==='use-row'){const mapped=await useRow();S.inputs[S.activeSource.scenario]=mapped.data;S.sources[S.activeSource.scenario]=mapped.source;location.hash=`scenario/${S.activeSource.scenario}/automate`;toast('Mapped values loaded. Review the intake before running.');}
+    // Bulk run: submit every clean, non-duplicate row; rows with issues (or any row from a scanned document) are held for review.
     if(action==='bulk'){
       const a=S.activeSource;let submitted=0,reused=0,held=0,issues=[];
       for(let i=0;i<a.source.rows.length;i++){
@@ -188,6 +274,7 @@ document.addEventListener('click',async e=>{
     if(action==='setting'){await api(`/api/workplaces/${b.dataset.app}/settings`,{[b.dataset.key]:b.dataset.value==='true'});await route();toast('Destination API setting updated.');}
     if(action==='resume'){S.runs[s.id]=(await api(`/api/runs/${S.runs[s.id].id}/resume`,{})).run;await route();startPoll(s.id);}
     if(action==='inspect-run'){const r=await api('/api/runs/'+b.dataset.run);S.runs[r.scenario]=r;location.hash=`scenario/${r.scenario}/technical`;}
+    // Follow-up action: a scenario-specific second step, either immediate or collected through a small form.
     if(action==='followup'){
       const run=S.runs[s.id];
       if(s.action==='duplicate')await runWorkflow(s,run.payload);
@@ -203,8 +290,12 @@ document.addEventListener('click',async e=>{
   }catch(error){showError(error,action==='apply-followup'?'#action-error':['google','openf1'].includes(action)?'#connection-error':'#form-error');}
   finally{b.disabled=false;}
 });
+// Update the address bar without adding a history entry.
 function historyReplace(url){window.history.replaceState(null,'',url);}
+// Pressing Enter in a form triggers its main button instead of reloading the page.
 document.addEventListener('submit',e=>{e.preventDefault();const action=e.target.id==='intake-form'?'run':e.target.id==='workplace-form'?'manual-save':null;if(action)$(`[data-action="${action}"]`,e.target)?.click();});
+// Re-render when the URL hash changes, then render the first page.
 window.addEventListener('hashchange',route);
+// Clicking outside the dialog box closes it.
 $('#modal').addEventListener('click',e=>{if(e.target===$('#modal')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();}});
 route();

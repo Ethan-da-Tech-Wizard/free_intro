@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Program: free_intro - build_books.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Builds the two offline checklist books (THE_WORKS and BUSINESS_PLAYBOOK) and the START_HERE landing page from Markdown sources and the app's scenario definitions.
 """Build the two offline checklist books from Markdown and actual app contracts."""
 import hashlib
 import html
@@ -7,20 +11,29 @@ from pathlib import Path
 import re
 import sys
 
+# ---- Setup ----
+# Repository root; app/ is put on the import path so the scenario definitions can be loaded.
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS
 
+# One tuple per book: file stem, short id, volume number, title, subtitle, tagline.
 BOOKS=[('THE_WORKS','works','01','The Works','The complete operator’s book','Learn every screen, every handoff, and every recovery.'),
        ('BUSINESS_PLAYBOOK','business','02','The Business Owner Playbook','The conversation and demonstration book','Ask better questions. Show the proof. Define useful work.')]
 
+# ---- Markdown building blocks ----
 def table(headers,rows):
+    """Return a Markdown table string; pipes and newlines inside cells are replaced so they cannot break the layout."""
     return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+['| '+' | '.join(str(c).replace('|',' / ').replace('\n',' ') for c in row)+' |' for row in rows])
 
 def field_table(s):
+    """Return a Markdown table of one scenario's form labels, practice values, and required/optional status."""
     return table(['Form label','Exact practice value','Requirement'],[[f['label'],'`'+str(f['default'])+'`','Required' if f['required'] else 'Optional'] for f in s['fields']])
 
 def expand(source):
+    """Fill the {{STATIONS}}, {{FIELDS:name}} and {{REFERENCE}} placeholders in a book's Markdown
+    with tables generated from the scenario definitions, so the book always matches the app.
+    """
     stations=table(['Workflow','Fictional business','Three independent apps'],[[s['short'],s['company'],' → '.join(t['name'] for t in s['targets'])] for s in DEFINITIONS.values()])
     source=source.replace('{{STATIONS}}',stations)
     source=re.sub(r'\{\{FIELDS:(\w+)\}\}',lambda m:field_table(DEFINITIONS[m[1]]),source)
@@ -34,9 +47,16 @@ def expand(source):
                 table(['Form label','Value to enter','Destination API field'],[[fields[k]['label'],'`'+str(fields[k]['default'])+'`','`'+t['mapping'][k]+'`'] for k in s['stage_fields'][i]])]
     return source.replace('{{REFERENCE}}','\n\n'.join(reference))
 
+# ---- Markdown to HTML ----
 def inline(value):
+    """Convert inline Markdown (code, links, bold) to safe HTML.
+
+    Code and links are swapped out for placeholders first so the rest of the text can be
+    HTML-escaped, then the finished pieces are put back.
+    """
     tokens=[]
     def save(text):
+        """Stash finished HTML in the tokens list and return a placeholder that stands in for it."""
         tokens.append(text);return '\x00'+str(len(tokens)-1)+'\x00'
     value=re.sub(r'`([^`]+)`',lambda m:save('<code>'+html.escape(m[1])+'</code>'),value)
     value=re.sub(r'\[([^\]]+)\]\(([^\s)]+)\)',lambda m:save('<a href="'+html.escape(m[2],quote=True)+'"'+(' target="_blank" rel="noopener"' if m[2].startswith('http') else '')+'>'+html.escape(m[1])+'</a>'),value)
@@ -45,24 +65,34 @@ def inline(value):
     return re.sub(r'\x00(\d+)\x00',lambda m:tokens[int(m[1])],value)
 
 def render(source,chapter):
+    """Convert one chapter of Markdown to HTML.
+
+    Handles fenced code, notes boxes, images, headings, tables, bullet lists (with [ ] / [x]
+    checkboxes that become saved-progress tasks) and paragraphs. Returns (html, task count).
+    """
     lines=source.strip().splitlines();out=[];i=0;task_count=0
     while i<len(lines):
         line=lines[i].strip()
         if not line:i+=1;continue
+        # Fenced code block: copy lines up to the closing fence.
         if line.startswith('```'):
             code=[];i+=1
             while i<len(lines) and not lines[i].startswith('```'):code.append(lines[i]);i+=1
             out.append('<pre><code>'+html.escape('\n'.join(code))+'</code></pre>');i+=1;continue
+        # Notes box: a text area whose content is saved by the browser, plus blank ruled lines for printing.
         if line.startswith(':::notes '):
             key,label=line[9:].split('|',1)
             out.append(f'<div class="notes"><label for="note-{html.escape(key)}"><strong>Your notes</strong><span>{inline(label)}</span></label><textarea id="note-{html.escape(key)}" data-note="{html.escape(key)}" rows="6" placeholder="Write here. Saved in this browser; use Export progress for a backup."></textarea><div class="print-note" data-print-note="{html.escape(key)}">________________________________________________________________________<br><br>________________________________________________________________________<br><br>________________________________________________________________________</div></div>');i+=1;continue
+        # Image line.
         image=re.fullmatch(r'!\[([^\]]+)\]\(([^)]+)\)',line)
         if image:
             path=image[2].removeprefix('../')
             out.append('<figure><a href="'+html.escape(path)+'" target="_blank" rel="noopener"><img src="'+html.escape(path)+'" alt="'+html.escape(image[1])+'" loading="lazy"></a><figcaption>'+inline(image[1])+'</figcaption></figure>');i+=1;continue
+        # Heading line (one to four # signs).
         heading=re.match(r'^(#{1,4}) (.+)',line)
         if heading:
             level=len(heading[1]);out.append(f'<h{level}>'+inline(heading[2])+f'</h{level}>');i+=1;continue
+        # Table: gather consecutive rows and drop the separator row.
         if line.startswith('|'):
             rows=[]
             while i<len(lines) and lines[i].strip().startswith('|'):
@@ -70,6 +100,7 @@ def render(source,chapter):
                 if not all(re.fullmatch(r':?-+:?',c) for c in cells):rows.append(cells)
                 i+=1
             out.append('<div class="table-wrap" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr>'+''.join('<th scope="col">'+inline(c)+'</th>' for c in rows[0])+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+inline(c)+'</td>' for c in row)+'</tr>' for row in rows[1:])+'</tbody></table></div>');continue
+        # Bullet list; "[ ]" items become checkboxes keyed by a hash of their text so progress survives edits elsewhere.
         if line.startswith('- '):
             out.append('<ul class="checklist">')
             while i<len(lines) and lines[i].strip().startswith('- '):
@@ -80,16 +111,24 @@ def render(source,chapter):
                 else:out.append('<li>'+inline(item)+'</li>')
                 i+=1
             out.append('</ul>');continue
+        # Anything else is a paragraph that continues until a blank line or a new block starts.
         paragraph=[line];i+=1
         while i<len(lines) and lines[i].strip() and not lines[i].startswith(('#','- ','|','```',':::notes ','![')):
             paragraph.append(lines[i].strip());i+=1
         out.append('<p>'+inline(' '.join(paragraph))+'</p>')
     return '\n'.join(out),task_count
 
+# ---- Book assembly ----
 def build(meta):
+    """Build one book's HTML page and its expanded Markdown copy; return its manifest entry.
+
+    Splits the source into numbered chapters, renders each, and wraps them with the
+    contents sidebar, search box, progress bar, and navigation controls.
+    """
     stem,book_id,volume,title,subtitle,tagline=meta
     source=expand((ROOT/'docs'/f'{stem}.md').read_text())
     if '{{' in source:raise ValueError('Unexpanded book marker')
+    # Chapters start with a "## NN. Title" line; the text before the first one is the cover introduction.
     parts=re.split(r'^## (\d{2}\. .+)$',source,flags=re.M)
     intro=parts[0].split('\n',1)[1]
     chapters=[];total=0
@@ -100,6 +139,7 @@ def build(meta):
     body=''.join(f'<section class="chapter" id="{c["id"]}" data-count="{c["count"]}"><div class="chapter-meta">CHAPTER {c["title"][:2]} · {c["count"]} CHECKPOINTS</div><h2>{html.escape(c["title"][4:])}</h2>{c["body"]}</section>' for c in chapters)
     other='BUSINESS_PLAYBOOK' if book_id=='works' else 'THE_WORKS'
     css=(ROOT/'web/books.css').read_text()
+    # The page embeds the shared stylesheet; behaviour comes from web/books.js.
     document=f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Relayworks</title><style>{css}</style><script src="web/books.js" defer></script></head>
 <body data-book="{book_id}"><a class="skip" href="#reading">Skip to reading</a>
@@ -115,6 +155,7 @@ def build(meta):
     return {'id':book_id,'title':title,'file':stem+'.html','chapters':len(chapters),'checkpoints':total,'words':len(source.split())}
 
 def main():
+    """Build both books, write the manifest, and write the START_HERE landing page."""
     (ROOT/'books').mkdir(exist_ok=True)
     manifest=[build(meta) for meta in BOOKS]
     (ROOT/'books/manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
@@ -123,4 +164,5 @@ def main():
     (ROOT/'START_HERE.html').write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start here · Relayworks</title><style>{css}</style></head><body class="landing"><main><a class="brand" href="START_HERE.html">↗ relayworks <small>FIELD LIBRARY</small></a><div class="eyebrow">YOUR TWO COMPLETE CHECKLIST BOOKS</div><h1>Learn the work.<br>Then show what it can do.</h1><p class="tagline">Start at your desktop. Practice every workflow. Walk into the conversation with the evidence and the words to explain it.</p><div class="book-grid">{cards}</div><section class="startup-card"><h2>First time here?</h2><ol><li>Open <strong>The Works</strong> above. Read chapter <strong>01. Open the books and start the demo</strong> for the exact file-manager and terminal instructions.</li><li>In Dolphin, open <code>/home/user/pg/free_intro</code> and double-click <strong>START_RELAYWORKS.desktop</strong>. If prompted, follow the trust or terminal instructions in chapter 01.</li><li>Or open Kitty and run these two lines:<pre><code>cd /home/user/pg/free_intro\npython3 scripts/launch.py</code></pre></li><li>When the service is ready, <a href="http://127.0.0.1:8765/" target="_blank" rel="noopener">open the demo ↗</a>. Keep your book in a separate tab.</li></ol><p>The books work as local files before the service starts. The demo requires the local server. Each book has a table of contents, search, saved checkmarks, notes, progress export/import, and print controls.</p><p>Practice files are ready in <code>practice_files/</code>. Blank PDF and complete Markdown editions are in <code>books/</code>. Browser notes stay on this computer; no account or paid service is required.</p></section><p class="edition">Built for /home/user/pg/free_intro · September 24, 2026</p></main></body></html>''')
     print(json.dumps(manifest,indent=2))
 
+# Run only when executed directly.
 if __name__=='__main__':main()

@@ -1,3 +1,7 @@
+# Program: free_intro - test_workflows.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Contract tests that run both local HTTP services against temporary stores and check workflow behaviour, imports, exports, and security rules.
 """Contract tests against both real local HTTP services and independent stores."""
 import base64
 import concurrent.futures
@@ -16,6 +20,8 @@ import urllib.error
 import urllib.request
 import zipfile
 
+# ---- Setup ----
+# Make the app modules importable.
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'app'))
 from config import DEFINITIONS, defaults
 from data_tools import import_file, messy_matrix, pdf_bytes, xlsx_bytes, suggest_mapping, google_sheet
@@ -23,9 +29,12 @@ from engine import Engine, Workplaces
 from server import Server, Handler
 
 
+# ---- Test fixture and helpers ----
 class Workflows(unittest.TestCase):
+    """End-to-end tests against a real portal server and a real workplace-app server on free local ports."""
     @classmethod
     def setUpClass(cls):
+        """Start both servers once, backed by a temporary folder, and serve them from background threads."""
         cls.tmp=tempfile.TemporaryDirectory(prefix='relay-test-')
         cls.api_server=Server(('127.0.0.1',0),Handler)
         cls.api_server.role='workplaces';cls.api_server.token='test-local-grant';cls.api_server.verbose=False
@@ -38,11 +47,13 @@ class Workflows(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """Stop the engine and both servers and delete the temporary folder."""
         cls.engine.pool.shutdown(wait=True)
         for server in [cls.portal,cls.api_server]:server.shutdown();server.server_close()
         cls.tmp.cleanup()
 
     def request(self,path,data=None,expected=200):
+        """Call the portal, assert the expected HTTP status, and return parsed JSON (or raw bytes for other content)."""
         req=urllib.request.Request(self.base+path,data=json.dumps(data).encode() if data is not None else None,headers={'Content-Type':'application/json'})
         try:response=urllib.request.urlopen(req,timeout=15)
         except urllib.error.HTTPError as e:response=e
@@ -50,9 +61,12 @@ class Workflows(unittest.TestCase):
             blob=response.read();self.assertEqual(response.status,expected,blob.decode(errors='replace')[:1000])
             return json.loads(blob) if 'application/json' in response.headers['Content-Type'] else blob
 
+    # Reset a workflow's workplace apps through the API.
     def reset(self,s):self.request('/api/reset',{'scenario':s})
+    # Queue a run (default data unless supplied); expects HTTP 202.
     def submit(self,s,data=None,**extra):return self.request('/api/runs',dict(scenario=s,data=data or defaults(s),**extra),202)
     def wait(self,run_id,status='complete'):
+        """Poll a run until it stops running, assert its final status, and return it (fails after 8 seconds)."""
         deadline=time.monotonic()+8
         while time.monotonic()<deadline:
             run=self.request('/api/runs/'+run_id)
@@ -61,7 +75,9 @@ class Workflows(unittest.TestCase):
             time.sleep(.025)
         self.fail('Workflow did not finish.')
 
+    # ---- Workflow behaviour ----
     def test_all_eight_workflows_write_and_read_back_three_independent_records(self):
+        """Every workflow must write three records via POST then GET, store them in separate databases, and treat an identical resubmission as a reused run."""
         for s,scene in DEFINITIONS.items():
             with self.subTest(scenario=s):
                 self.reset(s);result=self.submit(s);run=self.wait(result['run']['id'])
@@ -77,6 +93,7 @@ class Workflows(unittest.TestCase):
                 replay=self.submit(s);self.assertTrue(replay['reused']);self.assertEqual(replay['run']['id'],run['id'])
 
     def test_manual_entry_stays_in_its_own_app(self):
+        """A record typed into one app must appear only in that app."""
         self.reset('hvac');scene=DEFINITIONS['hvac'];data={k:defaults('hvac')[k] for k in scene['stage_fields'][0]}
         self.request('/api/workplaces/hvac-0/records',{'data':data},201)
         self.assertEqual(len(self.request('/api/workplaces/hvac-0/records')['records']),1)
@@ -84,6 +101,7 @@ class Workflows(unittest.TestCase):
         self.assertEqual(self.request('/api/workplaces/hvac-2/records')['records'],[])
 
     def test_grant_and_outage_resume_only_unfinished_steps(self):
+        """When an app denies access (403) or goes offline (503), resuming must redo only the unfinished steps."""
         for setting,code in [('authorized',403),('online',503)]:
             with self.subTest(setting=setting):
                 self.reset('hvac');self.request('/api/workplaces/hvac-1/settings',{setting:False})
@@ -102,6 +120,7 @@ class Workflows(unittest.TestCase):
                 self.assertEqual(saved['revision'],1)
 
     def test_concurrent_appointments_cannot_double_book(self):
+        """Two simultaneous requests for the same appointment slot: exactly one succeeds."""
         self.reset('clinic')
         with concurrent.futures.ThreadPoolExecutor(2) as pool:
             results=list(pool.map(lambda i:self.submit('clinic',dict(defaults('clinic'),patient_ref='RACE-'+str(i)))['run']['id'],range(2)))
@@ -117,6 +136,7 @@ class Workflows(unittest.TestCase):
         self.assertEqual(len(self.request('/api/workplaces/clinic-1/records')['records']),1)
 
     def test_stock_delivery_business_identity_prevents_double_counting(self):
+        """A repeated delivery receipt must not add stock twice; a changed quantity under the same receipt is refused."""
         self.reset('retail');first=self.wait(self.submit('retail')['run']['id'])
         changed=dict(defaults('retail'),supplier='Renamed supplier')
         second=self.wait(self.submit('retail',changed)['run']['id'])
@@ -127,6 +147,7 @@ class Workflows(unittest.TestCase):
         self.assertIn('receipt already changed stock',bad['message'])
 
     def test_visit_completion_generates_exact_invoice_and_replays_safely(self):
+        """Completing a visit gives the exact invoice total, a repeat is safe, and a second job for the same customer reuses the profile."""
         self.reset('hvac');self.wait(self.submit('hvac')['run']['id'])
         extra={'kind':'completion','action':{'hours':1.5,'hourly_rate':80,'parts':35},'event_id':'visit-done-1'}
         run=self.wait(self.submit('hvac',**extra)['run']['id'])
@@ -138,6 +159,7 @@ class Workflows(unittest.TestCase):
         self.assertEqual(len(self.request('/api/workplaces/hvac-0/records')['records']),1)
 
     def test_unique_item_has_only_one_sale_and_packing_slip(self):
+        """A one-of-a-kind item can be sold once; a second sale is refused."""
         self.reset('reseller');self.wait(self.submit('reseller')['run']['id'])
         extra={'kind':'sale','action':{'buyer':'Demo Buyer','ship_to':'1 Sample Street','sale_ref':'S-1'},'event_id':'sale-1'}
         run=self.wait(self.submit('reseller',**extra)['run']['id'])
@@ -149,6 +171,7 @@ class Workflows(unittest.TestCase):
         self.assertIn('already sold',bad['message'])
 
     def test_capacity_waitlist_and_checkin(self):
+        """Seats fill to capacity, the next attendee is waitlisted, and only a seated attendee can be checked in."""
         self.reset('events');data=dict(defaults('events'),capacity=1)
         first=self.wait(self.submit('events',data)['run']['id'])
         waitlisted=dict(data,registration_ref='WAIT-1',full_name='Waiting Example')
@@ -161,6 +184,7 @@ class Workflows(unittest.TestCase):
         self.assertTrue(all(o['record']['payload']['status']=='Checked in' for o in done['outputs']))
 
     def test_document_review_and_invoice_matching_block_invalid_input(self):
+        """A possible party match holds the intake until confirmed; invoice mismatches and bad amounts are refused."""
         self.reset('legal');data=dict(defaults('legal'),other_party='Existing demo client')
         self.request('/api/runs',{'scenario':'legal','data':data},422)
         self.assertEqual(self.request('/api/workplaces/legal-0/records')['records'],[])
@@ -174,6 +198,7 @@ class Workflows(unittest.TestCase):
         self.wait(self.submit('property',kind='invoice',action=action,event_id='I-3')['run']['id'])
 
     def test_excel_cleanup_mapping_and_held_rows(self):
+        """Each messy workbook is cleaned and mapped; a clean row runs, and a row with problems is refused."""
         for key,scene in DEFINITIONS.items():
             with self.subTest(scenario=key):
                 blob=xlsx_bytes(messy_matrix(scene));source=import_file(blob,key+'.xlsx')
@@ -191,6 +216,7 @@ class Workflows(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('pdftotext'),'Poppler is not installed')
     def test_real_pdf_import_export_and_excel_export(self):
+        """PDF text import, PDF and spreadsheet reports, and the evidence zip (skipped without pdftotext)."""
         scene=DEFINITIONS['legal'];blob=pdf_bytes('Legal intake',[f"{f['label']}: {f['default']}" for f in scene['fields']])
         parsed=import_file(blob,'intake.pdf')
         self.assertEqual(parsed['extraction_tool'],'pdftotext')
@@ -205,6 +231,7 @@ class Workflows(unittest.TestCase):
         with zipfile.ZipFile(io.BytesIO(bundle)) as z:self.assertIn('run-and-http-trace.json',z.namelist())
 
     def test_reset_invalidates_deduplication_but_retains_run_history(self):
+        """After a reset the same input can run again; the earlier run is archived and cannot be resumed."""
         self.reset('sports');first=self.wait(self.submit('sports')['run']['id'])
         self.reset('sports');second=self.wait(self.submit('sports')['run']['id'])
         self.assertNotEqual(first['id'],second['id'])
@@ -212,8 +239,10 @@ class Workflows(unittest.TestCase):
         self.request('/api/runs/'+first['id']+'/resume',{},409)
 
     def test_intervening_destination_edit_is_not_reported_as_verified(self):
+        """If another writer changes a record between the write and the read-back, the run must not be called verified."""
         self.reset('hvac');original=self.engine.api;intervened=[]
         def intercept(method,path,data=None,run_id=None,stage=-1,kind='api'):
+            """Wrapper for the engine's API call: just before the HVAC billing read-back, make an independent edit to the record, then continue normally."""
             if method=='GET' and stage==2 and kind=='readback' and not intervened:
                 intervened.append(True)
                 request=self.engine.run(run_id)['steps'][-1]['data']['request']
@@ -228,6 +257,7 @@ class Workflows(unittest.TestCase):
         self.assertEqual(run['steps'][-1]['kind'],'readback')
 
     def test_source_allowlist_and_cross_origin_protection(self):
+        """Only approved source hosts are accepted, cross-origin writes are refused, and the workplace API needs its bearer token."""
         self.request('/api/sources/google',{'url':'http://127.0.0.1:8766/private'},422)
         req=urllib.request.Request(self.base+'/api/reset',data=b'{"scenario":"hvac"}',headers={'Content-Type':'application/json','Origin':'https://untrusted.example'})
         with self.assertRaises(urllib.error.HTTPError) as error:urllib.request.urlopen(req)
@@ -238,4 +268,5 @@ class Workflows(unittest.TestCase):
         error.exception.close()
 
 
+# Run the tests when the file is executed directly.
 if __name__=='__main__':unittest.main()

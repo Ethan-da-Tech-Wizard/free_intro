@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
+# Program: free_intro - build_rehearsal_report.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Assembles the rehearsal findings page (audit/report-data.js) from the saved attempt journals, checklist text and live-source checks.
+
 """Publish the actual rehearsal journals, exact checklist wording, and live record links."""
 from datetime import datetime,timezone
 import hashlib,html,json,re
 from pathlib import Path
 from build_books import inline,render
 
+# Project root, audit folder and the local demo address.
 ROOT=Path(__file__).resolve().parents[1];AUDIT=ROOT/'audit';BASE='http://127.0.0.1:8875'
+# Read a JSON file.
 def load(p):return json.loads(p.read_text())
+# Escape a path for safe use inside an HTML attribute.
 def href(p):return html.escape(str(p),quote=True)
+# Render a coloured status label for a step.
 def tag(status):return f'<span class="status {status}">{html.escape({"passed":"Passed","failed":"Harness attempt failed","exercised":"Exercised","reviewed":"Reviewed against evidence","human":"Presenter action","native":"Native desktop check","conditional":"Conditional guidance"}.get(status,status))}</span>'
 
 def main():
+    # Final population state recorded by the last run.
+    """Collect every attempt's journal, screenshots and chapter proofs, match them with the checklist items of both books, and write the report data."""
     final=load(AUDIT/'final-state/manifest.json')
     (AUDIT/'live-sources.json').write_text((ROOT/'fixtures/public/verification.json').read_text())
     attempts=[(p,load(p)) for p in sorted((AUDIT/'attempts').glob('*/journal.json'))]
@@ -26,10 +37,12 @@ def main():
                 for img in proof.get('screenshots',[]):frames.append({'title':step['title']+' · workplace evidence','url':directory+'/'+img,'time':step['finished_at'],'state':'Recorded workplace form'})
                 for record in proof.get('outputs',[]):
                     if isinstance(record,dict) and record.get('screenshot'):frames.append({'title':step['title']+' · '+record.get('app','saved destination'),'url':directory+'/'+record['screenshot'],'time':step['finished_at'],'state':'Recorded saved destination'})
+    # Attach extra proof files to the chapters they cover.
     for chapter,paths in {'00':['books/verification/result.json','audit/reader-tests.log'],'01':['audit/lifecycle/proof.json','audit/file-lessons/commands.json'],'03':['docs/IMPLEMENTATION.md','audit/final-state/manifest.json'],'07':['audit/file-lessons/commands.json'],'23':['audit/lifecycle/proof.json'],'24':['audit/lifecycle/proof.json','books/verification/result.json'],'25':['audit/final-state/manifest.json'],'26':['audit/final-state/manifest.json','books/verification/result.json']}.items():
         chapter_proof.setdefault(chapter,[]).extend(paths)
     chapter_proof.setdefault('09',[]).append('audit/file-lessons/commands.json');chapter_proof.setdefault('22',[]).append('audit/file-lessons/commands.json')
     checks=[]
+    # Walk every checklist item in both books and look up the evidence that covers it.
     for stem,book in [('THE_WORKS','works'),('BUSINESS_PLAYBOOK','business')]:
         chapter='00';title='';order=0
         for line in (ROOT/'docs'/f'{stem}.md').read_text().splitlines():
@@ -89,4 +102,5 @@ def main():
     (AUDIT/'report-data.js').write_text('window.REHEARSAL_FRAMES = '+json.dumps(frames,ensure_ascii=False).replace('<','\\u003c')+';\n')
     print(json.dumps(report,indent=2))
 
+# Run main() when executed as a script.
 if __name__=='__main__':main()

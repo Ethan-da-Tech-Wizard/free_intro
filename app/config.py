@@ -1,15 +1,29 @@
+# Program: free_intro - config.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Defines the eight demo workflows (their form fields, three target apps each, and field mappings) that the server and engine read.
 """Scenario contracts for the running local showcase."""
 import json
 from pathlib import Path
 
+# ---- Paths and catalog ----
+# Repository root: two levels up from this file (app/config.py).
 ROOT = Path(__file__).resolve().parents[1]
+# Scenario text (story, rules, app names, outputs) is kept in docs/scenarios.json and indexed here by scenario id.
 CATALOG = {s['id']: s for s in json.loads((ROOT / 'docs/scenarios.json').read_text())['scenarios']}
 
 
 def field(key, label, value, kind='text', required=True):
+    """Build one form-field description used by the UI, validation, and mapping code.
+
+    key is the internal name, label the on-screen text, value the default shown,
+    kind one of text/email/number, and required whether an empty value is rejected.
+    """
     return {'key': key, 'label': label, 'default': value, 'type': kind, 'required': required}
 
 
+# ---- Shared field groups ----
+# Customer contact fields reused by the HVAC workflow. All values are fictional.
 CUSTOMER = [
     field('customer_ref', 'Customer reference', 'C-014'),
     field('full_name', 'Full name', 'Avery Example'),
@@ -20,6 +34,10 @@ CUSTOMER = [
     field('postal_code', 'Postal code', '12345'),
 ]
 
+# ---- Workflow definitions ----
+# One entry per workflow. Each lists its fields, which fields each of the three
+# target apps receives (stage_fields), the key each app uses to identify a record
+# (keys), and the extra follow-up action the workflow offers (action*).
 DEFINITIONS = {
     'hvac': dict(short='HVAC & field service', icon='wind', company='Desert Air',
         tagline='One service request. Three desks, already in sync.', color='#137e72',
@@ -108,6 +126,9 @@ DEFINITIONS = {
         keys=['registration_ref','registration_ref','registration_ref'],action='checkin',action_label='Check in attendee',action_fields=[]),
 }
 
+# ---- Per-app field names ----
+# Some canonical fields are stored under a different name in each target app.
+# The list position matches the app position (first, second, third app).
 ALIASES = {
     'full_name':['display_name','contact_name','addressee'],
     'email':['email','contact_email','delivery_email'],
@@ -116,6 +137,9 @@ ALIASES = {
     'customer_ref':['customer_ref','external_customer_ref','account_ref'],
 }
 
+# ---- Merge catalog text and build target-app descriptions ----
+# Runs once at import time and fills in each scenario with its catalog text and
+# the list of three target apps (name, colour, field mapping, output description).
 for key, scene in DEFINITIONS.items():
     scene['id'] = key
     scene['story'] = CATALOG[key]['story']
@@ -125,15 +149,20 @@ for key, scene in DEFINITIONS.items():
     scene['scale'] = CATALOG[key]['scale']
     scene['targets'] = []
     for i, name in enumerate(CATALOG[key]['apps']):
+        # Map each canonical field to the name this particular app uses for it.
+        # Fields without an alias keep their own name.
         mapping = {k: ALIASES.get(k, [k,k,k])[i] for k in scene['stage_fields'][i]}
         scene['targets'].append({'id':f'{key}-{i}', 'index':i, 'name':name,
+            # One fixed accent colour per app position.
             'color':['#137e72','#bb7636','#8057d5'][i], 'mapping':mapping,
             'primary':scene['keys'][i], 'output':CATALOG[key]['outputs'][i]})
 
 
 def defaults(scenario):
+    """Return the default value of every field for one scenario, keyed by field name."""
     return {f['key']: f['default'] for f in DEFINITIONS[scenario]['fields']}
 
 
 def public_config():
+    """Return all scenario definitions as a list, for sending to the browser."""
     return list(DEFINITIONS.values())

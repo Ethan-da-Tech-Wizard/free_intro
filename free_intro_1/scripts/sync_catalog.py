@@ -1,15 +1,23 @@
+# Program: free_intro - sync_catalog.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Rewrites docs/scenarios.json so its explanatory notes (rules, manual steps, automated steps, costs, evidence) match the implemented runtime contracts.
+
 """Align explanatory scenario notes with the implemented runtime contracts."""
 import json
 from pathlib import Path
 import sys
 
+# Project root: the folder above scripts/.
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS
 
+# Load the scenario catalogue that will be updated in place.
 source=ROOT/'docs/scenarios.json'
 catalog=json.loads(source.read_text())
 catalog['status']='Implemented local workflows with real public sources and actual browser evidence'
+# Per-scenario description of the follow-up action shown in the automated steps.
 followups={
  'hvac':'Apply a uniquely referenced completion event. Update the existing billing draft with diagnostic fee, approved labor, and parts. Reuse the customer for later jobs.',
  'sports':'Optionally fetch OpenF1 historical driver/session/lap data. Review the provider date, compute the best positive lap duration, and export a calendar file or local briefing.',
@@ -19,6 +27,7 @@ followups={
  'reseller':'A unique sale event decrements the one-off item to zero, marks the local listing sold, and fills the packing slip. A second distinct sale fails.',
  'property':'Match a contractor invoice to its ticket and approved estimate. Mismatched references or an unapproved overage stop before the follow-up writes.',
  'events':'Allocate the session seat or mark the attendee waitlisted. Only an attendee with a reserved seat can be checked in.'}
+# Per-scenario business rules the demo enforces.
 rules={
  'hvac':['A technician/time combination can be reserved by one job.','Customer reference is the explicit matching key; no fuzzy identity decision is implied.','Invoices stay drafts. Unique completion events apply approved labor and parts; payment is not charged.'],
  'sports':['Provider event date and retrieval time are distinct.','OpenF1 historical reads need no key; paid live access is excluded.','Recipient details are synthetic; provider facts retain provenance.'],
@@ -29,11 +38,13 @@ rules={
  'property':['Invoice job reference must match the repair ticket.','An amount above the approved estimate is held for review.','A matched invoice updates local records without making a payment.'],
  'events':['Registration reference is the stable business key when supplied.','Capacity allocation is transactional; full sessions become waitlisted.','Check-in requires an existing reserved seat.']}
 
+# Rebuild the derived notes for every scenario from its runtime definition.
 for story in catalog['scenarios']:
     s=DEFINITIONS[story['id']];key=s['id']
     story['sources']=['Generated labelled intake PDF and editable sample facts','Generated messy XLSX/CSV with original rows, normalization, duplicate flags, and review']
     if key=='sports':story['sources'].append('Actual OpenF1 historical session 9158 / driver 1, with a timestamped offline recording')
     if key=='events':story['sources'].append("Actual Google developer sample Sheet export; names/majors map to attendees/sessions, other facts are labelled defaults")
+    # Fields present in all three stages are the "shared" fields.
     common=set.intersection(*(set(fields) for fields in s['stage_fields']))
     story['shared_fields']=[f['label'] for f in s['fields'] if f['key'] in common]
     story['manual']=[f"Open {t['name']}, enter its {len(s['stage_fields'][i])} source fields, and save to its independent store." for i,t in enumerate(s['targets'])]
@@ -52,5 +63,6 @@ for story in catalog['scenarios']:
     if key=='sports':story['scale']='Each historical refresh makes three GET requests. A five-minute timer running for a full day makes 3 x 288 = 864 provider requests before retries; this is arithmetic, not a provider quota or a throughput benchmark. Unchanged mapped input reuses the saved run. Production fan-out would need shared caching, provider-aware rate limits, and bounded queues.'
     if key=='events':story['cost']+=' The public Google CSV export requires no account or key; availability is controlled by Google.'
     story['evidence']=['Actual browser captures show source paperwork, all three manually typed/saved forms, one intake, three automated records, HTTP proof, and failure/recovery.','The capture manifest records timestamps, URLs, modes, record IDs, source type, and file hashes.','Processing milliseconds are measured per run. Field-entry counts are structural comparisons, not human timing claims.']
+# Save the updated catalogue.
 source.write_text(json.dumps(catalog,indent=2,ensure_ascii=False)+'\n')
 print('Synchronized eight workflow descriptions with the running contracts.')

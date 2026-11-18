@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Program: free_intro - launch.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Starts, checks, opens or gracefully stops this workspace's demo server without installing packages or resetting data.
+
 """Start or open this workspace's demo; no package installation or data reset."""
 import argparse
 import json
@@ -12,15 +17,18 @@ import urllib.error
 import urllib.request
 import webbrowser
 
+# Project root and the normal local address of the demo.
 ROOT=Path(__file__).resolve().parents[1]
 URL='http://127.0.0.1:8875'
 
 def ready():
+    """Return True when the normal address answers and reports this workspace's own data folder and eight scenarios."""
     try:
         with urllib.request.urlopen(URL+'/api/config',timeout=2) as response:config=json.load(response)
         return Path(config.get('data_dir','')).resolve()==(ROOT/'runtime').resolve() and len(config.get('scenarios',[]))==8
     except (OSError,ValueError,urllib.error.URLError):return False
 
+# Find the process ids of this project's normal server by reading the process table (Linux /proc).
 def owned_servers():
     """Match only this project's normal instance, never another Python service."""
     matches=[]
@@ -32,7 +40,9 @@ def owned_servers():
             cwd=(entry/'cwd').resolve(strict=True)
             script=Path(words[1])
             if not script.is_absolute():script=cwd/script
+            # Only a Python process running this project's app/server.py counts.
             if script.resolve()!=(ROOT/'app/server.py').resolve():continue
+            # Re-parse the process's own command line so only a default-port, default-data-folder instance is treated as "normal".
             options=argparse.ArgumentParser(add_help=False)
             options.add_argument('--port',type=int,default=8875)
             options.add_argument('--workplace-port',type=int,default=8876)
@@ -47,6 +57,7 @@ def owned_servers():
     return matches
 
 def stop():
+    """Send a graceful interrupt to the single matching server and wait for it to exit; never force-kills it."""
     matches=owned_servers()
     if not matches:
         print('No normal Relayworks server from this workspace is running.');return 0
@@ -63,6 +74,7 @@ def stop():
     return 1
 
 def main():
+    """Handle --status, --stop, or start the server if needed (logging to runtime/launcher.log), wait until ready and optionally open a browser tab."""
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--no-browser',action='store_true',help='Start/check without opening a browser tab.')
     parser.add_argument('--book',choices=['works','business'],help='Open a checklist instead of the overview.')
@@ -91,4 +103,5 @@ def main():
     if not args.no_browser:webbrowser.open(target,new=2)
     return 0
 
+# Exit with the status code main() returns.
 if __name__=='__main__':raise SystemExit(main())

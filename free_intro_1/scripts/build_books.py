@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Program: free_intro - build_books.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Builds the two offline checklist books and the landing page as self-contained HTML files from the Markdown sources and the app's scenario definitions.
+
 """Build the two offline checklist books from Markdown and actual app contracts."""
 import hashlib
 import html
@@ -7,20 +12,26 @@ from pathlib import Path
 import re
 import sys
 
+# Project root: the folder above scripts/.
 ROOT=Path(__file__).resolve().parents[1]
+# Make the app/ modules importable.
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS
 
+# One tuple per book: Markdown file stem, short id, volume number, title, subtitle, tagline.
 BOOKS=[('THE_WORKS','works','01','The Works','The complete operator’s book','Learn every screen, every handoff, and every recovery.'),
        ('BUSINESS_PLAYBOOK','business','02','The Business Owner Playbook','The conversation and demonstration book','Ask better questions. Show the proof. Define useful work.')]
 
 def table(headers,rows):
+    """Format headers and rows as a Markdown table, replacing characters that would break the cells."""
     return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+['| '+' | '.join(str(c).replace('|',' / ').replace('\n',' ') for c in row)+' |' for row in rows])
 
 def field_table(s):
+    """Markdown table of a scenario's form labels, practice values and whether each is required."""
     return table(['Form label','Exact practice value','Requirement'],[[f['label'],'`'+str(f['default'])+'`','Required' if f['required'] else 'Optional'] for f in s['fields']])
 
 def expand(source):
+    """Replace the {{STATIONS}}, {{FIELDS:id}} and {{REFERENCE}} markers in a book with tables generated from the live scenario definitions."""
     stations=table(['Workflow','Fictional business','Three independent apps'],[[s['short'],s['company'],' → '.join(t['name'] for t in s['targets'])] for s in DEFINITIONS.values()])
     source=source.replace('{{STATIONS}}',stations)
     source=re.sub(r'\{\{FIELDS:(\w+)\}\}',lambda m:field_table(DEFINITIONS[m[1]]),source)
@@ -35,6 +46,7 @@ def expand(source):
     return source.replace('{{REFERENCE}}','\n\n'.join(reference))
 
 def inline(value):
+    """Convert inline Markdown (code, links, bold) to safe HTML; code and links are set aside first so their contents are not re-escaped."""
     tokens=[]
     def save(text):
         tokens.append(text);return '\x00'+str(len(tokens)-1)+'\x00'
@@ -45,6 +57,9 @@ def inline(value):
     return re.sub(r'\x00(\d+)\x00',lambda m:tokens[int(m[1])],value)
 
 def render(source,chapter):
+    """Convert one chapter of Markdown (headings, code blocks, notes boxes, images, tables, checklists, paragraphs) to HTML.
+    Returns (html, number of checklist tasks).
+    """
     lines=source.strip().splitlines();out=[];i=0;task_count=0
     while i<len(lines):
         line=lines[i].strip()
@@ -75,6 +90,7 @@ def render(source,chapter):
             while i<len(lines) and lines[i].strip().startswith('- '):
                 item=lines[i].strip()[2:];task=re.match(r'\[([ x])\] (.+)',item)
                 if task:
+                    # Each checklist item gets a stable id from its chapter and a hash of its text, so saved ticks survive rebuilds.
                     key=chapter+'-'+hashlib.sha256(task[2].encode()).hexdigest()[:12]
                     out.append('<li class="task"><label><input type="checkbox" data-task="'+key+'"'+(' checked' if task[1]=='x' else '')+'><span>'+inline(task[2])+'</span></label></li>');task_count+=1
                 else:out.append('<li>'+inline(item)+'</li>')
@@ -87,8 +103,10 @@ def render(source,chapter):
     return '\n'.join(out),task_count
 
 def build(meta):
+    """Build one book: expand its markers, split it into chapters, render each, and write the HTML page and the expanded Markdown copy."""
     stem,book_id,volume,title,subtitle,tagline=meta
     source=expand((ROOT/'docs'/f'{stem}.md').read_text())
+    # Fail loudly if any template marker was left unexpanded.
     if '{{' in source:raise ValueError('Unexpanded book marker')
     parts=re.split(r'^## (\d{2}\. .+)$',source,flags=re.M)
     intro=parts[0].split('\n',1)[1]
@@ -100,6 +118,7 @@ def build(meta):
     body=''.join(f'<section class="chapter" id="{c["id"]}" data-count="{c["count"]}"><div class="chapter-meta">CHAPTER {c["title"][:2]} · {c["count"]} CHECKPOINTS</div><h2>{html.escape(c["title"][4:])}</h2>{c["body"]}</section>' for c in chapters)
     other='BUSINESS_PLAYBOOK' if book_id=='works' else 'THE_WORKS'
     css=(ROOT/'web/books.css').read_text()
+    # The full page template, with the stylesheet embedded so the file works offline.
     document=f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} · Relayworks</title><style>{css}</style><script src="web/books.js" defer></script></head>
 <body data-book="{book_id}"><a class="skip" href="#reading">Skip to reading</a>
@@ -115,6 +134,7 @@ def build(meta):
     return {'id':book_id,'title':title,'file':stem+'.html','chapters':len(chapters),'checkpoints':total,'words':len(source.split())}
 
 def main():
+    """Build both books, write the manifest and the START_HERE landing page, and print the manifest."""
     (ROOT/'books').mkdir(exist_ok=True)
     manifest=[build(meta) for meta in BOOKS]
     (ROOT/'books/manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
@@ -123,4 +143,5 @@ def main():
     (ROOT/'START_HERE.html').write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start here · Relayworks</title><style>{css}</style></head><body class="landing"><main><a class="brand" href="START_HERE.html">↗ relayworks <small>FIELD LIBRARY</small></a><div class="eyebrow">YOUR TWO COMPLETE CHECKLIST BOOKS</div><h1>Learn the work.<br>Then show what it can do.</h1><p class="tagline">Start at your desktop. Practice every workflow. Walk into the conversation with the evidence and the words to explain it.</p><div class="book-grid">{cards}</div><section class="startup-card"><h2>This copy has been rehearsed.</h2><p>Open the <a href="AUDIT.html"><strong>findings and recorded walkthrough ↗</strong></a> to see the actual actions, corrected issues, all checklist words, and saved records in 24 apps. Native desktop and presenter actions are marked separately.</p></section><section class="startup-card"><h2>First time here?</h2><ol><li>Open <strong>The Works</strong> above. Read chapter <strong>01. Open the books and start the demo</strong> for the exact file-manager and terminal instructions.</li><li>In Dolphin, open <code>/home/user/pg/free_intro/free_intro_1</code> and double-click <strong>START_RELAYWORKS.desktop</strong>. If prompted, follow the trust or terminal instructions in chapter 01.</li><li>Or open Kitty and run these two lines:<pre><code>cd /home/user/pg/free_intro/free_intro_1\npython3 scripts/launch.py</code></pre></li><li>When the service is ready, <a href="http://127.0.0.1:8875/" target="_blank" rel="noopener">open the demo ↗</a>. Keep your book in a separate tab.</li></ol><p>The books work as local files before the service starts. The demo requires the local server. Each book has a table of contents, search, saved checkmarks, notes, progress export/import, and print controls.</p><p>Practice files are ready in <code>practice_files/</code>. Blank PDF and complete Markdown editions are in <code>books/</code>. Browser notes stay on this computer; no account or paid service is required.</p></section><p class="edition">Built for /home/user/pg/free_intro/free_intro_1 · September 24, 2026</p></main></body></html>''')
     print(json.dumps(manifest,indent=2))
 
+# Run main() when executed as a script.
 if __name__=='__main__':main()

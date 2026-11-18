@@ -1,15 +1,24 @@
+# Program: free_intro - config.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Defines the data contracts (fields, stages, destination apps) for each of the eight demo business scenarios and exposes them to the server.
+
 """Scenario contracts for the running local showcase."""
 import json
 from pathlib import Path
 
+# Project root folder: the folder above app/.
 ROOT = Path(__file__).resolve().parents[1]
+# Scenario catalogue loaded once at import time from docs/scenarios.json, keyed by scenario id.
 CATALOG = {s['id']: s for s in json.loads((ROOT / 'docs/scenarios.json').read_text())['scenarios']}
 
 
 def field(key, label, value, kind='text', required=True):
+    """Build one form-field description (key, label, default value, input type, required flag) as a plain dict."""
     return {'key': key, 'label': label, 'default': value, 'type': kind, 'required': required}
 
 
+# Customer contact fields shared by several scenarios; all values are synthetic sample data.
 CUSTOMER = [
     field('customer_ref', 'Customer reference', 'C-014'),
     field('full_name', 'Full name', 'Avery Example'),
@@ -20,7 +29,11 @@ CUSTOMER = [
     field('postal_code', 'Postal code', '12345'),
 ]
 
+# Per-scenario definitions. Each entry lists the intake fields, which fields each of the three
+# destination apps (stages) receives, the key used to identify the record at each stage, and the
+# single follow-up action the demo offers.
 DEFINITIONS = {
+    # HVAC scenario: one service request is kept in sync across three desks.
     'hvac': dict(short='HVAC & field service', icon='wind', company='Desert Air',
         tagline='One service request. Three desks, already in sync.', color='#137e72',
         primary='job_ref', fields=CUSTOMER + [
@@ -36,6 +49,7 @@ DEFINITIONS = {
                       ['customer_ref','full_name','phone','email','street','city','region','postal_code','job_ref','fee']],
         keys=['customer_ref','job_ref','job_ref'], action='completion', action_label='Complete the visit',
         action_fields=[field('hours','Approved labor hours',1.5,'number'),field('hourly_rate','Hourly rate (USD)',80,'number'),field('parts','Parts total (USD)',35,'number')]),
+    # Sports scenario: a public-API result becomes a personal report.
     'sports': dict(short='Sports & personal reports', icon='activity', company='Touchline Daily',
         tagline='Follow the data from a public API to your personal briefing.', color='#8057d5',
         primary='event_ref', fields=[
@@ -46,6 +60,7 @@ DEFINITIONS = {
             field('timezone','Display timezone','Etc/GMT+7')],
         stage_fields=[['event_ref','team','event_name','event_date','result','laps'],['event_ref','team','event_name','event_date','timezone'],['event_ref','full_name','email','team','event_name','event_date','result','laps']],
         keys=['event_ref','event_ref','event_ref'], action='refresh', action_label='Fetch historical F1 data',action_fields=[]),
+    # Law-office scenario: an intake packet becomes a matter, documents and dated tasks.
     'legal': dict(short='Law office', icon='scale', company='Juniper Legal',
         tagline='An intake packet becomes a matter, documents, and dated tasks.', color='#5662ae',
         primary='matter_ref', fields=[
@@ -56,6 +71,7 @@ DEFINITIONS = {
             field('office_name','Office name','Juniper Legal')],
         stage_fields=[['matter_ref','full_name','email','phone','street','other_party','matter_type'],['matter_ref','full_name','email','street','matter_type','office_name'],['matter_ref','full_name','email','appointment','matter_type']],
         keys=['matter_ref','matter_ref','matter_ref'],action='review',action_label='Demonstrate a review hold',action_fields=[]),
+    # Clinic scenario: synthetic patient details flow into an appointment and a packet.
     'clinic': dict(short='Clinic administration',icon='heart',company='Cedar Clinic',
         tagline='Synthetic patient details move cleanly into the appointment and packet.',color='#367aa8',
         primary='patient_ref',fields=[
@@ -66,6 +82,7 @@ DEFINITIONS = {
             field('slot','Appointment slot','2026-10-08 11:00'),field('visit_type','Visit type','Administrative intake')],
         stage_fields=[['patient_ref','full_name','birth_date','phone','email','street'],['patient_ref','full_name','birth_date','phone','provider','slot','visit_type'],['patient_ref','full_name','birth_date','phone','street','referral_ref','visit_type']],
         keys=['patient_ref','patient_ref','patient_ref'],action='conflict',action_label='Try a conflicting appointment',action_fields=[]),
+    # Retail scenario: one counted delivery updates receiving, stock and online availability.
     'retail': dict(short='Retail & inventory',icon='store',company='Corner Supply',
         tagline='One counted delivery updates receiving, stock, and online availability.',color='#b47b23',
         primary='receipt_ref',fields=[
@@ -76,6 +93,7 @@ DEFINITIONS = {
             field('reserved','Reserved units',2,'number')],
         stage_fields=[['receipt_ref','supplier','po_ref','sku','item_name','quantity','unit_cost'],['receipt_ref','sku','item_name','quantity','location','reserved'],['receipt_ref','sku','item_name','quantity','reserved']],
         keys=['receipt_ref','sku','sku'],action='duplicate',action_label='Replay the delivery',action_fields=[]),
+    # Reseller scenario: one item description feeds a listing and sale paperwork.
     'reseller': dict(short='Independent seller',icon='tag',company='Second Story',
         tagline='Describe an item once. Prepare its listing and sale paperwork.',color='#b25c87',
         primary='sku',fields=[
@@ -87,6 +105,7 @@ DEFINITIONS = {
         stage_fields=[['sku','title','description','condition','price','weight','dimensions'],['sku','title','description','condition','price','weight','dimensions'],['sku','title','price','weight','dimensions','seller','return_address']],
         keys=['sku','sku','sku'],action='sale',action_label='Record a sale',
         action_fields=[field('buyer','Buyer','Taylor Example'),field('ship_to','Delivery address','10 Example Terrace'),field('sale_ref','Sale reference','SALE-019')]),
+    # Property scenario: a repair request is followed through contractor work to an invoice match.
     'property': dict(short='Property operations',icon='building',company='Maple Properties',
         tagline='Follow a repair from the tenant request to the owner report.',color='#747c34',
         primary='ticket_ref',fields=[
@@ -97,6 +116,7 @@ DEFINITIONS = {
         stage_fields=[['ticket_ref','property_ref','unit','full_name','phone','issue'],['ticket_ref','property_ref','unit','full_name','phone','issue','access_window','contractor'],['ticket_ref','property_ref','unit','issue','contractor','estimate']],
         keys=['ticket_ref','ticket_ref','ticket_ref'],action='invoice',action_label='Match a contractor invoice',
         action_fields=[field('invoice_ref','Invoice reference','INV-080'),field('job_reference','Invoice job reference','FIX-016'),field('invoice_total','Invoice total (USD)',180,'number')]),
+    # Events scenario: registration rows become a roster, a seat and a badge.
     'events': dict(short='Community & events',icon='users',company='Gather Workshop',
         tagline='From messy registration rows to a roster, a seat, and a badge.',color='#bd6338',
         primary='registration_ref',fields=[
@@ -108,6 +128,8 @@ DEFINITIONS = {
         keys=['registration_ref','registration_ref','registration_ref'],action='checkin',action_label='Check in attendee',action_fields=[]),
 }
 
+# Destination-side field names. Each list gives the name used by destination app 0, 1 and 2, so the
+# same value is stored under a different name in each separate app (this is what the engine maps between).
 ALIASES = {
     'full_name':['display_name','contact_name','addressee'],
     'email':['email','contact_email','delivery_email'],
@@ -116,6 +138,8 @@ ALIASES = {
     'customer_ref':['customer_ref','external_customer_ref','account_ref'],
 }
 
+# Merge the catalogue text (story, rules, targets) into every scenario and build its three destination
+# apps, each with a colour, field mapping, primary key and expected output.
 for key, scene in DEFINITIONS.items():
     scene['id'] = key
     scene['story'] = CATALOG[key]['story']
@@ -125,6 +149,7 @@ for key, scene in DEFINITIONS.items():
     scene['scale'] = CATALOG[key]['scale']
     scene['targets'] = []
     for i, name in enumerate(CATALOG[key]['apps']):
+        # Rename each stage field to that app's own alias; unknown fields fall back to their own key.
         mapping = {k: ALIASES.get(k, [k,k,k])[i] for k in scene['stage_fields'][i]}
         scene['targets'].append({'id':f'{key}-{i}', 'index':i, 'name':name,
             'color':['#137e72','#bb7636','#8057d5'][i], 'mapping':mapping,
@@ -132,8 +157,10 @@ for key, scene in DEFINITIONS.items():
 
 
 def defaults(scenario):
+    """Return {field key: default value} for a scenario, used to pre-fill the intake form."""
     return {f['key']: f['default'] for f in DEFINITIONS[scenario]['fields']}
 
 
 def public_config():
+    """Return all scenario definitions as a list for the browser to render."""
     return list(DEFINITIONS.values())

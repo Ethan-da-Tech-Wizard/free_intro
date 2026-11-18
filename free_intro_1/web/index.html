@@ -1,19 +1,32 @@
 <!doctype html>
+<!--
+  Program: free_intro - index.html
+  Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+  Last Modified: 2026-11-18
+  Purpose: Page shell for the demo portal and simulated workplace apps; app.js builds all visible content inside it.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Browser toolbar colour and a short description for link previews. -->
   <meta name="theme-color" content="#126e61">
   <meta name="description" content="A working automation showcase. Follow one piece of information across independent workplace apps, with real API traces and before-and-after evidence.">
   <title>Relayworks · From busywork to flow</title>
+  <!-- Inline SVG icon, so the page needs no extra file. -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23126e61'/%3E%3Cpath d='M10 13h12l-5 7h13M10 27h12l-5-7' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/assets/styles.css">
+  <!-- The app code is loaded as a module and renders into the app container below. -->
   <script type="module" src="/assets/app.js"></script>
 </head>
 <body>
+  <!-- Keyboard shortcut link that jumps past the navigation. -->
   <a class="skip" href="#main">Skip to content</a>
+  <!-- Mount point filled by app.js; the loading message shows until it is ready. -->
   <div id="app"><div class="loading-screen"><span class="brand-mark">↗</span><p>Opening your demonstration workspace…</p></div></div>
+  <!-- Live region where short status messages appear (read out by screen readers). -->
   <div id="toast" role="status" aria-live="polite"></div>
+  <!-- Shared pop-up dialog used for confirmations and forms. -->
   <dialog id="modal"></dialog>
 </body>
 </html>

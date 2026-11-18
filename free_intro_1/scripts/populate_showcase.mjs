@@ -1,24 +1,43 @@
+// Program: free_intro - populate_showcase.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Leaves all 24 demo apps populated after reset exercises: resets each scenario, runs its follow-up actions through the real API, exports CSV/PDF files and takes screenshots into audit/final-state.
+
 /** Leave all 24 applications populated after destructive rehearsal/reset lessons. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {chromium} from '@playwright/test';
+// Project root and the address of the demo.
 const root=path.resolve(import.meta.dirname,'..'),base='http://127.0.0.1:8875';
+// Output folder for the final-state files.
 const dir=path.join(root,'audit/final-state');await fs.mkdir(dir,{recursive:true});
+/**
+ * Call the demo API (GET without a body, POST with JSON) and return the parsed reply.
+ */
 async function api(route,body){const r=await fetch(base+route,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});const d=await r.json();assert.ok(r.ok,JSON.stringify(d));return d;}
+// Refuse to run unless the server is the one using this project's own runtime folder; turn the timer off.
 const config=await api('/api/config');assert.equal(config.data_dir,path.join(root,'runtime'));
 await api('/api/schedules',{enabled:false,kind:'google',scenario:'events',interval:300});
+// Report collected for the manifest.
 const report={created_at:new Date().toISOString(),base,scenarios:[],note:'Final arrangement after all documented reset/failure lessons. Records below were saved through actual local APIs, then read back and opened in the browser. Earlier lesson evidence remains in audit/attempts.'};
+// Default intake values for every scenario.
 const inputs=Object.fromEntries(config.scenarios.map(s=>[s.id,Object.fromEntries(s.fields.map(f=>[f.key,f.default]))]));
+/**
+ * Start a run, wait for it to complete (checking all three destinations saved) and keep its JSON.
+ */
 async function run(id,data,kind='intake',action,event_id,source={kind:'final rehearsal presentation fixture'}){
  const response=await api('/api/runs',{scenario:id,data,kind,action,event_id,source});let result;
  for(let n=0;n<200;n++){result=await api('/api/runs/'+response.run.id);if(!['queued','running'].includes(result.status))break;await new Promise(r=>setTimeout(r,60));}
  assert.equal(result.status,'complete',result.message);assert.equal(result.outputs.length,3);await fs.writeFile(path.join(dir,'run-'+result.id+'.json'),JSON.stringify(result,null,2));return result;
 }
+// Load the earlier live-source verification so its recorded sources can be reused.
 const verified=JSON.parse(await fs.readFile(path.join(root,'fixtures/public/verification.json'),'utf8'));
+// For each scenario: reset, bring its apps online, then run the intake and the scenario's own follow-up cases.
 for(const s of config.scenarios){
  await api('/api/reset',{scenario:s.id});for(const t of s.targets)await api('/api/workplaces/'+t.id+'/settings',{online:true,authorized:true});
  let data=inputs[s.id],result,source;
+ // Sports and events use the recorded public-source data; the other scenarios use their default values.
  if(s.id==='sports'){
   const sourceId=verified.outcomes.find(o=>o.provider==='openf1').source_id;const mapped=await api('/api/mapping',{source_id:sourceId,scenario:s.id,row:0});data=mapped.data;source=mapped.source;
  }
@@ -39,6 +58,7 @@ for(const s of config.scenarios){
  if(s.id==='reseller'){result=await run(s.id,data,'sale',{buyer:'Taylor Example',ship_to:'10 Example Terrace',sale_ref:'SALE-019'},'sale-'+data.sku);assert.equal(result.outputs[0].record.payload.stock_quantity,0);}
  if(s.id==='property'){result=await run(s.id,data,'invoice',{invoice_ref:'INV-080',job_reference:'FIX-016',invoice_total:180},'invoice-'+data.ticket_ref);}
  if(s.id==='events'){data={...data,registration_ref:'REG-012',full_name:'Taylor Sample',email:'taylor@example.invalid',capacity:2};await run(s.id,data);result=await run(s.id,data,'checkin',{},'checkin-'+data.registration_ref);}
+ // Export each app's CSV and a PDF of its latest record, and note its record count.
  const apps=[];
  for(const t of s.targets){const records=await api('/api/workplaces/'+t.id+'/records');assert.ok(records.records.length);const r=result.outputs.find(o=>o.app_id===t.id).record;
   const csv=await fetch(base+'/api/workplaces/'+t.id+'/export.csv');assert.ok(csv.ok);await fs.writeFile(path.join(dir,t.id+'.csv'),Buffer.from(await csv.arrayBuffer()));
@@ -47,6 +67,7 @@ for(const s of config.scenarios){
  }
  report.scenarios.push({id:s.id,name:s.short,company:s.company,run_id:result.id,source:result.source,apps});console.log('POPULATED',s.id,apps.map(a=>a.count).join('/'));
 }
+// Take a browser screenshot of each scenario's results and of each saved record.
 const browser=await chromium.launch({headless:true});
 try{
  const p=await browser.newPage({viewport:{width:1440,height:1000}});
@@ -56,5 +77,6 @@ try{
   for(const a of s.apps){await p.goto(base+a.url);await p.getByRole('heading',{name:'Saved record',exact:true}).waitFor();await p.screenshot({path:path.join(dir,a.id+'.png'),fullPage:true});}
  }
 }finally{await browser.close();}
+// Finish the manifest with the dashboard state, schedule state and total record count.
 report.dashboard=await api('/api/dashboard');report.schedule=await api('/api/schedules');assert.equal(report.schedule.enabled,false);report.record_count=report.scenarios.flatMap(s=>s.apps).reduce((n,a)=>n+a.count,0);report.finished_at=new Date().toISOString();
 await fs.writeFile(path.join(dir,'manifest.json'),JSON.stringify(report,null,2)+'\n');console.log('PASS all 24 apps visible;',report.record_count,'records; all latest workflows complete; timer off.');

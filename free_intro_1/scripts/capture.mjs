@@ -1,18 +1,33 @@
+// Program: free_intro - capture.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Takes the before-and-after browser screenshots for every scenario (manual entry, automated run, HTTP trace, failure and recovery, messy workbook, public sources) and writes evidence/manifest.json.
+
 /** Actual browser evidence. This resets only the owned local demonstration stores. */
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import crypto from 'node:crypto';
+// Address of the running demo; override with the DEMO_URL environment variable.
 const base=process.env.DEMO_URL||'http://127.0.0.1:8875';
+// Desktop-sized headless browser; script errors on the page are collected and must be empty at the end.
 const viewport={width:1440,height:1050};
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport});
 const failures=[];page.on('pageerror',error=>failures.push(error.message));
+// Manifest that lists every capture (scenario, step, run, time, file) and is saved as evidence/manifest.json.
 const manifest={captured_at:new Date().toISOString(),fixture_revision:'demonstration-contract-1',note:'Actual Playwright browser interactions. Manual typing is scripted to make the comparison repeatable, not measured human performance. Local workplaces and people are synthetic. External source captures carry provenance.',captures:[]};
 await fs.mkdir('evidence',{recursive:true});
+// Helpers: GET and POST JSON through the browser's request context, failing on any error status.
 const get=async path=>{const r=await page.request.get(base+path);assert.ok(r.ok(),await r.text());return r.json();};
 const post=async(path,body)=>{const r=await page.request.post(base+path,{data:body});assert.ok(r.ok(),await r.text());return r.json();};
+/**
+ * Open a page and wait until its main heading is visible.
+ */
 async function go(path,heading){await page.goto(base+path);await page.getByRole('heading',{name:heading,exact:true}).first().waitFor();}
+/**
+ * Take a full-page screenshot with focus and toasts cleared, hash it and add it to the manifest.
+ */
 async function shot(s,step,label,mode='automated',run=null,record=null,sourceKind='synthetic demo fixture'){
   await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);document.getElementById('toast')?.classList.remove('visible');});
   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
@@ -20,14 +35,23 @@ async function shot(s,step,label,mode='automated',run=null,record=null,sourceKin
   const blob=await page.screenshot({path,fullPage:true,animations:'disabled'});
   manifest.captures.push({scenario_id:s.id,fixture_revision:manifest.fixture_revision,run_id:run?.id||null,mode,step_id:step,label,captured_at:new Date().toISOString(),app_url:page.url(),target_record_id:record,source_kind:sourceKind,viewport,path,sha256:crypto.createHash('sha256').update(blob).digest('hex')});
 }
+/**
+ * Poll a run until it leaves the queued/running states and assert its final status.
+ */
 async function waitRun(id,status='complete'){
   for(let n=0;n<100;n++){const r=await get('/api/runs/'+id);if(!['queued','running'].includes(r.status)){assert.equal(r.status,status,r.message);return r;}await new Promise(r=>setTimeout(r,60));}
   throw new Error('Run timed out.');
 }
+/**
+ * Wait for the latest non-archived run of a scenario, open the given tab and return the run.
+ */
 async function runAt(s,tab='results'){
   const dashboard=await get('/api/dashboard');const summary=dashboard.runs.find(r=>r.scenario===s.id&&r.status!=='archived');
   assert.ok(summary);const run=await waitRun(summary.id);await go(`/#scenario/${s.id}/${tab}`,tab==='technical'?'Actual HTTP traffic':s.short);await page.getByRole('heading',{name:'Three destinations. Verified.',exact:true}).waitFor();return run;
 }
+/**
+ * Type one app's fields by hand, save to that app, and capture the form and the saved record.
+ */
 async function fillManual(s,i){
   await go(`/workplace?scenario=${s.id}&app=${i}`,'Create a record');
   for(const key of s.stage_fields[i])await page.locator('#work-'+key).fill(String(s.fields.find(f=>f.key===key).default));
@@ -39,6 +63,7 @@ async function fillManual(s,i){
 }
 try{
   const config=await get('/api/config');
+  // With --refresh-technical only the HTTP-trace screenshots are retaken from their original runs; otherwise the full capture below runs.
   if(process.argv.includes('--refresh-technical')){
     const existing=JSON.parse(await fs.readFile('evidence/manifest.json','utf8'));
     for(const c of existing.captures.filter(c=>c.step_id==='09-technical-trace')){
@@ -54,15 +79,18 @@ try{
     await fs.writeFile('evidence/manifest.json',JSON.stringify(existing,null,2)+'\n');
     assert.deepEqual(failures,[]);console.log('Refreshed eight technical captures from their original retained runs.');
   }else{
+  // Switch the timer off, then capture each scenario in turn.
   await post('/api/schedules',{enabled:false,kind:'google',scenario:'events',interval:300});
   for(const s of config.scenarios){
     await post('/api/reset',{scenario:s.id});
     await go(`/#scenario/${s.id}/manual`,s.short);await shot(s,'01-source','Source paperwork · the same facts for both paths','source');
+    // Manual path: type the same facts into each of the three apps, then reset for the automated path.
     for(let i=0;i<3;i++)await fillManual(s,i);
     await post('/api/reset',{scenario:s.id});
     await go(`/#scenario/${s.id}/automate`,'Enter it once.');
     await page.getByRole('button',{name:'Preview field mapping'}).click();await page.getByRole('heading',{name:'Mapping preview'}).waitFor();
     await shot(s,'05-automation-review','After · one reviewed intake for all three apps','review');
+    // Automated path: one reviewed intake populates all three apps; each saved record and its PDF is captured and checked.
     await page.getByRole('button',{name:'Populate all three apps'}).click();
     await page.getByRole('heading',{name:'Three destinations. Verified.',exact:true}).waitFor();
     const run=await runAt(s);
@@ -76,6 +104,7 @@ try{
     await go(`/#scenario/${s.id}/technical`,'Actual HTTP traffic');
     await page.locator('.trace-step').first().locator('summary').click();await shot(s,'09-technical-trace','Proof · actual request and destination read-back','technical',run);
     // Every workflow demonstrates a real 403/503 handoff and a resumed, verified job.
+    // Failure demo: revoke access (HVAC) or take the third app offline, run, capture the error, restore and resume.
     const failureKey=s.id==='hvac'?'authorized':'online',failTarget=s.targets[2];
     await page.locator(`[data-action="setting"][data-app="${failTarget.id}"][data-key="${failureKey}"]`).click();
     const input=Object.fromEntries(s.fields.map(f=>[f.key,f.default]));input[s.primary]+='-RECOVERY';
@@ -92,6 +121,7 @@ try{
     assert.ok(recovered.steps.some(r=>r.status===403||r.status===503));
     await shot(s,'11-recovered','Recovery · completed steps retained, failed transfer resumed','recovery',recovered);
     // Additional domain-specific exception evidence.
+    // Scenario-specific exception captures: review hold (legal), slot conflict (clinic), and business follow-ups.
     if(s.id==='legal'){
       await go('/#scenario/legal/results','Law office');await page.getByRole('button',{name:s.action_label}).click();
       await page.getByRole('button',{name:'Preview field mapping'}).click();await page.locator('#form-error [role="alert"]').waitFor();
@@ -110,12 +140,14 @@ try{
       await page.getByRole('button',{name:'Apply and verify'}).click();await page.getByRole('heading',{name:'Three destinations. Verified.',exact:true}).waitFor();
       await shot(s,'12-business-followup',s.action_label+' · verified updated records','follow-up',await runAt(s));
     }
+    // Messy workbook inspector capture.
     const ugly=await post('/api/sources/fixture',{scenario:s.id});
     await go(`/#source/${ugly.id}/${s.id}`,s.company+' · messy workbook');await shot(s,'14-ugly-workbook','Original mess → cleaned values → explicit field mapping','source',null,null,ugly.kind);
     await fs.writeFile('evidence/manifest.json',JSON.stringify(manifest,null,2)+'\n');
     console.log('CAPTURED',s.id,manifest.captures.filter(c=>c.scenario_id===s.id).length,'screenshots');
   }
   // The externally fetched source pages show provider URLs, HTTP status and timestamps.
+  // Captures of the real public sources recorded by verify_sources.mjs.
   const verified=JSON.parse(await fs.readFile('fixtures/public/verification.json','utf8'));
   for(const item of verified.outcomes){
     const s=config.scenarios.find(s=>s.id===item.scenario),source=await get('/api/sources/'+item.source_id);

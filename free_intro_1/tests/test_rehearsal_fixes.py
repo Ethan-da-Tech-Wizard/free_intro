@@ -1,12 +1,22 @@
+# Program: free_intro - test_rehearsal_fixes.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Regression tests for problems found while following the operator book: dirty-email handling in source review and accent/middle-dot preservation in generated PDFs.
+
 """Regression checks for issues discovered while following the operator book."""
 from pathlib import Path
 import shutil,subprocess,sys,tempfile,unittest
+# Make the app/ modules importable.
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'app'))
 from config import DEFINITIONS
 from data_tools import normalize_table,messy_matrix,pdf_bytes
 
 class RehearsalFixes(unittest.TestCase):
+    """Regression checks for fixed rehearsal findings."""
     def test_legal_and_sports_dirty_emails_are_held_at_source_review(self):
+        """The messy sample sheets must lower-case clean emails, flag the bad row's email and slash date for review, and flag the duplicate row;
+        a shipping address column outside the sports template must not be treated as an email.
+        """
         for name,label,date in [('legal','CLIENT EMAIL','APPOINTMENT'),('sports','DELIVERY ADDRESS','EVENT DATE')]:
             with self.subTest(name=name):
                 table=normalize_table(messy_matrix(DEFINITIONS[name]),name,'test')
@@ -21,10 +31,12 @@ class RehearsalFixes(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('pdftotext'),'Poppler is not available')
     def test_pdf_preserves_supported_accent_and_middle_dot(self):
+        """Text with an accent and a middle dot must survive a round trip through the generated PDF and Poppler's text extraction."""
         values=['Equipment: Outdoor condenser · Unit A','Session: Repair café','Name: Renée Example']
         with tempfile.TemporaryDirectory() as directory:
             file=Path(directory)/'sample.pdf';file.write_bytes(pdf_bytes('Sample',values))
             text=subprocess.check_output(['pdftotext',str(file),'-']).decode()
             for value in values:self.assertIn(value,text)
 
+# Allow running this file directly.
 if __name__=='__main__':unittest.main()

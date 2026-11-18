@@ -1,3 +1,7 @@
+// Program: free_intro - books.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Browser tests for the offline books: navigation, search, saved progress, export/import, mobile and print views, plus end-to-end tutorials against a temporary demo server.
 /** Reader checks in isolated browser contexts and a separate demo server. */
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
@@ -7,25 +11,34 @@ import path from 'node:path';
 import net from 'node:net';
 import {pathToFileURL} from 'node:url';
 import {spawn} from 'node:child_process';
+// ---- Setup ----
+// Repository root and a temporary data folder so the tests never touch real demo data.
 const root=path.resolve(import.meta.dirname,'..');
 const temp=await fs.mkdtemp(path.join(os.tmpdir(),'relaybooks-test-'));
 const artifacts=path.join(root,'books/verification');await fs.mkdir(artifacts,{recursive:true});
+// Ask the operating system for a free local port.
 async function port(){const s=net.createServer();await new Promise(r=>s.listen(0,'127.0.0.1',r));const p=s.address().port;await new Promise(r=>s.close(r));return p;}
+// Start a separate demo server on free ports, using the temporary data folder.
 const p=await port(),wp=await port(),base='http://127.0.0.1:'+p;
 const server=spawn('python3',['app/server.py','--port',String(p),'--workplace-port',String(wp),'--data-dir',temp],{cwd:root,stdio:['ignore','pipe','pipe']});
 let serverError='';server.stderr.on('data',v=>serverError+=v);server.stdout.resume();
 const errors=[];const browser=await chromium.launch({headless:true});
+// Wait until the test server answers (up to about 8 seconds).
 async function ready(){for(let n=0;n<80;n++){try{if((await fetch(base+'/api/config')).ok)return;}catch{}await new Promise(r=>setTimeout(r,100));}throw Error('Server not ready: '+serverError);}
+// POST JSON through the page's request context and fail on an error status.
 async function post(page,url,data){const r=await page.request.post(base+url,{data});assert.ok(r.ok(),await r.text());return r.json();}
+// Click "Apply and verify" in the dialog and wait for the expected result heading.
 async function apply(page,heading='Three destinations. Verified.'){
   const response=page.waitForResponse(r=>r.url()===base+'/api/runs'&&r.request().method()==='POST');
   await page.getByRole('button',{name:'Apply and verify',exact:true}).click();assert.ok((await response).ok());
   await page.locator('#modal').waitFor({state:'hidden'});
   await page.getByRole('heading',{name:heading,exact:true}).waitFor();
 }
+// ---- Tests ----
 try{
   await ready();
   const manifest=JSON.parse(await fs.readFile(path.join(root,'books/manifest.json'),'utf8'));
+  // Each book is tested twice: opened as a local file and served over HTTP.
   for(const edition of ['file','http']){
     const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
     const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
@@ -66,6 +79,7 @@ try{
     }
     await context.close();
   }
+  // Landing page, book downloads, and the overview page links.
   const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/START_HERE.html');assert.equal(await page.getByRole('link',{name:'Open this book →'}).count(),2);
   await page.screenshot({path:path.join(artifacts,'library-desktop.png'),fullPage:true,animations:'disabled'});
@@ -73,6 +87,7 @@ try{
   await page.goto(base);await page.getByRole('heading',{name:'Your automation playground.'}).waitFor();assert.equal(await page.getByRole('link',{name:'Guides & checklists',exact:true}).count(),2);
   const config=await (await page.request.get(base+'/api/config')).json();
   // Follow the manual lesson using only the three workplace forms.
+  // Manual lesson: fill all three workplace forms and download each document.
   const hvac=config.scenarios.find(s=>s.id==='hvac');
   for(let i=0;i<3;i++){
     await page.goto(base+`/workplace?scenario=hvac&app=${i}`);await page.getByRole('heading',{name:'Create a record',exact:true}).waitFor();
@@ -81,6 +96,7 @@ try{
     const doc=page.getByRole('link',{name:'Download populated document',exact:true});assert.equal(await doc.count(),1);const r=await page.request.get(base+await doc.getAttribute('href'));assert.ok(r.ok());assert.equal((await r.body()).subarray(0,5).toString(),'%PDF-');
   }
   console.log('PASS full manual HVAC lesson: 32 field entries, 3 saved records and documents');
+  // Automated HVAC lesson, completion total, and second job.
   await post(page,'/api/reset',{scenario:'hvac'});
   await page.goto(base+'/#scenario/hvac/automate');await page.getByRole('button',{name:'Preview field mapping',exact:true}).click();await page.getByRole('heading',{name:'Mapping preview'}).waitFor();
   await page.getByRole('button',{name:'Populate all three apps',exact:true}).click();await page.getByRole('heading',{name:'Three destinations. Verified.',exact:true}).waitFor();
@@ -99,6 +115,7 @@ try{
   assert.deepEqual(errors,[]);
   await fs.writeFile(path.join(artifacts,'result.json'),JSON.stringify({checked_at:new Date().toISOString(),status:'passed',books:manifest,browser_errors:errors,environment:'isolated temporary app databases and browser contexts'},null,2));
   console.log('PASS no browser errors; all practice changes were in isolated temporary stores');
+// Cleanup: close the browser, stop the test server, and delete the temporary folder.
 }finally{
   await browser.close();server.kill('SIGINT');await new Promise(resolve=>{if(server.exitCode!==null)resolve();else server.once('exit',resolve);});await fs.rm(temp,{recursive:true,force:true});
 }

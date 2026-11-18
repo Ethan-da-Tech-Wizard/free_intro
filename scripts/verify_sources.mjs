@@ -1,8 +1,14 @@
+// Program: free_intro - verify_sources.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Fetches the real public sources, runs each through the full workflow, and saves recordings and verification results for offline use.
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+// Demo address (overridable with DEMO_URL) and a POST helper that fails on any error status.
 const base=process.env.DEMO_URL||'http://127.0.0.1:8765';
 const post=async(path,body)=>{const r=await fetch(base+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();assert.ok(r.ok,JSON.stringify(data));return data;};
 await fs.mkdir('fixtures/public',{recursive:true});
+// For each public provider: fetch it, save the recording, map the first row, run the workflow, wait for completion, and check three records came back.
 const outcomes=[];
 for(const [provider,scenario] of [['google','events'],['openf1','sports']]){
   const source=await post('/api/sources/'+provider,{});
@@ -16,4 +22,5 @@ for(const [provider,scenario] of [['google','events'],['openf1','sports']]){
   const outcome={provider,scenario,source_id:source.id,source_kind:source.kind,rows:source.rows.length,columns:source.columns,requests:source.requests||[{url:source.request_url,status:source.http_status}],fetched_at:source.fetched_at,run_id:run.id,outputs:run.outputs.map(o=>({app:o.app_id,record_id:o.record.id})),cost:source.cost};
   outcomes.push(outcome);console.log('VERIFIED',JSON.stringify(outcome));
 }
+// Save a summary of the checks.
 await fs.writeFile('fixtures/public/verification.json',JSON.stringify({verified_at:new Date().toISOString(),outcomes},null,2)+'\n');

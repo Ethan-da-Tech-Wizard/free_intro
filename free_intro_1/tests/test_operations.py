@@ -1,3 +1,8 @@
+# Program: free_intro - test_operations.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Tests that exercise real processes and tools: server restart with resume, OCR of a rasterised scan, and opening an exported workbook in LibreOffice.
+
 """Real process restart, scan OCR, and office/calendar interoperability."""
 import base64
 from datetime import datetime
@@ -14,32 +19,41 @@ import unittest
 import urllib.error
 import urllib.request
 
+# Project root: the folder above tests/.
 ROOT=Path(__file__).resolve().parents[1]
+# Make the app/ modules importable.
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS,defaults
 from data_tools import pdf_bytes,xlsx_bytes,import_file,messy_matrix
 
 
 class Operations(unittest.TestCase):
+    """Operational tests that use real subprocesses and external tools rather than in-process fakes."""
     def test_server_process_restart_retains_records_and_resumes_failed_job(self):
+        """Start the real server, take a destination offline mid-run, stop and restart the server, then confirm saved records persist and the resumed run finishes without rewriting completed steps; also check the calendar file and offline recordings."""
         with tempfile.TemporaryDirectory(prefix='relay-restart-') as directory:
             def port():
+                """Ask the OS for a free local TCP port."""
                 with socket.socket() as sock:sock.bind(('127.0.0.1',0));return sock.getsockname()[1]
             portal_port,api_port=port(),port();base=f'http://127.0.0.1:{portal_port}'
             def request(path,body=None):
+                """Call the portal API and return parsed JSON (or raw bytes for non-JSON responses)."""
                 req=urllib.request.Request(base+path,data=json.dumps(body).encode() if body is not None else None,headers={'Content-Type':'application/json'})
                 with urllib.request.urlopen(req,timeout=3) as response:
                     blob=response.read();return json.loads(blob) if 'application/json' in response.headers['Content-Type'] else blob
             def start():
+                """Launch the server as a child process and wait until it answers, failing the test with its output otherwise."""
                 proc=subprocess.Popen([sys.executable,str(ROOT/'app/server.py'),'--port',str(portal_port),'--workplace-port',str(api_port),'--data-dir',directory],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
                 for _ in range(60):
                     try:request('/api/config');return proc
                     except (urllib.error.URLError,ConnectionError):time.sleep(.05)
                 proc.kill();out=proc.communicate()[1];self.fail(out.decode())
             def stop(proc):
+                """Interrupt the server and require a clean exit."""
                 proc.send_signal(signal.SIGINT);_,err=proc.communicate(timeout=10)
                 self.assertEqual(proc.returncode,0,err.decode())
             def wait(run_id,state):
+                """Poll a run until it reaches the expected status."""
                 for _ in range(100):
                     result=request('/api/runs/'+run_id)
                     if result['status']==state:return result
@@ -70,6 +84,7 @@ class Operations(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('pdftoppm') and shutil.which('tesseract'),'Local scan tools are not installed')
     def test_scan_ocr_reads_real_rasterized_intake(self):
+        """Rasterise a generated intake PDF to an image and check OCR recovers its fields."""
         with tempfile.TemporaryDirectory(prefix='relay-scan-') as directory:
             root=Path(directory);scene=DEFINITIONS['hvac']
             source=root/'intake.pdf';source.write_bytes(pdf_bytes('Intake',[f"{f['label']}: {f['default']}" for f in scene['fields']]))
@@ -80,6 +95,7 @@ class Operations(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('libreoffice'),'LibreOffice is not installed')
     def test_exported_workbook_opens_in_actual_libreoffice(self):
+        """Convert a generated workbook to CSV with LibreOffice to prove standard office software can open it."""
         with tempfile.TemporaryDirectory(prefix='relay-office-') as directory:
             root=Path(directory);source=root/'messy.xlsx';source.write_bytes(xlsx_bytes(messy_matrix(DEFINITIONS['hvac'])))
             process=subprocess.run(['libreoffice','-env:UserInstallation='+(root/'profile').as_uri(),'--headless','--convert-to','csv','--outdir',str(root),str(source)],capture_output=True,timeout=40)
@@ -89,4 +105,5 @@ class Operations(unittest.TestCase):
             self.assertIn('CUSTOMER REFERENCE',text)
 
 
+# Allow running this file directly.
 if __name__=='__main__':unittest.main()

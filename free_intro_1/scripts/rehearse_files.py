@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
+# Program: free_intro - rehearse_files.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Runs the file and tool lessons (LibreOffice conversion, Poppler text extraction, Tesseract OCR, importer checks) for real and saves the exact commands and outcomes as evidence.
+
 """Execute local file/tool lessons and retain the exact commands and outcomes."""
 from datetime import datetime,timezone
 import hashlib,json,os
 from pathlib import Path
 import shutil,subprocess,sys,tempfile
 
+# Project root: the folder above scripts/.
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS
 from data_tools import read_xlsx,import_file
 
+# Evidence folder for this rehearsal; created if missing.
 out=ROOT/'audit/file-lessons';out.mkdir(parents=True,exist_ok=True)
+# Running record of every command executed, written to commands.json after each step.
 proof={'started_at':datetime.now(timezone.utc).isoformat(),'steps':[]}
 def command(chapter,title,args,env=None,timeout=60):
+    """Run one external command, append its arguments, exit code and output to the proof file, and raise if it failed."""
     run=subprocess.run(args,cwd=ROOT,capture_output=True,text=True,env=env,timeout=timeout)
     result={'chapter':chapter,'title':title,'command':args,'exit_code':run.returncode,'stdout':run.stdout,'stderr':run.stderr,'checked_at':datetime.now(timezone.utc).isoformat()}
     proof['steps'].append(result)
@@ -21,8 +30,10 @@ def command(chapter,title,args,env=None,timeout=60):
     print('PASS',title,flush=True)
     return run
 
+# Lesson steps: check the launcher, regenerate the practice files, then open each file with real tools and check the importer's results.
 command('01','Launcher status identifies the isolated instance',[sys.executable,'scripts/launch.py','--status'])
 command('07','Regenerate every CSV, XLSX, PDF and HVAC scan',[sys.executable,'scripts/make_practice_files.py'])
+# Use a throw-away LibreOffice profile so the user's own settings are untouched.
 with tempfile.TemporaryDirectory(prefix='relayworks-calc-') as profile:
     for id,s in DEFINITIONS.items():
         p=ROOT/'practice_files'/f'{id}-ugly.xlsx'
@@ -30,19 +41,23 @@ with tempfile.TemporaryDirectory(prefix='relayworks-calc-') as profile:
         text=(out/f'{id}-ugly.csv').read_text();assert s['fields'][0]['label'].upper() in text
         command('07',f'Read {id} intake PDF with Poppler',['pdftotext',str(ROOT/'practice_files'/f'{id}-intake.pdf'),str(out/f'{id}-intake.txt')])
         source=import_file(p.read_bytes(),p.name)
+        # Importer checks: the header is found on row 4, three data rows remain, and the third is flagged as a duplicate.
         assert source['header_row']==4 and len(source['rows'])==3
         assert source['rows'][2]['duplicate']
         if any(f['type']=='email' or f['key'] in ['slot','event_date','appointment'] for f in s['fields']):assert source['rows'][1]['issues']
         proof['steps'].append({'chapter':'07','title':id+' spreadsheet structure','status':'passed','header_row':4,'rows':[5,7,8],'duplicate_row':8,'review_issues':source['rows'][1]['issues']})
         (out/'commands.json').write_text(json.dumps(proof,indent=2))
+# OCR lesson: read the scanned HVAC intake and confirm a known name appears.
 command('09','Run Tesseract on the actual supplied PNG',['tesseract',str(ROOT/'practice_files/hvac-scanned-intake.png'),str(out/'scan-text')])
 assert 'Avery' in (out/'scan-text.txt').read_text()
+# Diagram lesson: copy the editable diagram file and render each of its views with the diagram tool.
 board=json.loads((ROOT/'diagrams/showcase.archi.json').read_text());assert len(board['views'])==10
 copy=out/'my-client-workflow.archi.json';shutil.copy2(ROOT/'diagrams/showcase.archi.json',copy)
 env=dict(os.environ,QT_QPA_PLATFORM='offscreen')
 for view in board['views']:
     sample=dict(board,activeView=view['id']);file=out/(view['id']+'.archi.json');file.write_text(json.dumps(sample))
     command('22','Archi opens and renders '+view['title'],['/home/user/pg/archi/build/archi','--export-png',str(file),str(out/(view['id']+'.png'))],env=env)
+# Record the master diagram's hash and finish the proof file.
 proof['archi_master_sha256']=hashlib.sha256((ROOT/'diagrams/showcase.archi.json').read_bytes()).hexdigest()
 proof['desktop_boundary']='Dolphin/Kitty commands and files are checked; physical KRunner keystrokes, file-manager double clicks, trust prompts, and Save As clicks are not claimed as automated desktop actions.'
 proof['status']='passed';proof['finished_at']=datetime.now(timezone.utc).isoformat();(out/'commands.json').write_text(json.dumps(proof,indent=2)+'\n')

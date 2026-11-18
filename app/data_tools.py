@@ -1,3 +1,7 @@
+# Program: free_intro - data_tools.py
+# Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+# Last Modified: 2026-11-18
+# Purpose: Reads, cleans, and maps spreadsheet/document/public-API data into rows, and writes simple XLSX and PDF files, using only the standard library.
 """Local document tools, spreadsheet cleanup, and read-only public connectors."""
 import csv
 from datetime import datetime, timezone
@@ -18,8 +22,13 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import zipfile
 
+# ---- Constants ----
+# Public example Google Sheet offered as a ready-made import source.
 SAMPLE_SHEET = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0'
+# XML namespace used by the spreadsheet files inside an .xlsx archive.
 NS = {'x':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+# Alternate spellings of column headings, keyed by the canonical field name.
+# Used to guess which source column holds which field.
 ALIASES = {
     'full_name':['full name','name','client name','customer name','student name','attendee','patient name','name of customer'],
     'email':['email','e mail','email address','contact email'],
@@ -42,16 +51,24 @@ ALIASES = {
 
 
 def now():
+    """Return the current UTC time as an ISO-8601 string with millisecond precision."""
     return datetime.now(timezone.utc).isoformat(timespec='milliseconds')
 
 
 def normalized_key(value):
+    """Reduce a heading to lowercase words separated by single spaces, so headings compare loosely."""
     return re.sub(r'[^a-z0-9]+',' ',str(value).lower()).strip()
 
 
 def suggest_mapping(columns, fields):
+    """Guess which source column feeds each field.
+
+    columns are the source headings and fields the scenario field list. Returns
+    {field key: column heading}; fields with no matching column are left out.
+    """
     output = {}
     for f in fields:
+        # Names a column may use: the field key, its label, or any known alias.
         names = {normalized_key(f['key']), normalized_key(f['label']), *ALIASES.get(f['key'], [])}
         for col in columns:
             if normalized_key(col) in names:
@@ -61,18 +78,26 @@ def suggest_mapping(columns, fields):
 
 
 def cleanup_cell(value, column):
+    """Tidy one cell and report what was changed and what needs a human look.
+
+    Returns (clean value, list of change notes, list of issues). Rules depend on the
+    column heading: email, phone, money amount, or date.
+    """
     raw = str(value or '')
+    # Collapse runs of whitespace (including non-breaking spaces) to single spaces.
     clean = re.sub(r'\s+', ' ', raw.replace('\xa0',' ')).strip()
     changes, issues = [], []
     key = normalized_key(column)
     if clean != raw:
         changes.append('Whitespace normalized')
+    # Email columns: lower-case, strip spaces around the @, and flag anything that is not shaped like an address.
     if key in sum((ALIASES[k] for k in ['email']), []):
         lowered = clean.lower().replace(' @','@').replace('@ ','@')
         if lowered != clean: changes.append('Email normalized')
         clean = lowered
         if clean and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',clean):
             issues.append('Email needs correction')
+    # Phone columns: 10 digits or 11 starting with 1 become +1 numbers; others are flagged for review.
     if key in ALIASES['phone'] and clean:
         digits = re.sub(r'\D','',clean)
         if len(digits)==10:
@@ -82,6 +107,7 @@ def cleanup_cell(value, column):
         elif not clean.startswith('+'):
             issues.append('Phone country/format needs review')
         if clean != raw.strip(): changes.append('Phone formatted')
+    # Money columns: remove USD, $ and commas, then require a finite number.
     money_words = {'fee','amount','charge','price','cost','total','estimate'}
     if set(key.split()) & money_words and clean:
         candidate = re.sub(r'(?i)\bUSD\b|\$|,','',clean).strip()
@@ -92,6 +118,7 @@ def cleanup_cell(value, column):
             if clean != raw.strip(): changes.append('Currency parsed')
         except InvalidOperation:
             issues.append('Amount is not a number')
+    # Dates written with slashes are ambiguous (day/month vs month/day), so ask for ISO format.
     if 'date' in key or key in ALIASES['slot']:
         if re.fullmatch(r'\d{1,2}/\d{1,2}/\d{2,4}', clean):
             issues.append('Slash date is ambiguous; choose an ISO date')
@@ -99,9 +126,15 @@ def cleanup_cell(value, column):
 
 
 def read_xlsx(blob):
+    """Read the first worksheet of an .xlsx file (given as bytes) into a list of rows of text.
+
+    Guards: the unpacked size is capped at 25 MB, at most 1001 rows and 80 columns
+    are read, and formulas with no cached result are marked instead of evaluated.
+    """
     with zipfile.ZipFile(io.BytesIO(blob)) as archive:
         if sum(i.file_size for i in archive.infolist()) > 25_000_000:
             raise ValueError('Workbook expands beyond the 25 MB demo limit.')
+        # Text cells point into a shared-strings table; load it first.
         shared=[]
         if 'xl/sharedStrings.xml' in archive.namelist():
             root=ET.fromstring(archive.read('xl/sharedStrings.xml'))
@@ -113,6 +146,7 @@ def read_xlsx(blob):
         for row in root.findall('x:sheetData/x:row',NS)[:1001]:
             values=[]
             for c in row.findall('x:c',NS):
+                # Convert the column letters of the cell address (A, B, ..., AA) to a number.
                 letters=re.match(r'[A-Z]+',c.get('r','A1')).group()
                 index=0
                 for letter in letters: index=index*26+ord(letter)-64
@@ -133,6 +167,10 @@ def read_xlsx(blob):
 
 
 def read_csv(blob):
+    """Read delimited text (bytes) into a list of rows, guessing the delimiter and encoding.
+
+    Tries UTF-8 (with optional BOM) and falls back to Windows-1252. Returns at most 1001 rows.
+    """
     try: text=blob.decode('utf-8-sig')
     except UnicodeDecodeError: text=blob.decode('cp1252')
     try: dialect=csv.Sniffer().sniff(text[:8000], delimiters=',;\t|')
@@ -146,9 +184,16 @@ def read_csv(blob):
 
 
 def normalize_table(matrix, name, source_kind, header_index=None):
+    """Turn a raw grid of cells into the cleaned table structure the app works with.
+
+    Finds the header row (unless header_index is given), makes column names unique,
+    cleans every cell, and flags duplicate and problem rows. The result is a dict with
+    columns, rows (raw, cleaned, changes, issues), and summary counts.
+    """
     if not matrix: raise ValueError('The source is empty.')
     known={v for values in ALIASES.values() for v in values}
     def score(row):
+        """Rate how header-like a row is: known headings score high, numeric cells score negative."""
         values=[normalized_key(v) for v in row if str(v).strip()]
         return sum(4 if v in known else 1 for v in values) - sum(v.replace(' ','').isdigit() for v in values)*2
     header_index=max(range(min(len(matrix),15)),key=lambda i:score(matrix[i])) if header_index is None else int(header_index)
@@ -169,6 +214,7 @@ def normalize_table(matrix, name, source_kind, header_index=None):
             cleaned[col]=clean
             changes.extend(f'{col}: {f}' for f in fix)
             issues.extend(f'{col}: {p}' for p in problem)
+        # Hash the cleaned values so identical rows can be recognised as duplicates.
         digest=hashlib.sha256(json.dumps(cleaned,sort_keys=True).encode()).hexdigest()
         duplicate=digest in seen
         if duplicate: issues.append('Duplicate of an earlier normalized row')
@@ -181,6 +227,11 @@ def normalize_table(matrix, name, source_kind, header_index=None):
 
 
 def extract_document(blob, filename):
+    """Pull "Label: value" pairs out of a PDF or image and return them as a one-row table.
+
+    Uses pdftotext for text PDFs and Tesseract OCR for scans and images; both are
+    external programs that must be installed. Work happens in a temporary directory.
+    """
     suffix=Path(filename).suffix.lower()
     with tempfile.TemporaryDirectory(prefix='relay-import-') as tmp:
         path=Path(tmp)/('source'+suffix); path.write_bytes(blob)
@@ -213,6 +264,10 @@ def extract_document(blob, filename):
 
 
 def import_file(blob, name):
+    """Choose the right reader for an uploaded file by extension and return its normalized table.
+
+    Files over 8 MB or of unsupported types are rejected with a ValueError.
+    """
     if len(blob)>8_000_000: raise ValueError('Use a file smaller than 8 MB for this local demo.')
     ext=Path(name).suffix.lower()
     if ext=='.xlsx': return normalize_table(read_xlsx(blob),name,'uploaded Excel workbook')
@@ -222,7 +277,9 @@ def import_file(blob, name):
 
 
 class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    """HTTP redirect handler that only follows redirects to Google spreadsheet hosts."""
     def redirect_request(self,req,fp,code,msg,headers,newurl):
+        """Reject any redirect (for example to a sign-in page) that leaves the allowed Google hosts."""
         host=urllib.parse.urlsplit(newurl).hostname or ''
         if not (host=='docs.google.com' or host.endswith('.googleusercontent.com')):
             raise ValueError('Source redirected to a sign-in page or unsupported host. Use a public demo sheet.')
@@ -230,6 +287,11 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def fetch_bytes(url, google=False):
+    """Download a URL and return (body bytes, HTTP status).
+
+    Only the Google Sheets and OpenF1 hosts are allowed. Responses are limited to 8 MB,
+    HTML pages are rejected, and common HTTP failures become readable ValueErrors.
+    """
     host=urllib.parse.urlsplit(url).hostname
     if host not in ['docs.google.com','api.openf1.org']:
         raise ValueError('Only Google Sheets and OpenF1 source hosts are supported.')
@@ -251,6 +313,11 @@ def fetch_bytes(url, google=False):
 
 
 def google_sheet(url):
+    """Fetch a public Google Sheets tab as CSV and return it as a normalized table.
+
+    Accepts normal and "published to web" sheet URLs and records the request details
+    and a hash of the downloaded data so the result can be traced.
+    """
     parts=urllib.parse.urlsplit(url.strip())
     if parts.scheme!='https' or parts.hostname!='docs.google.com':
         raise ValueError('Enter an https://docs.google.com/spreadsheets/ URL.')
@@ -269,6 +336,10 @@ def google_sheet(url):
 
 
 def openf1(session='9158',driver='1'):
+    """Fetch historical Formula 1 driver, lap, and session data from the OpenF1 public API.
+
+    Returns a one-row normalized table (best lap, laps counted) plus the request log.
+    """
     if not str(session).isdigit() or not str(driver).isdigit(): raise ValueError('Session and driver IDs must be numeric.')
     base='https://api.openf1.org/v1/'
     endpoints=[f'drivers?session_key={session}&driver_number={driver}',f'laps?session_key={session}&driver_number={driver}',f'sessions?session_key={session}']
@@ -289,7 +360,12 @@ def openf1(session='9158',driver='1'):
 
 
 def xlsx_bytes(matrix):
+    """Build a minimal single-sheet .xlsx file from a grid of values and return its bytes.
+
+    Numbers are stored as numbers and everything else as escaped text.
+    """
     def col_name(index):
+        """Convert a 1-based column number to spreadsheet letters (1 -> A, 27 -> AA)."""
         result=''
         while index: index,rem=divmod(index-1,26);result=chr(65+rem)+result
         return result
@@ -303,6 +379,7 @@ def xlsx_bytes(matrix):
             else:
                 cells.append(f'<c r="{address}" t="inlineStr"><is><t xml:space="preserve">{html.escape(str(value))}</t></is></c>')
         rows.append(f'<row r="{r}">'+''.join(cells)+'</row>')
+    # An .xlsx file is a zip of small XML parts; write the required parts by hand.
     mem=io.BytesIO()
     with zipfile.ZipFile(mem,'w',zipfile.ZIP_DEFLATED) as z:
         z.writestr('[Content_Types].xml','<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>')
@@ -314,11 +391,17 @@ def xlsx_bytes(matrix):
 
 
 def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks'):
+    """Build a simple multi-page text PDF (title bar, subtitle, wrapped lines) and return its bytes.
+
+    Written directly in PDF syntax with the built-in Helvetica font, so no PDF library is needed.
+    """
     def esc(text):
+        """Replace characters the basic font cannot show and escape PDF string delimiters."""
         for old,new in [('—','-'),('–','-'),('→','->'),('’',"'")]: text=str(text).replace(old,new)
         return str(text).replace('\\','\\\\').replace('(','\\(').replace(')','\\)')
     wrapped=[]
     for line in lines: wrapped += textwrap.wrap(str(line),87) or ['']
+    # Wrap lines to 87 characters and split into pages of 37 lines.
     chunks=[wrapped[i:i+37] for i in range(0,len(wrapped),37)] or [[]]
     objects=[b'',b'',b'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>']
     page_ids=[]
@@ -335,6 +418,8 @@ def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks
         objects.append(f'<< /Length {len(stream)} >>\nstream\n'.encode()+stream+b'\nendstream')
     objects[0]=b'<< /Type /Catalog /Pages 2 0 R >>'
     objects[1]=('<< /Type /Pages /Count '+str(len(page_ids))+' /Kids ['+' '.join(f'{i} 0 R' for i in page_ids)+'] >>').encode()
+    # Assemble the file: header, numbered objects, then the cross-reference table
+    # with each object's byte offset, and the trailer.
     output=bytearray(b'%PDF-1.4\n');offsets=[0]
     for i,obj in enumerate(objects,1):
         offsets.append(len(output));output.extend(f'{i} 0 obj\n'.encode()+obj+b'\nendobj\n')
@@ -345,6 +430,11 @@ def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks
 
 
 def messy_matrix(scenario):
+    """Create a deliberately untidy sample sheet for a scenario (title rows, extra spaces,
+    bad email, odd phone and money formats, ambiguous date, a near-duplicate row).
+
+    Used to demonstrate cleanup; all values are synthetic.
+    """
     fields=scenario['fields'];head=[f['label'] for f in fields]
     first=[f['default'] for f in fields]
     for i,f in enumerate(fields):

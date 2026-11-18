@@ -1,23 +1,37 @@
+// Program: free_intro - books.js
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Offline reader for the checklist books: chapter navigation, search, saved checkmarks and notes, progress export/import, and print support.
 /* Offline reader. No network, analytics, account, or demo mutations. */
+// Everything runs inside one function so no names leak into the page.
 (()=>{'use strict';
+  // ---- Page elements and state ----
   const $=selector=>document.querySelector(selector);
   const chapters=[...document.querySelectorAll('.chapter')];
   const tasks=[...document.querySelectorAll('[data-task]')];
   const notes=[...document.querySelectorAll('[data-note]')];
   const book=document.body.dataset.book;
   if(!book)return;
+  // Browser storage key; progress lives only in this browser unless exported.
   const key='relayworks-book-'+book+'-1';
+  // Saved state: checked tasks, notes, and the current chapter. whole = show the entire book at once.
   let state={version:1,book,checks:{},notes:{},chapter:chapters[0].id};
   let storageAvailable=true,whole=false;
+  // Show a message in the status line (styled as an error when requested).
   const status=(message,error=false)=>{const target=$('#reader-status');target.textContent=message;target.classList.toggle('error',error);};
+  // Check that an object has the shape of this book's progress data.
   const valid=value=>value&&value.version===1&&value.book===book&&typeof value.checks==='object'&&value.checks!==null&&!Array.isArray(value.checks)&&typeof value.notes==='object'&&value.notes!==null&&!Array.isArray(value.notes);
+  // Rebuild progress data keeping only tasks and notes that exist in this book and only true/string values.
   const sanitize=value=>({version:1,book,checks:Object.fromEntries(tasks.map(t=>[t.dataset.task,value.checks[t.dataset.task]===true])),notes:Object.fromEntries(notes.map(n=>[n.dataset.note,typeof value.notes[n.dataset.note]==='string'?value.notes[n.dataset.note].slice(0,100000):''])),chapter:chapters.some(c=>c.id===value.chapter)?value.chapter:chapters[0].id});
+  // Load earlier progress; if storage is blocked, carry on in memory and warn the reader.
   try{const raw=localStorage.getItem(key);if(raw){const parsed=JSON.parse(raw);if(valid(parsed))state=sanitize(parsed);}}
   catch{storageAvailable=false;status('Browser storage is unavailable. Export progress before closing to keep your checkmarks and notes.',true);}
+  // Write the state to browser storage, warning if that is not possible.
   function persist(){
     try{localStorage.setItem(key,JSON.stringify(state));storageAvailable=true;}
     catch{storageAvailable=false;status('Progress is held in this tab only. Use Export progress before closing it.',true);}
   }
+  // Redraw all checkboxes, the overall progress bar and label, and per-chapter counts from the state.
   function progress(){
     let count=0;
     for(const task of tasks){task.checked=!!state.checks[task.dataset.task];task.closest('li').classList.toggle('done',task.checked);if(task.checked)count++;}
@@ -25,9 +39,13 @@
     $('#progress-bar').style.width=(tasks.length?100*count/tasks.length:0)+'%';
     for(const chapter of chapters){const items=[...chapter.querySelectorAll('[data-task]')];const done=items.filter(t=>t.checked).length;document.querySelector(`[data-chapter-progress="${chapter.id}"]`).textContent=`${done} / ${items.length}`;}
   }
+  // Copy each note into its printable block so notes appear on paper.
   function printNotes(){for(const note of notes){const text=note.value.trim();const output=document.querySelector(`[data-print-note="${note.dataset.note}"]`);output.textContent=text||'________________________________________________________________________\n\n________________________________________________________________________\n\n________________________________________________________________________';}}
+  // Apply the saved state to the page.
   function restore(){progress();for(const note of notes)note.value=state.notes[note.dataset.note]||'';printNotes();}
+  // True when a chapter's text contains the search text, ignoring case.
   const queryMatches=(chapter,q)=>chapter.textContent.toLocaleLowerCase().includes(q);
+  // Show or hide chapters according to search text and reading mode, and update the pager buttons and labels.
   function show(scroll=false){
     const query=$('#book-search').value.trim().toLocaleLowerCase();
     let matches=0;
@@ -42,6 +60,7 @@
     $('#mode-button').textContent=whole?'One chapter at a time':'Read whole book';
     if(scroll)window.scrollTo({top:0,behavior:'instant'});
   }
+  // Switch to a chapter, clear any search, remember it, update the address, and close the mobile contents menu.
   function go(id){
     if(!chapters.some(c=>c.id===id))return;
     state.chapter=id;$('#book-search').value='';persist();
@@ -50,22 +69,28 @@
     if(whole)document.getElementById(id).scrollIntoView();
     $('#contents').classList.remove('open');$('#contents-button').setAttribute('aria-expanded','false');
   }
+  // ---- Event wiring ----
+  // Checking a task or typing a note saves it right away.
   tasks.forEach(task=>task.addEventListener('change',()=>{state.checks[task.dataset.task]=task.checked;persist();progress();}));
   notes.forEach(note=>note.addEventListener('input',()=>{state.notes[note.dataset.note]=note.value;persist();printNotes();}));
+  // Contents links, previous/next buttons, reading-mode switch, and search box.
   document.querySelectorAll('[data-chapter-link]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();go(link.dataset.chapterLink);}));
   $('#next-button').addEventListener('click',()=>go(chapters[chapters.findIndex(c=>c.id===state.chapter)+1]?.id));
   $('#previous-button').addEventListener('click',()=>go(chapters[chapters.findIndex(c=>c.id===state.chapter)-1]?.id));
   $('#mode-button').addEventListener('click',()=>{whole=!whole;show(true);});
   $('#book-search').addEventListener('input',()=>show(true));
   $('#contents-button').addEventListener('click',()=>{const open=$('#contents').classList.toggle('open');$('#contents-button').setAttribute('aria-expanded',String(open));});
+  // Printing makes sure notes are copied into their print blocks first.
   $('#print-button').addEventListener('click',()=>{printNotes();window.print();});
   window.addEventListener('beforeprint',printNotes);
+  // Export: download the state as a JSON file for backup.
   $('#export-button').addEventListener('click',()=>{
     const blob=new Blob([JSON.stringify({...state,exported_at:new Date().toISOString()},null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download=`relayworks-${book}-progress-${new Date().toISOString().slice(0,10)}.json`;document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
     status('Progress export prepared. Check your browser downloads and keep the JSON file.');
   });
   $('#import-button').addEventListener('click',()=>$('#import-file').click());
+  // Import: validate a chosen progress file, merge it (checks are added; non-empty notes replace local notes), and report the result.
   $('#import-file').addEventListener('change',async event=>{
     const file=event.target.files[0];if(!file)return;
     try{
@@ -80,6 +105,7 @@
       status(storageAvailable?'Progress imported. Checkmarks were merged; matching nonempty imported notes replaced local notes.':'Progress imported into this tab. Export before closing because browser storage is unavailable.');
     }catch(error){status('Import failed: '+error.message,true);}finally{event.target.value='';}
   });
+  // Follow chapter links in the address bar, then draw the first view.
   window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(chapters.some(c=>c.id===id)){state.chapter=id;show(true);}});
   const hash=location.hash.slice(1);if(chapters.some(c=>c.id===hash))state.chapter=hash;
   restore();show();

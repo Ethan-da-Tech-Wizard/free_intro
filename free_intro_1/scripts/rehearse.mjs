@@ -1,27 +1,42 @@
+// Program: free_intro - rehearse.mjs
+// Programmer: Ethan-da-Tech-Wizard (written with Claude, an AI assistant)
+// Last Modified: 2026-11-18
+// Purpose: Complete operator rehearsal: follows every chapter of the checklist books in a real browser against the running demo, keeping a journal, screenshots and a browser trace for each step.
+
 /** Complete operator rehearsal. Uses the isolated copy's browser UI and keeps evidence. */
 import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+// Project root, demo address and evidence folders; each attempt gets its own timestamped folder.
 const root=path.resolve(import.meta.dirname,'..');
 const base='http://127.0.0.1:8875';
 const audit=path.join(root,'audit');
 const attempt=new Date().toISOString().replace(/[:.]/g,'-');
 const folder=path.join(audit,'attempts',attempt);
 await fs.mkdir(path.join(folder,'screenshots'),{recursive:true});await fs.mkdir(path.join(folder,'downloads'));
+// Launch a browser (visible when SHOW_BROWSER is set) and record a trace of everything it does.
 const browser=await chromium.launch({headless:!process.env.SHOW_BROWSER});
 const context=await browser.newContext({viewport:{width:1440,height:1050},acceptDownloads:true});
 await context.tracing.start({screenshots:true,snapshots:true,sources:true});
 const page=await context.newPage();page.setDefaultTimeout(12000);
 const errors=[];context.on('page',p=>p.on('pageerror',e=>errors.push(e.message)));page.on('pageerror',e=>errors.push(e.message));
+// Journal of every step and its outcome, saved after each step.
 const ledger={attempt,started_at:new Date().toISOString(),base,steps:[],status:'running',browser_errors:errors};
 let serial=0,last=null,chapter=0;
 const get=async route=>{const r=await page.request.get(base+route);assert.ok(r.ok(),await r.text());return r.json();};
+// Refuse to run against any workspace other than this project's own runtime folder.
 const config=await get('/api/config');
 assert.equal(path.resolve(config.data_dir),path.join(root,'runtime'),'Refusing to rehearse against another workspace.');
 const scene=id=>config.scenarios.find(s=>s.id===id);
+/**
+ * Write the journal for this attempt and as the current one.
+ */
 async function save(){await fs.writeFile(path.join(folder,'journal.json'),JSON.stringify(ledger,null,2));await fs.writeFile(path.join(audit,'current.json'),JSON.stringify(ledger,null,2));}
+/**
+ * Run one documented step: log it, record pass or fail with its proof and a screenshot, and rethrow failures.
+ */
 async function step(title,fn){
   const item={id:String(++serial).padStart(3,'0'),chapter:String(chapter).padStart(2,'0'),title,started_at:new Date().toISOString(),status:'running'};ledger.steps.push(item);await save();
   console.log('DO',item.chapter,item.id,title);
@@ -29,12 +44,14 @@ async function step(title,fn){
   catch(e){item.status='failed';item.error=e.stack;throw e;}
   finally{item.finished_at=new Date().toISOString();item.url=page.url();const file=`screenshots/${item.id}.png`;await page.screenshot({path:path.join(folder,file),fullPage:true,animations:'disabled'}).then(()=>item.screenshot=file).catch(()=>{});await save();}
 }
+// Small browser helpers used by the chapters: navigate, open a tab, reset a scenario, fill fields and click buttons while capturing the server's reply.
 async function go(route,heading){await page.goto(base+route);if(heading)await page.getByRole('heading',{name:heading,exact:true}).first().waitFor();}
 async function tab(label){await page.getByRole('link',{name:label==='Under the hood'?/^Under the hood/:label,exact:label!=='Under the hood'}).first().click();}
 async function reset(id){await go(`/#scenario/${id}/manual`,scene(id).short);await page.getByRole('button',{name:'Reset workplaces'}).click();await page.getByRole('button',{name:'Clear these demo records'}).click();await page.locator('#modal').waitFor({state:'hidden'});await expect(page.locator('#toast')).toContainText('Workplaces cleared');last=null;}
 async function field(key,value){await page.locator('#intake-'+key).fill(String(value));}
 async function fields(values){for(const [k,v] of Object.entries(values))await field(k,v);}
 async function requestClick(label,route){const response=page.waitForResponse(r=>r.url()===base+route&&r.request().method()==='POST');await page.getByRole('button',{name:label,exact:true}).click();const r=await response;return {status:r.status(),data:await r.json()};}
+// Poll a run until it reaches the wanted status.
 async function waitRun(id,status='complete'){
   let run;for(let n=0;n<160;n++){run=await get('/api/runs/'+id);if(!['queued','running'].includes(run.status))break;await new Promise(r=>setTimeout(r,80));}
   assert.equal(run.status,status,run.message);last=run;
@@ -42,14 +59,19 @@ async function waitRun(id,status='complete'){
   await expect(page.locator('.run-banner')).toHaveClass(new RegExp(status));
   await fs.writeFile(path.join(folder,'run-'+id+'.json'),JSON.stringify(run,null,2));return run;
 }
+// Start a run from the intake form and return the finished run.
 async function run(status='complete'){const result=await requestClick('Populate all three apps','/api/runs');assert.equal(result.status,202,JSON.stringify(result));return waitRun(result.data.run.id,status);}
+// Trigger a scenario's follow-up action with optional field values.
 async function follow(label,values={},status='complete',event){await page.getByRole('button',{name:label,exact:true}).click();for(const [k,v] of Object.entries(values))await page.locator('#action-'+k).fill(String(v));if(event)await page.locator('[name="event_id"]').fill(event);const result=await requestClick('Apply and verify','/api/runs');assert.equal(result.status,202,JSON.stringify(result));await page.locator('#modal').waitFor({state:'hidden'});return waitRun(result.data.run.id,status);}
+// Click the mapping preview and check for success or the expected validation error.
 async function preview(error=false){const r=await requestClick('Preview field mapping','/api/preview');assert.equal(r.status,error?422:200,JSON.stringify(r));if(error)await page.locator('#form-error [role="alert"]').waitFor();else await page.getByRole('heading',{name:'Mapping preview'}).waitFor();return r;}
+// Click a download button and keep the file in the attempt folder.
 async function download(p,label,prefix=''){
   const pending=p.waitForEvent('download');await p.getByRole('link',{name:label,exact:true}).click();const d=await pending;const name=prefix+d.suggestedFilename();const file=path.join(folder,'downloads',name);await d.saveAs(file);const data=await fs.readFile(file);assert.ok(data.length>20);
   if(name.endsWith('.pdf')){assert.equal(data.subarray(0,5).toString(),'%PDF-');const txt=execFileSync('pdftotext',[file,'-'],{encoding:'utf8'});await fs.writeFile(file+'.txt',txt);}
   return {file:path.relative(root,file),bytes:data.length};
 }
+// Type a scenario's data by hand into its three apps and check the saved records.
 async function manual(id){
   const s=scene(id);await reset(id);
   for(let i=0;i<3;i++)await step(`Manual ${s.targets[i].name}: type ${s.stage_fields[i].length} documented fields and save`,async()=>{
@@ -64,6 +86,7 @@ async function manual(id){
     return {entered,record:read.record,document:exported,screenshots:[`screenshots/manual-${id}-${i}-typed.png`,`screenshots/manual-${id}-${i}-saved.png`]};
   });
 }
+// Collect proof of the three saved records of a run.
 async function inspect(run){
   const output=[];
   for(const out of run.outputs){const p=await context.newPage();const index=scene(run.scenario).targets.findIndex(t=>t.id===out.app_id);await p.goto(base+`/workplace?scenario=${run.scenario}&app=${index}&record=${out.record.id}`);await p.getByRole('heading',{name:'Saved record',exact:true}).waitFor();
@@ -72,11 +95,17 @@ async function inspect(run){
     output.push({record_id:out.record.id,app:out.app_id,url:p.url(),document:await download(p,'Download populated document'),screenshot:`screenshots/saved-${run.id}-${index}.png`});await p.close();}
   return {run_id:run.id,status:run.status,outputs:output};
 }
+// Reset a scenario and run its default automated intake.
 async function fresh(id){await reset(id);await tab('Automate it');await preview();return run();}
+// Open the messy-workbook inspector.
 async function fixture(){await go('/#connections','The mess is welcome.');await page.locator('[data-action="fixture"][data-scenario="hvac"]').click();await page.getByRole('heading',{name:'After cleanup',exact:true}).waitFor();}
+// Use the selected source row in the intake form.
 async function useRow(){await page.getByRole('button',{name:'Use this row in the intake',exact:true}).click();await page.getByRole('heading',{name:'Enter it once.',exact:true}).waitFor();}
+// Click an import button and return the source the server created.
 async function importSource(button){await go('/#connections','The mess is welcome.');const pending=page.waitForResponse(r=>r.url().includes('/api/sources/')&&r.request().method()==='POST');await page.getByRole('button',{name:button,exact:true}).click();const r=await pending;assert.equal(r.status(),201,await r.text());const src=await r.json();await page.getByRole('heading',{name:'After cleanup',exact:true}).waitFor();return src;}
+// One function per book chapter. Numbers match the chapters; --chapters=2,4 runs only the chosen ones.
 const chapters={
+  // Chapter 2: tour of the pages and draft behaviour.
   2:async()=>{
     await step('Tour Overview, connections, gallery, run history, all five HVAC tabs, and cancel Reset',async()=>{
       for(const [route,title] of [['/','Your automation playground.'],['/#connections','The mess is welcome.'],['/#evidence','See the difference.'],['/#history','Every handoff has a history.']])await go(route,title);
@@ -88,15 +117,19 @@ const chapters={
       await tab('Automate it');await field('issue','Rehearsal draft retained between views');await tab('The workflow');await tab('Automate it');const retained=await page.locator('#intake-issue').inputValue();assert.equal(retained,'Rehearsal draft retained between views');await page.reload();await page.locator('#intake-issue').waitFor();assert.equal(await page.locator('#intake-issue').inputValue(),'AC is blowing warm air');return {typed_value_survives_view_change:true,reload_restores_sample:true,original_book_claim:'The book incorrectly says leaving before Preview can discard typing.'};
     });
   },
+  // Chapter 3: architecture picture and field mappings.
   3:async()=>{await step('Read the actual architecture image and scenario mappings',async()=>{
     await go('/#scenario/hvac/overview','HVAC & field service');await page.locator('.flow-diagram').scrollIntoViewIfNeeded();assert.ok(await page.locator('.flow-diagram').evaluate(img=>img.naturalWidth>0));await tab('Under the hood');await expect(page.getByText('The translation layer',{exact:true})).toBeVisible();return {maps:scene('hvac').targets.map(t=>({app:t.name,name_field:t.mapping.full_name})),database_files:(await fs.readdir(path.join(root,'runtime/workplaces'))).filter(n=>n.endsWith('.sqlite3'))};
   });},
+  // Chapter 4: manual HVAC entry.
   4:async()=>manual('hvac'),
+  // Chapter 5: automated HVAC run, downloads and replay.
   5:async()=>{
     let first;
     await step('Reset manual HVAC entries; preview all three field mappings; populate and inspect the saved destinations',async()=>{first=await fresh('hvac');assert.equal(first.steps.length,6);return inspect(first);});
     await step('Download PDF packet and Excel export; replay the unchanged intake',async()=>{const outputs=[await download(page,'PDF packet'),await download(page,'Excel export')];await tab('Automate it');const replay=await run();assert.equal(replay.id,first.id);return {outputs,reused_run:first.id};});
   },
+  // Chapter 6: HVAC visit completion, repeat protection and a second job.
   6:async()=>{
     await go('/#scenario/hvac/results','HVAC & field service');
     let completion;
@@ -104,6 +137,7 @@ const chapters={
     await step('Repeat the identical completion event; verify no additional charge',async()=>{const replay=await follow('Complete the visit');assert.equal(replay.id,completion.id);return {run_id:replay.id,total:replay.outputs[2].record.payload.total_usd};});
     await step('Create JOB-1043 for the same C-014 customer at the documented new slot',async()=>{await tab('Automate it');await fields({job_ref:'JOB-1043',slot:'2026-10-07 10:00'});const second=await run();assert.equal(second.outputs[0].record.id,completion.outputs[0].record.id);assert.deepEqual(second.outputs[0].record.payload.service_references,['JOB-1042','JOB-1043']);return inspect(second);});
   },
+  // Chapter 8: messy workbook import, cleanup, review and batch.
   8:async()=>{
     await reset('hvac');
     await step('Open the ugly workbook inspector; verify header row 4 and ready/review/duplicate rows',async()=>{await fixture();const source=await get('/api/sources/'+page.url().split('#source/')[1].split('/')[0]);assert.equal(source.header_row,4);assert.equal(source.rows.length,3);assert.deepEqual(source.rows.map(r=>r.row_number),[5,7,8]);assert.ok(source.rows[2].duplicate);return source;});
@@ -113,6 +147,7 @@ const chapters={
     await step('Batch only ready rows; inspect submitted/reused/held counts and run history',async()=>{await fixture();await page.getByRole('button',{name:'Populate all ready rows',exact:true}).click();await expect(page.locator('#bulk-result')).toContainText('1 rows submitted');await expect(page.locator('#bulk-result')).toContainText('2 rows held');const summary=await page.locator('#bulk-result').innerText();await tab('Inspect run history');return {summary,dashboard:await get('/api/dashboard')};});
     await step('Upload the actual HVAC XLSX from disk and repeat the first-row mapping',async()=>{await go('/#connections','The mess is welcome.');await page.locator('#upload-input').setInputFiles(path.join(root,'practice_files/hvac-ugly.xlsx'));await page.getByRole('heading',{name:'After cleanup'}).waitFor();await page.locator('#source-scenario').selectOption('hvac');await useRow();assert.equal(await page.locator('#intake-email').inputValue(),'avery@example.invalid');return {file:'practice_files/hvac-ugly.xlsx',preview:await preview()};});
   },
+  // Chapter 9: PDF and scanned-image extraction.
   9:async()=>{
     for(const [name,tool] of [['hvac-intake.pdf','pdftotext'],['hvac-scanned-intake.png','Tesseract OCR']]){
       await step(`Upload ${name}; inspect ${tool} extraction and review every mapped field`,async()=>{await reset('hvac');await tab('Automate it');await page.getByRole('button',{name:'Upload a file',exact:true}).click();await page.locator('#modal-file').setInputFiles(path.join(root,'practice_files',name));await page.getByRole('heading',{name:'Extracted document text · '+tool,exact:true}).waitFor();const id=page.url().split('#source/')[1].split('/')[0],source=await get('/api/sources/'+id);await useRow();const values={};for(const f of scene('hvac').fields)values[f.key]=await page.locator('#intake-'+f.key).inputValue();return {source,values};});
@@ -126,6 +161,7 @@ const chapters={
       });
     }
   },
+  // Chapter 10: public Google Sheet import and recorded replay.
   10:async()=>{
     await reset('events');
     await step('Open the original Google sample link; fetch its public CSV and inspect actual source facts',async()=>{
@@ -142,6 +178,7 @@ const chapters={
     });
     await step('Replay the recorded Google source; keep replay label and original retrieval date',async()=>{const src=await importSource('Replay Google sample');assert.match(src.kind,/^recorded /);assert.ok(src.replayed_at);await useRow();return {source_kind:src.kind,fetched_at:src.fetched_at,replayed_at:src.replayed_at,...await inspect(await run())};});
   },
+  // Chapter 11: recurring import timer.
   11:async()=>{
     await step('Enable the one-minute Google timer and observe the first actual scheduled pull',async()=>{
       await go('/#connections','The mess is welcome.');await page.locator('#schedule-kind').selectOption('google');await page.locator('#schedule-interval').selectOption('60');await page.getByRole('button',{name:'Enable schedule',exact:true}).click();await expect(page.locator('#schedule-status')).toContainText('Enabled');const start=await get('/api/schedules');assert.equal(start.last_run,null);
@@ -149,22 +186,26 @@ const chapters={
     });
     await step('Stop the timer and inspect the generated runs/records',async()=>{await page.getByRole('button',{name:'Stop schedule',exact:true}).click();await expect(page.locator('#schedule-status')).toContainText('Schedule is off');assert.equal((await get('/api/schedules')).enabled,false);await tab('Run history');return {schedule:await get('/api/schedules'),dashboard:await get('/api/dashboard')};});
   },
+  // Chapter 12: historical sports data and calendar file.
   12:async()=>{
     await manual('sports');await reset('sports');
     await step('Fetch historical OpenF1 data; inspect three provider requests and calculation inputs',async()=>{const src=await importSource('Fetch historical F1 data');assert.equal(src.requests.length,3);assert.ok(src.requests.every(r=>r.status===200));await page.getByText('Provider records used for the calculation',{exact:true}).click();return src;});
     await step('Map historical facts into the three sports desks, inspect the report, and download a real calendar',async()=>{await useRow();const r=await run();const proof=await inspect(r);proof.calendar=await download(page,'Calendar file');const ics=await fs.readFile(path.join(root,proof.calendar.file),'utf8');assert.match(ics,/BEGIN:VCALENDAR/);return proof;});
     await step('Repeat sports mapping with an explicitly labelled offline provider recording',async()=>{const src=await importSource('Replay F1 sample');assert.match(src.kind,/^recorded /);await useRow();return {source:src.kind,...await inspect(await run())};});
   },
+  // Chapter 13: law-office review hold.
   13:async()=>{
     await manual('legal');await step('Reset the manual law-office records; populate and inspect all three apps',async()=>inspect(await fresh('legal')));
     await step('Trigger the possible-party review hold and verify the unreviewed request is rejected',async()=>{await page.getByRole('button',{name:'Demonstrate a review hold'}).click();return preview(true);});
     await step('Record the reviewer decision and populate the reviewed matter, packet, and task',async()=>{await page.locator('#review-confirmed').check();await preview();return inspect(await run());});
   },
+  // Chapter 14: clinic appointment conflict.
   14:async()=>{
     await manual('clinic');await step('Reset manual clinic records; register Jordan and book the 11:00 slot',async()=>inspect(await fresh('clinic')));
     await step('Attempt the second patient in the occupied slot; verify a partial save and a 409 conflict',async()=>{const r=await requestClick('Try a conflicting appointment','/api/runs');assert.equal(r.status,202);const failed=await waitRun(r.data.run.id,'needs_attention');assert.equal(failed.outputs.length,1);assert.ok(failed.steps.some(s=>s.status===409));await tab('Under the hood');return failed;});
     await step('Retain PAT-0310-B; correct the appointment to noon; verify all three destinations',async()=>{await tab('Automate it');assert.equal(await page.locator('#intake-patient_ref').inputValue(),'PAT-0310-B');await field('slot','2026-10-08 12:00');return inspect(await run());});
   },
+  // Chapter 15: retail stock and duplicate delivery.
   15:async()=>{
     await manual('retail');let initial;
     await step('Reset retail; receive 12 units with two reserved; verify 10 available in catalog',async()=>{initial=await fresh('retail');assert.equal(initial.outputs[1].record.payload.stock_quantity,12);assert.equal(initial.outputs[2].record.payload.available_quantity,10);return inspect(initial);});
@@ -172,17 +213,20 @@ const chapters={
     await step('Receive REC-089 for the same SKU; verify 24 on hand and 22 available',async()=>{await tab('Automate it');await field('receipt_ref','REC-089');const r=await run();assert.equal(r.outputs[1].record.payload.stock_quantity,24);assert.equal(r.outputs[2].record.payload.available_quantity,22);return inspect(r);});
     await step('Reuse REC-089 with quantity 99; verify the conflicting receipt is held, then reset deliberately',async()=>{await tab('Automate it');await field('quantity','99');const r=await run('needs_attention');assert.ok(r.steps.some(s=>s.status===409));const saved={run:r};await reset('retail');return saved;});
   },
+  // Chapter 16: reseller sale and oversell protection.
   16:async()=>{
     await manual('reseller');await step('Reset seller; populate item, local listing draft, and sale paperwork',async()=>inspect(await fresh('reseller')));let sale;
     await step('Record SALE-019; verify one item becomes stock zero and produce a packing slip',async()=>{sale=await follow('Record a sale');assert.equal(sale.outputs[0].record.payload.stock_quantity,0);assert.equal(sale.outputs[2].record.payload.status,'Ready to pack');return inspect(sale);});
     await step('Replay the identical sale reference and confirm it reuses the recorded event',async()=>{const r=await follow('Record a sale');assert.equal(r.id,sale.id);return r;});
     await step('Attempt SALE-020 as a distinct sale; verify an oversell rejection',async()=>{const r=await follow('Record a sale',{sale_ref:'SALE-020'},'needs_attention','sale-USED-072-second');assert.ok(r.steps.some(s=>s.status===409));return r;});
   },
+  // Chapter 17: property invoice matching.
   17:async()=>{
     await manual('property');await step('Reset property; populate the repair with approved estimate 180',async()=>inspect(await fresh('property')));
     await step('Try WRONG-JOB invoice; correct reference but exceed estimate at 200; verify both holds',async()=>{await page.getByRole('button',{name:'Match a contractor invoice'}).click();await page.locator('#action-job_reference').fill('WRONG-JOB');const mismatch=await requestClick('Apply and verify','/api/runs');assert.equal(mismatch.status,422);await page.locator('#action-job_reference').fill('FIX-016');await page.locator('#action-invoice_total').fill('200');const amount=await requestClick('Apply and verify','/api/runs');assert.equal(amount.status,422);return {mismatch,amount};});
     await step('Correct invoice to FIX-016 and 180; verify completed repair and matched owner statement',async()=>{await page.locator('#action-invoice_total').fill('180');const response=await requestClick('Apply and verify','/api/runs');assert.equal(response.status,202);await page.locator('#modal').waitFor({state:'hidden'});const r=await waitRun(response.data.run.id);assert.deepEqual(r.outputs.map(o=>o.record.payload.status),['Completed','Completed','Invoice matched']);return inspect(r);});
   },
+  // Chapter 18: event capacity, waitlist and check-in.
   18:async()=>{
     await manual('events');await reset('events');
     await step('Reserve REG-011 in a capacity-one session',async()=>{await tab('Automate it');await field('capacity','1');const r=await run();assert.equal(r.outputs[1].record.payload.status,'Reserved');return inspect(r);});
@@ -190,6 +234,7 @@ const chapters={
     await step('Try checking in the waitlisted attendee; verify that no check-in writes occurred',async()=>{const r=await follow('Check in attendee',{},'needs_attention');assert.equal(r.outputs.length,0);assert.match(r.message,/reserved seat/i);return r;});
     await step('Deliberately raise practice capacity to two; reserve Taylor and check in successfully',async()=>{await tab('Automate it');await field('capacity','2');await run();const r=await follow('Check in attendee');assert.ok(r.outputs.every(o=>o.record.payload.status==='Checked in'));return inspect(r);});
   },
+  // Chapter 19: revoked access and outage with resume.
   19:async()=>{
     for(const [key,block,restore,code] of [['authorized','Revoke access','Grant access',403],['online','Take offline','Restore service',503]]){
       let failed;
@@ -197,22 +242,28 @@ const chapters={
       await step(`${restore}; resume the failed handoff; prove first two IDs and revisions stayed the same`,async()=>{await page.locator(`[data-app="hvac-2"][data-key="${key}"]`).click();const response=await requestClick('Resume from saved step','/api/runs/'+failed.id+'/resume');assert.equal(response.status,202);const r=await waitRun(failed.id);assert.deepEqual(r.outputs.slice(0,2).map(o=>[o.record.id,o.record.revision]),failed.outputs.map(o=>[o.record.id,o.record.revision]));return inspect(r);});
     }
   },
+  // Chapter 20: HTTP traffic and run-history details.
   20:async()=>{await step('Expand POST, GET, source provenance, mapping, cost and capacity; inspect saved run history',async()=>{await go('/#scenario/hvac/technical','Actual HTTP traffic');for(const detail of await page.locator('.trace-step').all())await detail.locator('summary').click();await page.getByText('Source provenance',{exact:true}).click();const r=await get('/api/runs/'+await page.locator('.run-banner .mono').innerText());assert.ok(r.steps.some(s=>s.kind==='verified'));return r;});},
+  // Chapter 21: evidence gallery and downloads.
   21:async()=>{
     await step('Open the retained screenshot gallery and its manifest',async()=>{await go('/#evidence/hvac','See the difference.');const manifest=await get('/api/evidence');assert.ok(manifest.captures.length>=134);const pending=context.waitForEvent('page');await page.locator('.evidence-card').first().click();const image=await pending;await image.waitForLoadState('domcontentloaded');assert.ok(await image.locator('img').evaluate(e=>e.naturalWidth>0));await image.close();return {captures:manifest.captures.length,note:'Historical gallery; the audit has its own newly timestamped screenshots.'};});
     await step('Download PDF, Excel, calendar, evidence ZIP, and current workplace CSV',async()=>{await go('/#scenario/hvac/results','HVAC & field service');const files=[];for(const label of ['PDF packet','Excel export','Calendar file','Evidence bundle'])files.push(await download(page,label));const p=await context.newPage();await p.goto(base+'/workplace?scenario=hvac&app=0');await p.getByRole('heading',{name:'Create a record'}).waitFor();files.push(await download(p,'CSV'));await p.close();return {files};});
   },
+  // Chapter 22: workflow diagrams.
   22:async()=>{await step('Open each of the eight workflow diagrams and validate all ten editable Archi views',async()=>{for(const s of config.scenarios){await go(`/#scenario/${s.id}/overview`,s.short);await page.locator('.flow-diagram').scrollIntoViewIfNeeded();assert.ok(await page.locator('.flow-diagram').evaluate(i=>i.naturalWidth>0));}const board=JSON.parse(await fs.readFile(path.join(root,'diagrams/showcase.archi.json'),'utf8'));return {diagram_files:(await fs.readdir(path.join(root,'diagrams'))).filter(n=>n.endsWith('.png')),board_top_level_keys:Object.keys(board),note:'Editable board loaded and exported separately with the installed Archi executable.'};});},
+  // Chapter 24: validation and run-state edge cases.
   24:async()=>{
     await step('Exercise native required/email checks and server validation without losing saved records',async()=>{await go('/#scenario/hvac/automate','Enter it once.');await field('email','bad-email');await page.getByRole('button',{name:'Populate all three apps'}).click();assert.equal(await page.locator('#intake-email').evaluate(e=>e.validity.valid),false);const bad=await preview(true);await field('email','avery@example.invalid');await preview();return {native_email_rejected:true,server_validation:bad};});
     await step('Verify failed and archived runs cannot silently masquerade as new completed work',async()=>{await go('/#history','Every handoff has a history.');const d=await get('/api/dashboard');const archived=d.runs.find(r=>r.status==='archived');assert.ok(archived);await page.locator(`[data-action="inspect-run"][data-run="${archived.id}"]`).click();await expect(page.locator('.run-banner')).toHaveClass(/archived/);return {archived_run:archived};});
   }
 };
+// Run every selected chapter in order, then require no browser errors.
 try{
   const chosen=process.argv.find(a=>a.startsWith('--chapters='))?.split('=')[1].split(',').map(Number);
   for(const [number,fn] of Object.entries(chapters)){chapter=Number(number);if(chosen&&!chosen.includes(chapter))continue;await fn();}
   assert.deepEqual(errors,[]);ledger.status='passed';console.log('PASS all selected documented browser lessons');
 }catch(error){ledger.status='failed';ledger.error=error.stack;console.error(error.stack);process.exitCode=1;}
+// Always save the journal and trace and close the browser.
 finally{
   ledger.finished_at=new Date().toISOString();await save();await context.tracing.stop({path:path.join(folder,'browser-trace.zip')});await browser.close();
 }
