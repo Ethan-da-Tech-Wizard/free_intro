@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: build_planning_assets.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Render planning documents and editable Archi boards from the scenario catalog.
 
 These outputs describe the local application; screenshots and traces supply execution evidence.

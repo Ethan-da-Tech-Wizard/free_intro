@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: test_rehearsal_fixes.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Regression checks for issues discovered while following the operator book."""
 from pathlib import Path
 import shutil,subprocess,sys,tempfile,unittest

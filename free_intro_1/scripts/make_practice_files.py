@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: make_practice_files.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Create the tutorial's actual example files using the running app's generators."""
 from pathlib import Path
 import shutil

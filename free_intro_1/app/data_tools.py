@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: data_tools.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Local document tools, spreadsheet cleanup, and read-only public connectors."""
 import csv
 from datetime import datetime, timezone

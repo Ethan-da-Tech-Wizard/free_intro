@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: build_rehearsal_report.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Publish the actual rehearsal journals, exact checklist wording, and live record links."""
 from datetime import datetime,timezone
 import hashlib,html,json,re

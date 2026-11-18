@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: books.js
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /* Offline reader. No network, analytics, account, or demo mutations. */
 (()=>{'use strict';
   const $=selector=>document.querySelector(selector);

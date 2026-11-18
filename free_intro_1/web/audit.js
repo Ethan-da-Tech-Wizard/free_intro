@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: audit.js
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 (()=>{'use strict';const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];let timer=null,index=0;const frames=window.REHEARSAL_FRAMES||[];
 function view(){const id=location.hash.slice(1)||'results';const valid=['results','replay','journal','checklist','findings','files'].includes(id)?id:'results';$$('.view').forEach(v=>v.hidden=v.id!==valid);$$('[data-view]').forEach(a=>{if(a.dataset.view===valid)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});if(valid!=='replay')pause();if(valid==='replay')frame(index);}
 function frame(i){if(!frames.length)return;index=(i+frames.length)%frames.length;const f=frames[index];$('#frame-title').textContent=f.title;$('#frame-meta').textContent=f.time+' · '+f.state;$('#frame-image').src=f.url;$('#frame-image').alt=f.title;$('#frame-link').href=f.url;$('#frame-counter').textContent=(index+1)+' / '+frames.length;$('#frame-slider').value=index;}

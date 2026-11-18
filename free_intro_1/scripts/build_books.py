@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: build_books.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Build the two offline checklist books from Markdown and actual app contracts."""
 import hashlib
 import html

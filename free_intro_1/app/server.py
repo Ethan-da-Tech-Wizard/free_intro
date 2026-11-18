@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: server.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Relayworks: local portal + separately authenticated workplace HTTP API."""
 import argparse
 import base64

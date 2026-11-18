@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: test_workflows.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Contract tests against both real local HTTP services and independent stores."""
 import base64
 import concurrent.futures

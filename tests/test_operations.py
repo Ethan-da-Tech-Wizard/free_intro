@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: test_operations.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Real process restart, scan OCR, and office/calendar interoperability."""
 import base64
 from datetime import datetime

@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: rehearse_files.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Execute local file/tool lessons and retain the exact commands and outcomes."""
 from datetime import datetime,timezone
 import hashlib,json,os

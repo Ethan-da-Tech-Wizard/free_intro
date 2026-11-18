@@ -1,3 +1,10 @@
+# ==============================================================================
+# Program: config.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Scenario contracts for the running local showcase."""
 import json
 from pathlib import Path

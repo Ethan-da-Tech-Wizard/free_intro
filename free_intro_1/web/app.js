@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: app.js
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 const $ = (s,root=document)=>root.querySelector(s);
 const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
 const esc = v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

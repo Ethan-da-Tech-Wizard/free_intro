@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: rehearse.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /** Complete operator rehearsal. Uses the isolated copy's browser UI and keeps evidence. */
 import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';

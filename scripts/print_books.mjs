@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: print_books.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /** Produce blank, standalone PDF editions; no demo data is changed. */
 import {chromium} from '@playwright/test';
 import {pathToFileURL} from 'node:url';

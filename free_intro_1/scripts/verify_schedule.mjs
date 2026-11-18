@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: verify_schedule.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /** Exercise the actual minimum-interval public Sheet timer, then leave it off. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

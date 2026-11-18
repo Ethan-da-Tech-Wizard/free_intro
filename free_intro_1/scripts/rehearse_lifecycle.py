@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# ==============================================================================
+# Program: rehearse_lifecycle.py
+# Programmer: Ethan-da-Tech-Wizard
+# Last Modified: November 18, 2026
+# Purpose: Educational automation and workflow orchestration module for free_intro.
+#          Provides structured data generation, asset planning, and contracts.
+# ==============================================================================
 """Execute the book's launch, stop, backup, rename, extract, and restart route."""
 from datetime import datetime,timezone
 import hashlib,importlib.util,json,os

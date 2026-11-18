@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: books.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /** Reader checks in isolated browser contexts and a separate demo server. */
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';

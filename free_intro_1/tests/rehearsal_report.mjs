@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: rehearsal_report.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 /** Read-only verification of the delivered report, evidence links, and final saved state. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

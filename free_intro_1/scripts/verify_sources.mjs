@@ -1,3 +1,10 @@
+// ==============================================================================
+// Program: verify_sources.mjs
+// Programmer: Ethan-da-Tech-Wizard
+// Last Modified: November 18, 2026
+// Purpose: Educational automation and workflow orchestration module for free_intro.
+//          Provides structured data generation, asset planning, and contracts.
+// ==============================================================================
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 const base=process.env.DEMO_URL||'http://127.0.0.1:8875';
