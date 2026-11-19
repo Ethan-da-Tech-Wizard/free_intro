@@ -23,6 +23,9 @@ import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
+# Pastel fill colours for Archi shapes. Convention used by the views below:
+# ORANGE = manual/"before" work, GREEN = automated/"after" results, BLUE = apps and data,
+# PURPLE = decisions and controls, RED = failures/review, GRAY = banners and notes.
 BLUE = "#e6f0ff"
 GREEN = "#dff2e8"
 ORANGE = "#fff0d9"
@@ -32,13 +35,17 @@ GRAY = "#edf1f5"
 
 
 class View:
+    """Builder for one Archi board view: a list of shapes and arrows plus its viewport."""
     def __init__(self, view_id, title, notes=""):
+        """Create an empty view with a fixed viewport."""
         self.value = {
             "id": view_id, "title": title, "notes": notes,
             "viewport": {"x": -40, "y": -40, "zoom": 0.62},
             "shapes": [], "arrows": [],
         }
 
+    # Add a shape and return its 1-based shapeId (used later as an edge endpoint).
+    # x/y/width/height are canvas pixels; kind is the Archi shape kind (e.g. "process" or "decision").
     def box(self, x, y, text, color=BLUE, width=280, height=115,
             kind="process", description="", link=""):
         identifier = len(self.value["shapes"]) + 1
@@ -50,6 +57,8 @@ class View:
         })
         return identifier
 
+    # Add an arrow between two shape ids. Optional elbow points and label position are
+    # explicit canvas coordinates because Archi does not auto-route.
     def edge(self, start, end, label="", points=None, label_at=None):
         edge = {"fromId": start, "toId": end, "label": label}
         if points:
@@ -60,9 +69,12 @@ class View:
 
 
 def scenario_view(scenario):
+    """Build the before/after flowchart view for one catalog scenario."""
     view = View(scenario["id"], scenario["title"], scenario["story"])
     view.box(0, 0, scenario["title"] + "\nWorking local demonstration / real API transfers",
              GRAY, width=1740, height=85, description=scenario["actor"])
+    # BEFORE lane: read source -> re-enter into each of the three apps -> compare.
+    # Coordinates are hand-tuned to the 1740 px wide canvas.
     view.box(0, 115, "BEFORE / Manual work across independently saved applications",
              ORANGE, width=1740, height=60)
     source = view.box(0, 220, "Read the source\nReport / file / request", ORANGE,
@@ -80,6 +92,7 @@ def scenario_view(scenario):
                        description=scenario["manual"][-1])
     view.edge(prior, compare, "compare", label_at=(1365, 250))
 
+    # AFTER lane: one intake, a review decision, the saved workflow and its correction loop.
     view.box(0, 395, "AFTER / One intake, explicit review, API writes, verified results",
              GREEN, width=1740, height=60)
     intake = view.box(0, 570, "Enter / import once\nExtract and map fields", BLUE,
@@ -96,6 +109,7 @@ def scenario_view(scenario):
     view.edge(correction, review, "recheck", points=[(315, 900), (315, 625)],
               label_at=(280, 770))
 
+    # The three destination apps, stacked vertically, each written by an API call and chained by saved IDs.
     targets = []
     for index, app in enumerate(scenario["apps"]):
         y = 500 + 190 * index
@@ -111,14 +125,17 @@ def scenario_view(scenario):
             label = "saved ID"
             view.edge(targets[index - 1], target, label,
                       label_at=(1190, y - 38))
+    # Evidence node that every destination feeds after its read-back.
     proof = view.box(1430, 685, "Read back + inspect\nSaved IDs / files / evidence", GREEN,
                      width=310, height=140, description="\n".join(scenario["evidence"]))
     for index, target in enumerate(targets):
         y = 557 + 190 * index
         view.edge(target, proof, "", points=[(1380, y), (1380, 755)])
+    # Partial-failure path: completed steps keep their IDs and the run resumes.
     failure = view.box(700, 1060, "Failed step? Keep completed IDs.\nReconcile, then resume safely.", RED,
                        width=1040, height=90, description=scenario["failure"])
     view.edge(worker, failure, "partial result", points=[(840, 1015)], label_at=(910, 994))
+    # Footer: cost and scale text are quoted from the catalog, not measured here.
     view.box(0, 1220, "COST / SOURCE / SCALE\nSee node notes and docs/RESEARCH.md; no measured capacity claimed yet.",
              GRAY, width=1740, height=85,
              description=scenario["cost"] + "\n\n" + scenario["scale"])
@@ -126,12 +143,14 @@ def scenario_view(scenario):
 
 
 def overview_view(scenarios):
+    """Build the landing view: a banner and one linked card per scenario."""
     view = View("overview", "Showcase map", "Select a linked workplace card in Archi to open its before/after view.")
     view.box(0, 0, "AUTOMATION SHOWCASE\nRealistic work / visible proof / $0 required service charges",
              GRAY, width=1560, height=100)
     view.box(0, 135, "Each story: manual apps -> reset -> one intake -> real calls -> inspect outputs -> recover a failure",
              GREEN, width=1560, height=85)
     for index, scenario in enumerate(scenarios):
+        # Cards laid out in a grid of three columns; each links to that scenario's view.
         view.box((index % 3) * 535, 275 + (index // 3) * 205,
                  scenario["title"], BLUE, width=490, height=160,
                  description=scenario["actor"] + "\n\n" + scenario["story"], link=scenario["id"])
@@ -143,9 +162,11 @@ def overview_view(scenarios):
 
 
 def architecture_view():
+    """Build the static architecture view (service boundaries and evidence flow)."""
     view = View("architecture", "Structure and evidence", "Implemented local service boundaries. Vendor products in the research are separate integration candidates.")
     view.box(0, 0, "ONE SHOWCASE / TWO VIEWS OF THE SAME RUN\nBusiness results and optional technical evidence",
              GRAY, width=1780, height=90)
+    # Top row: the request path from presenter UI to the independent target apps.
     ui = view.box(0, 170, "Presenter workspace\nChoose / reset / compare", GREEN)
     ingest = view.box(370, 170, "Intake + profiles\nParse / map / review", BLUE)
     runner = view.box(740, 170, "Workflow service\nPersistent steps + queue", GREEN)
@@ -155,6 +176,7 @@ def architecture_view():
     view.edge(ingest, runner, "ready")
     view.edge(runner, adapters, "operations")
     view.edge(adapters, targets, "HTTP / tools")
+    # Second row: supporting providers, tools and stores around the workflow service.
     public = view.box(0, 490, "Public data provider\nSource IDs + freshness", BLUE)
     files = view.box(370, 490, "Document tools\nLocal extraction + output", BLUE)
     events = view.box(740, 490, "Step and evidence store\nRun IDs / results / errors", GREEN)
@@ -166,6 +188,7 @@ def architecture_view():
     view.edge(access, adapters, "credentials", label_at=(1250, 450))
     view.edge(adapters, tools, "provider contract", points=[(1320, 370), (1620, 370)],
               label_at=(1450, 350))
+    # Bottom row: the outputs produced from the stored run events.
     results = view.box(0, 800, "Business view\nBefore / after / outputs", GREEN, width=440)
     technical = view.box(620, 800, "Technical view\nMappings / actual API activity", PURPLE, width=440)
     archive = view.box(1240, 800, "Evidence bundle\nScreenshots / diagrams / timings", GREEN, width=520)
@@ -178,8 +201,11 @@ def architecture_view():
 
 
 def validate_board(board):
+    """Assert the board's structural invariants before anything is written."""
     views = board["views"]
     view_ids = {view["id"] for view in views}
+    # Structural checks: unique view ids, valid active view, positive sizes, resolvable links,
+    # and every arrow endpoint present in its own view.
     assert len(view_ids) == len(views)
     assert board["activeView"] in view_ids
     for view in views:
@@ -193,6 +219,7 @@ def validate_board(board):
 
 
 def write_catalog(data):
+    """Render docs/WORKFLOW_CATALOG.md from the scenario catalog (generated; do not hand-edit)."""
     lines = [
         "# Detailed workflow catalog", "", "Generated from [scenarios.json](scenarios.json).",
         "", "Status: eight implemented local workflows with actual browser evidence. Vendor products remain researched integration candidates.",
@@ -206,6 +233,7 @@ def write_catalog(data):
         lines += ["- " + value for value in scene["sources"]]
         lines += ["", "**Apps:** " + " / ".join(scene["apps"]) + ".", "",
                   "**Repeated facts:** " + ", ".join(scene["shared_fields"]) + ".", ""]
+        # Manual and automated steps are rendered as numbered lists.
         for field, heading in [("manual", "Manual workflow"), ("automated", "Automated workflow")]:
             lines += ["### " + heading, ""]
             lines += [f"{number}. {value}" for number, value in enumerate(scene[field], 1)]
@@ -213,6 +241,7 @@ def write_catalog(data):
         lines += ["### Mapping and operations", ""]
         lines += ["- " + value for value in scene["mapping_examples"]]
         lines += ["", "| Application | Implemented demo operation | Inspectable output |", "| --- | --- | --- |"]
+        # One table row per destination app.
         for app, route, output in zip(scene["apps"], scene["demo_routes"], scene["outputs"]):
             lines.append(f"| {app} | `{route}` | {output} |")
         lines += ["", "### Rules and failure demonstration", ""]
@@ -227,17 +256,22 @@ def write_catalog(data):
 
 
 def export_pngs(board, binary):
+    """Export every view to diagrams/<id>.png with a headless Archi and verify each is a real PNG."""
     with tempfile.TemporaryDirectory(prefix="free-intro-archi-") as temp:
         temporary = Path(temp)
         runtime = temporary / "runtime"
         runtime.mkdir(mode=0o700)
+        # Headless Qt settings so Archi can render without a display; config and cache live in the temp dir
+        # so the user's real Archi profile is untouched.
         env = os.environ.copy()
         env.update({"QT_QPA_PLATFORM": "offscreen", "QT_QUICK_BACKEND": "software",
                     "QT_SCALE_FACTOR": "1", "XDG_RUNTIME_DIR": str(runtime),
                     "XDG_CONFIG_HOME": str(temporary / "config"),
                     "XDG_CACHE_HOME": str(temporary / "cache")})
+        # Remove ARCHI_ENTRY from the environment so it cannot influence the export.
         env.pop("ARCHI_ENTRY", None)
         for view in board["views"]:
+            # Export one view at a time by making it the active view of a temporary copy.
             document = dict(board, activeView=view["id"])
             source = temporary / "export.archi.json"
             source.write_text(json.dumps(document), encoding="utf-8")
@@ -246,6 +280,7 @@ def export_pngs(board, binary):
                                     env=env, capture_output=True, text=True, timeout=30)
             if result.returncode:
                 raise RuntimeError(f"Archi export failed for {view['id']}: {result.stderr}")
+            # Check the PNG signature, then read width/height from the IHDR chunk (big-endian, bytes 16-24).
             header = target.read_bytes()[:24]
             if header[:8] != b"\x89PNG\r\n\x1a\n":
                 raise RuntimeError(f"Unreadable PNG: {target}")
@@ -254,14 +289,17 @@ def export_pngs(board, binary):
 
 
 def main():
+    """Validate the catalog, write the Archi board and Markdown catalog, and optionally export PNGs."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archi", type=Path, help="Optional existing Archi binary for PNG exports")
     args = parser.parse_args()
     data = json.loads((ROOT / "docs/scenarios.json").read_text(encoding="utf-8"))
     scenarios = data["scenarios"]
+    # Sanity-check the catalog: unique ids and exactly three apps/outputs/routes per scenario.
     assert len({scene["id"] for scene in scenarios}) == len(scenarios)
     for scene in scenarios:
         assert len(scene["apps"]) == len(scene["outputs"]) == len(scene["demo_routes"]) == 3
+    # Board = overview first, then one view per scenario, then the architecture view.
     board = {"format": "archi-brainstorm", "version": 1,
              "title": "Automation showcase: before and after", "backgroundColor": "#ffffff",
              "activeView": "hvac", "views": [overview_view(scenarios)]
@@ -271,6 +309,7 @@ def main():
     (ROOT / "diagrams/showcase.archi.json").write_text(json.dumps(board, indent=2) + "\n", encoding="utf-8")
     write_catalog(data)
     print(f"Validated {len(scenarios)} scenarios and {len(board['views'])} editable Archi views.", flush=True)
+    # PNG export is optional and needs an existing Archi binary.
     if args.archi:
         export_pngs(board, args.archi.resolve())
 

@@ -37,7 +37,7 @@ GRAY = "#edf1f5"
 class View:
     """Builder for one Archi board view: a list of shapes and arrows plus its viewport."""
     def __init__(self, view_id, title, notes=""):
-        """Create an empty view with a fixed viewport (zoom 0.62 fits the wide layouts)."""
+        """Create an empty view with a fixed viewport."""
         self.value = {
             "id": view_id, "title": title, "notes": notes,
             "viewport": {"x": -40, "y": -40, "zoom": 0.62},
@@ -268,7 +268,7 @@ def export_pngs(board, binary):
                     "QT_SCALE_FACTOR": "1", "XDG_RUNTIME_DIR": str(runtime),
                     "XDG_CONFIG_HOME": str(temporary / "config"),
                     "XDG_CACHE_HOME": str(temporary / "cache")})
-        # Drop any inherited launcher override.
+        # Remove ARCHI_ENTRY from the environment so it cannot influence the export.
         env.pop("ARCHI_ENTRY", None)
         for view in board["views"]:
             # Export one view at a time by making it the active view of a temporary copy.

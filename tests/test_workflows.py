@@ -32,8 +32,8 @@ from server import Server, Handler
 
 
 class Workflows(unittest.TestCase):
-    @classmethod
     """Contract tests exercising the portal and workplace HTTP APIs end to end."""
+    @classmethod
     def setUpClass(cls):
         """Start the two local servers and the workflow engine once for the whole class."""
         cls.tmp=tempfile.TemporaryDirectory(prefix='relay-test-')
@@ -66,7 +66,9 @@ class Workflows(unittest.TestCase):
             blob=response.read();self.assertEqual(response.status,expected,blob.decode(errors='replace')[:1000])
             return json.loads(blob) if 'application/json' in response.headers['Content-Type'] else blob
 
+    # Reset one scenario's stores and run state.
     def reset(self,s):self.request('/api/reset',{'scenario':s})
+    # Start (or reuse) a run; extra kwargs (kind, action, event_id, source) are merged into the body. Expects 202.
     def submit(self,s,data=None,**extra):return self.request('/api/runs',dict(scenario=s,data=data or defaults(s),**extra),202)
     def wait(self,run_id,status='complete'):
         # Poll until the run leaves queued/running, then assert its final status; fail after 8 s.
