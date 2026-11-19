@@ -6,6 +6,20 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Scenario contracts for the running local showcase."""
+
+# How this file fits the app: the single source of truth for what the eight demo "workplaces" look like.
+# app/engine.py imports DEFINITIONS to validate input and to know the three destination apps of each
+# scenario; app/server.py exposes public_config() as GET /api/config so web/app.js can draw the forms and
+# mapping screens without duplicating any field list; tests import it to build sample data.
+# Nothing here touches the network or a database: it reads docs/scenarios.json once at import time (story
+# text, actors, rules, app names, outputs per scenario) and merges it with the field contracts defined
+# below. A scenario id missing from that JSON raises KeyError at start-up, which is the intended fail-fast
+# behaviour.
+# Adding a scenario: add its entry to docs/scenarios.json AND to DEFINITIONS (same id), give it three
+# entries in stage_fields/keys, and, if it needs a follow-up action, a matching branch in
+# Workplaces.save() in engine.py.
+# Known limits: the data is demonstration-only (example.invalid emails, +1 555 phone numbers);
+# stage_fields lists below are long literal rows because they are data tables, not logic.
 import json
 from pathlib import Path
 
@@ -49,6 +63,11 @@ CUSTOMER = [
 #   keys          : the field used as the external key in each destination (stage 0, 1, 2)
 #   action*       : the optional follow-up step (kind, button label, extra inputs)
 # The loop at the bottom of this module adds catalog data and the derived "targets" list.
+
+# Reading the rows below: `fields` is the intake form in display order; `stage_fields[i]` lists which of
+# those canonical fields the i-th app (0 = first desk, 1 = second, 2 = third) receives; `keys[i]` is the
+# field that identifies a record in that app (its external key, so a repeated submission updates instead
+# of duplicating).
 DEFINITIONS = {
     'hvac': dict(short='HVAC & field service', icon='wind', company='Desert Air',
         tagline='One service request. Three desks, already in sync.', color='#137e72',

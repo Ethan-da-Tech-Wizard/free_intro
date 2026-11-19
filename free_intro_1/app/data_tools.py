@@ -6,6 +6,19 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Local document tools, spreadsheet cleanup, and read-only public connectors."""
+
+# How this file fits the app: the "document and data" toolbox with no web or database code. app/server.py
+# calls it to build the sample files (messy_matrix -> xlsx_bytes / pdf_bytes / csv), to import uploads and
+# public sources (import_file, google_sheet, openf1), to clean imported rows (normalize_table,
+# cleanup_cell) and to suggest column-to-field mappings (suggest_mapping); app/engine.py uses
+# pdf_bytes/xlsx_bytes for reports and now() for timestamps.
+# Design decisions: no third-party libraries (xlsx and PDF files are read and written by hand with
+# zipfile/ElementTree and raw PDF syntax), strict limits against hostile files (size, row and column caps,
+# zip-bomb guard), and "hold for review, never silently guess" cleanup: automatic fixes are reported as
+# `changes`, ambiguous values become `issues`.
+# Network: the only outbound calls are the two read-only public connectors (Google Sheets CSV export,
+# OpenF1) and they live in google_sheet() and openf1(); nothing else here touches the network. Optional
+# local tools (pdftotext, tesseract) are invoked through subprocess only when present.
 import csv
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
@@ -204,6 +217,8 @@ def normalize_table(matrix, name, source_kind, header_index=None):
     # Header-row heuristic: known header words count 4, any other non-empty text 1, and numeric-only cells are penalised
     # (they look like data). The best-scoring row among the first 15 is taken as the header unless one was given.
     def score(row):
+        # Rating of one candidate header row (see the heuristic comment above): higher is more
+        # header-like.
         values=[normalized_key(v) for v in row if str(v).strip()]
         return sum(4 if v in known else 1 for v in values) - sum(v.replace(' ','').isdigit() for v in values)*2
     header_index=max(range(min(len(matrix),15)),key=lambda i:score(matrix[i])) if header_index is None else int(header_index)
@@ -385,6 +400,8 @@ def xlsx_bytes(matrix):
     Numbers are written as numeric cells and everything else as escaped inline strings.
     """
     def col_name(index):
+        # Spreadsheet column letter for a 1-based index: 1 -> A, 26 -> Z, 27 -> AA (bijective base 26, so
+        # there is no zero digit).
         result=''
         while index: index,rem=divmod(index-1,26);result=chr(65+rem)+result
         return result
@@ -415,6 +432,8 @@ def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks
     characters are replaced; a few typographic characters are transliterated first.
     """
     def esc(text):
+        # Escape text for a PDF string literal: replaces a few typographic characters with ASCII, then
+        # escapes backslash and parentheses (the PDF string delimiters).
         for old,new in [('—','-'),('–','-'),('→','->'),('’',"'")]: text=str(text).replace(old,new)
         return str(text).replace('\\','\\\\').replace('(','\\(').replace(')','\\)')
     wrapped=[]

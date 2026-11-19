@@ -7,6 +7,24 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Relayworks: local portal + separately authenticated workplace HTTP API."""
+
+# How this file fits the app: the only entry point (python3 app/server.py [--port 8875] [--workplace-port
+# 8876] [--data-dir runtime] [--verbose]). It starts TWO HTTP servers in one process: the portal (the
+# user's browser talks to it: static web/ pages, JSON API, downloads, source connectors) and the workplace
+# API (the simulated destination apps, bearer-token protected, used only by the portal's Engine). Both
+# bind to 127.0.0.1 only.
+# Security model: loopback binding, a Host-header check (blocks DNS rebinding), an Origin check on POSTs
+# (blocks other web pages from writing to the service), a per-start random bearer token for the workplace
+# API, a 12 MB request cap, path-traversal protection for static files, CSP and no-cache headers, and
+# formula-safe CSV exports. There are no user accounts: anyone who can reach 127.0.0.1 on this machine can
+# use the portal.
+# Request flow: Handler.handle_route -> workplace() or portal() -> Engine/data_tools -> JSON (or file
+# bytes). Errors are Problem exceptions with an HTTP status; unexpected exceptions become a generic 500
+# and are printed to the terminal.
+# Routes are written as a chain of `if path == ...` checks rather than a table; the portal() method lists
+# them in reading order (config, dashboard, preview, runs, reset, direct workplace access, sources,
+# mapping, schedules, evidence, fixtures, static pages).
+# How to test: python3 -m unittest discover -s tests -v starts this server in-process.
 import argparse
 import base64
 import csv
@@ -32,6 +50,8 @@ from data_tools import (SAMPLE_SHEET, google_sheet, openf1, import_file, messy_m
 from engine import Engine, Workplaces, Problem, validate, encoded
 
 
+# Threading server: each request runs in its own daemon thread. `role`, `engine`, `stores`, `token` and
+# `verbose` are attached to the server object in main() and read by Handler through self.server.
 # Threaded HTTP server: one thread per request; daemon threads so Ctrl-C is not blocked by open connections;
 # SO_REUSEADDR so a quick restart can rebind the port.
 class Server(ThreadingHTTPServer):
@@ -80,6 +100,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):self.handle_route('GET')
     def do_POST(self):self.handle_route('POST')
 
+    # Every request passes the same gate before routing: Host must be exactly our loopback name and port
+    # (a rebinding page would send a different Host), and a browser POST must come from our own origin.
+    # Requests without an Origin header (curl, tests) are allowed, which is why this is protection against
+    # web pages, not against local programs.
     def handle_route(self,method):
         """Common entry for GET and POST: security checks, body parsing, dispatch, and translation of errors into JSON responses."""
         try:
@@ -103,6 +127,8 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             traceback.print_exc();self.send({'error':'The local service could not complete that request. See its terminal log.'},500)
 
+    # Workplace API: /v1/<app-id>/state | settings | reset | records[/<id>]. The token comparison is a
+    # plain string compare (not constant-time), acceptable for a loopback-only demo token.
     def workplace(self,method,path,body):
         """Handle the destination-app API. Every call must carry the bearer token generated at startup."""
         if self.headers.get('Authorization')!='Bearer '+self.server.token:raise Problem('A local API grant is required.',401)
@@ -119,6 +145,8 @@ class Handler(BaseHTTPRequestHandler):
             return self.send({'records':stores.list(app_id)})
         raise Problem('Unknown endpoint.',404)
 
+    # Portal routes in the order they are checked. Downloads set Content-Disposition so the browser saves
+    # them. Anything that is not an API route falls through to static files, then 404.
     def portal(self,method,path,query,body):
         """Handle the user-facing portal: JSON API, downloads, source connectors and static pages."""
         engine=self.server.engine
@@ -261,6 +289,8 @@ class Handler(BaseHTTPRequestHandler):
             if path.startswith(prefix):return self.static(directory,path[len(prefix):])
         raise Problem('Page not found.',404)
 
+    # Static serving with a path-traversal guard: resolve() collapses ../ and symlinks, then the result
+    # must still be inside the served root.
     def static(self,root,relative):
         """Serve a file from root, rejecting anything outside it and adding a charset to text types."""
         file=(root/relative).resolve()
@@ -284,6 +314,8 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(mem.getvalue(),content_type='application/zip',filename='relayworks-'+run_id+'.zip')
 
 
+# Spreadsheet formula injection defence: a cell that begins with = + - or @ is prefixed with an
+# apostrophe. The BOM (utf-8-sig) makes Excel detect UTF-8.
 def csv_bytes(matrix):
     """Encode a matrix as UTF-8 CSV (with BOM for Excel).
 
@@ -295,6 +327,9 @@ def csv_bytes(matrix):
     return out.getvalue().encode('utf-8-sig')
 
 
+# Scheduler thread. Wakes every 2 s; when the saved schedule is enabled and due it fetches the source,
+# queues clean rows and holds duplicates/problem rows for review. Messages summarise the pass in the UI.
+# Errors are caught so a failing source never kills the thread.
 def scheduler(engine,stop):
     # Wake every 2 s (stop.wait doubles as an interruptible sleep) and run the saved schedule when it is due.
     """Background loop that pulls the configured source on a schedule and submits clean rows as workflow runs.
@@ -326,6 +361,9 @@ def scheduler(engine,stop):
         if current.get('enabled') and current.get('id')==config.get('id'):engine.set_setting('schedule',config)
 
 
+# Wiring: workplace API first (so the Engine can reach it), then the Engine, then the portal; the
+# scheduler runs in a daemon thread. On Ctrl+C everything is shut down in order and the worker pool is
+# allowed to finish running workflows.
 def main():
     # Two loopback-only listeners: the portal (--port) and the workplace API (--workplace-port). A random bearer token is generated
     # per start so only the portal's engine can call the workplace API.

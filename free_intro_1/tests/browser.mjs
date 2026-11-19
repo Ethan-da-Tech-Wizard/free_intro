@@ -5,6 +5,12 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: the browser smoke test (npm run test:browser). With the server already
+// running it opens every scenario in real Chromium, resets it, clicks "Populate all three apps" and checks
+// the results page (three saved-record links, six trace steps) and that no JavaScript page errors
+// occurred. Unlike tests/books.mjs it does not start its own server and it modifies the demo data, so use
+// a throw-away instance (python3 app/server.py --data-dir /tmp/relay-demo).
 // Smoke test of the live UI in a real browser. It RESETS and re-runs every scenario on the server at
 // DEMO_URL, so point it at a disposable demo; screenshots go to /tmp/relayworks-checks.
 import {chromium} from '@playwright/test';

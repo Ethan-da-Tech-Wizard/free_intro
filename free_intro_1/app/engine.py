@@ -6,6 +6,24 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Persistent orchestration and independent workplace stores."""
+
+# How this file fits the app: the "back end of the back end". app/server.py creates one Workplaces object
+# (the simulated destination apps, one SQLite file each, reached over a bearer-token HTTP API on its own
+# port) and one Engine (the orchestrator that runs a workflow across the three apps of a scenario and
+# keeps an audit trail in coordinator.sqlite3). Reports and calendar files are built here from stored
+# runs.
+# Design decisions: (1) every call from Engine to a destination goes over real HTTP, so the step log shows
+# genuine requests; (2) writes are idempotent (operation ids, request hashes, event ids), so retries and
+# resumes never double-apply a business effect; (3) a run is verified by reading each saved record back
+# and comparing; (4) money uses Decimal, never float arithmetic; (5) everything is stdlib (sqlite3,
+# urllib, concurrent.futures), no third-party packages.
+# Concurrency: up to three runs execute in a ThreadPoolExecutor; each run has its own lock, and each
+# destination write begins with BEGIN IMMEDIATE so check-then-write is atomic across threads.
+# Known limits: the code style is deliberately compact (several statements per line); the destination
+# "apps" share one process and one machine, so outage and permission failures are simulated by switches,
+# not real network faults.
+# How to test: python3 -m unittest discover -s tests -v (tests/test_workflows.py and
+# tests/test_operations.py exercise this module).
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from decimal import Decimal, InvalidOperation
@@ -28,12 +46,17 @@ from config import DEFINITIONS
 from data_tools import now, pdf_bytes, xlsx_bytes
 
 
+# Domain error carrying the HTTP status that server.py should answer with (400 invalid, 401/403 auth, 404
+# missing, 409 conflict, 422 validation, 503 outage) and an optional list of per-field details.
 class Problem(Exception):
     """Domain error with an HTTP status (default 400) and optional detail list; the HTTP layer renders it as a JSON error."""
     def __init__(self, message, status=400, details=None):
         super().__init__(message);self.status=status;self.details=details
 
 
+# Context manager used for every database access. Commit happens only if the block finishes; any exception
+# (including KeyboardInterrupt, hence BaseException) rolls back first and is re-raised, so a failed write
+# never leaves half-saved state.
 @contextmanager
 # Transaction-per-block SQLite helper: commit on success, roll back on ANY exception, always close.
 # Rows come back as sqlite3.Row so columns can be read by name.
@@ -51,6 +74,8 @@ def connection(path):
     finally: db.close()
 
 
+# Canonical encoding: keys sorted and NaN refused so equal data always yields the same text, which
+# fingerprint() hashes for idempotency checks.
 def encoded(value):
     # sort_keys makes the encoding canonical (same data -> same string), which fingerprint() relies on;
     # allow_nan=False rejects NaN/Infinity.
@@ -129,6 +154,8 @@ def validate(scenario, supplied, kind='intake', action=None):
     return data
 
 
+# Simulated destination apps. Each of the 24 stores (8 scenarios x 3 apps) is a separate SQLite file named
+# <scenario>-<index>.sqlite3, so apps cannot see each other's tables, just as real systems would not.
 class Workplaces:
     """The simulated destination apps: one SQLite database per app (3 per scenario), exposed through the workplace HTTP API.
 
@@ -153,6 +180,7 @@ class Workplaces:
                     INSERT OR IGNORE INTO settings VALUES('authorized','true');
                     ''')
 
+    # Guard against path injection: only ids that exist in DEFINITIONS can become a file name.
     # Open the SQLite file for one destination app; ids are checked against DEFINITIONS so a request can never choose an arbitrary filename.
     def db(self,app_id):
         if not any(app_id==t['id'] for s in DEFINITIONS.values() for t in s['targets']):raise Problem('Unknown workplace.',404)
@@ -197,6 +225,11 @@ class Workplaces:
                 for table in ['records','operations','business_events','reservations']:db.execute('DELETE FROM '+table)
                 db.execute("UPDATE settings SET value='true'")
 
+    # The heart of the simulation. Order of checks: simulated outage (503) -> revoked grant (403) -> input
+    # shape -> map payload back to canonical names and check required fields -> BEGIN IMMEDIATE lock ->
+    # idempotency replay -> one-time business events -> scenario rules (slots, stock, capacity, sales,
+    # invoices) -> upsert by external key with a revision counter -> store the response under the
+    # operation id.
     def save(self,app_id,request):
         # app_id looks like "hvac-1": scenario id plus the position (0..2) of the app in the workflow.
         """Create or update a record in one destination app (POST /v1/<app>/records).
@@ -327,6 +360,10 @@ class Workplaces:
             return result
 
 
+# Workflow coordinator. Public methods are called by server.py: enqueue (new run or existing duplicate),
+# resume, run (status), dashboard, report, calendar, and the settings/sources helpers. A run moves queued
+# -> running -> complete, or needs_attention / interrupted (after a restart) and can be resumed from its
+# saved steps.
 class Engine:
     """Workflow coordinator: persists runs, executes them across the three destination apps, and builds reports.
 
@@ -447,6 +484,11 @@ class Engine:
 
     # Worker body. Walks the three destination apps in order: write, read the record back, compare, and mark the step verified.
     # Stages already verified in an earlier attempt are reused, which makes a resumed run idempotent.
+
+    # Execution of one run. For each of the three destinations: build the app-specific payload from the
+    # canonical data using the target mapping, POST it, GET it back, compare, mark the step verified.
+    # Stages already verified in an earlier attempt are skipped, so a resume continues where the failure
+    # happened and never repeats completed writes.
     def execute(self,run_id):
         with self.lock:lock=self.locks.setdefault(run_id,threading.Lock())
         # Non-blocking: if another thread is already executing this run, do nothing.

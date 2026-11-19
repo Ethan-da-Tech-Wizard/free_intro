@@ -6,10 +6,22 @@
 # Purpose: Educational automation and workflow orchestration module for free_intro.
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
+
+# How this file fits the app: the friendly launcher behind START_RELAYWORKS.desktop and the README
+# (python3 scripts/launch.py [--status | --stop | --no-browser | --book works|business]). It starts
+# app/server.py in the background if this workspace's server is not already running, waits for it, and
+# opens the browser. It never installs anything and never deletes data.
+# It is deliberately conservative: it only treats a server as "its own" when the process matches
+# app/server.py in THIS folder with default ports and data directory (so it never stops another program),
+# and it stops it with SIGINT (graceful), never SIGKILL. Process discovery reads /proc, so --stop works on
+# Linux only; --status and starting work everywhere.
 """Start or open this workspace's demo; no package installation or data reset."""
 import argparse
 import json
 import os
+
+# Standard library only. The launcher keeps its state in runtime/launcher.log and the server's own
+# runtime/ data folder.
 from pathlib import Path
 import signal
 import subprocess

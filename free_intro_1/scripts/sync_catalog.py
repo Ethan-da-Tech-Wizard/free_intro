@@ -6,6 +6,12 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Align explanatory scenario notes with the implemented runtime contracts."""
+
+# How this file fits the app: a maintenance script (python3 scripts/sync_catalog.py) that rewrites
+# docs/scenarios.json so the explanatory catalog (sources, rules, follow-up text, status line) matches the
+# implemented contracts in app/config.py. docs/scenarios.json is also INPUT to app/config.py (story,
+# actor, apps, outputs), so run this after changing scenarios and before building books or diagrams. It
+# overwrites the JSON file in place.
 import json
 from pathlib import Path
 import sys
