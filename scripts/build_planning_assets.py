@@ -14,10 +14,9 @@ projects under another filename before regenerating them.
 """
 
 # How this file fits the app: a developer/maintenance script (python3 scripts/build_planning_assets.py)
-# that regenerates the planning documents and the editable Archi boards (diagrams/*.archi.json, PNG
-# exports built with the standard library) from the scenario catalog and app/config.py, so diagrams and
-# docs never drift from the real contracts. It does not run during normal use of the app and needs no
-# network.
+# that regenerates the planning documents and the editable Archi boards (diagrams/*.archi.json; the PNG
+# exports need a headless Archi binary, see export_pngs) from the scenario catalog and app/config.py, so
+# diagrams and docs never drift from the real contracts. It does not run during normal use of the app.
 # Caution (also stated in the docstring): regeneration overwrites the generated files; keep hand-edited
 # Archi boards under another filename.
 import argparse
