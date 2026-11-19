@@ -5,6 +5,11 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: run after the destructive rehearsal and reset lessons so the copy ends in a
+// showable state. It checks that the server uses this folder's runtime/ directory, drives the UI to
+// populate all 24 destination apps (8 scenarios x 3) and records the final state under audit/final-state/
+// (read later by build_rehearsal_report.py). Server expected on port 8875.
 /** Leave all 24 applications populated after destructive rehearsal/reset lessons. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

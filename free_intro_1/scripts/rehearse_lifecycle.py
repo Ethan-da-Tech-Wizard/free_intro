@@ -7,6 +7,13 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Execute the book's launch, stop, backup, rename, extract, and restart route."""
+
+# How this file fits the app: part of the nested copy's rehearsal harness. It really performs the operator
+# book's lifecycle route against the server on this copy's port (8875): launch, stop, back up the data,
+# rename, extract and restart, taking a snapshot of /api/config each time, and writes the proof to
+# audit/lifecycle/proof.json (each step stores command, exit code, output and timestamp). Run: python3
+# scripts/rehearse_lifecycle.py. It stops and restarts the server and moves data around, so use it only on
+# a disposable copy.
 from datetime import datetime,timezone
 import hashlib,importlib.util,json,os
 from pathlib import Path

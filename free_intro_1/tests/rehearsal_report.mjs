@@ -5,6 +5,11 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: read-only verification of the published AUDIT.html report: that its evidence
+// links resolve, the screenshots and downloads exist and the final saved state matches. It opens the
+// report in Chromium and queries the server on port 8875 but changes nothing. Run after
+// build_rehearsal_report.py.
 /** Read-only verification of the delivered report, evidence links, and final saved state. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

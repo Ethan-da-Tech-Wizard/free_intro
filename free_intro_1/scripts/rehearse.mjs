@@ -5,6 +5,13 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: the browser rehearsal (node scripts/rehearse.mjs, optional SHOW_BROWSER=1 to
+// watch). It plays a complete operator through the books in real Chromium against this copy's server on
+// port 8875: every chapter's clicks, downloads (PDF, XLSX, ICS, evidence zip) and checks, keeping a
+// journal (audit/attempts/<timestamp>/journal.json), screenshots, a Playwright trace and downloaded files
+// as evidence. build_rehearsal_report.py turns those journals into AUDIT.html. It resets and re-populates
+// the demo data, so use a disposable copy.
 /** Complete operator rehearsal. Uses the isolated copy's browser UI and keeps evidence. */
 import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';

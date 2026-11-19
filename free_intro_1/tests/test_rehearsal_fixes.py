@@ -6,6 +6,12 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Regression checks for issues discovered while following the operator book."""
+
+# How this file fits the app: regression tests for defects found while following the operator book during
+# the rehearsal (dirty emails and ambiguous slash dates in the legal and sports templates must be held for
+# review, a plain shipping "Delivery address" must not be treated as an email, and similar). They import
+# the importer in app/data_tools.py directly and need no server. Run with the whole suite: python3 -m
+# unittest discover -s tests -v.
 from pathlib import Path
 import shutil,subprocess,sys,tempfile,unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'app'))

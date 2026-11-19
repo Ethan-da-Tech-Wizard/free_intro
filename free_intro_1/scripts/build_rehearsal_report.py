@@ -7,9 +7,21 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Publish the actual rehearsal journals, exact checklist wording, and live record links."""
+
+# How this file fits the app: part of the audit/rehearsal harness that exists only in this nested copy
+# (free_intro_1/). After scripts/rehearse*.py/.mjs have written their journals under audit/
+# (attempts/<timestamp>/journal.json, final-state/, file-lessons/, lifecycle/), this script reads them and
+# publishes the evidence: audit/summary.json, audit/checklist-coverage.json, the verified-progress files,
+# audit/OWNER_REHEARSAL.md and the single-page report AUDIT.html (which web/audit.js makes interactive and
+# audit/report-data.js feeds with screenshot frames). Run it from the repository folder after a rehearsal:
+# python3 scripts/build_rehearsal_report.py. It overwrites those generated files. It reuses inline() and
+# render() from scripts/build_books.py so checklist wording in the report is exactly the book's.
 from datetime import datetime,timezone
 import hashlib,html,json,re
 from pathlib import Path
+
+# BASE is the address of the isolated rehearsal server used for live record links in the report (this
+# copy's default port, 8875).
 from build_books import inline,render
 
 ROOT=Path(__file__).resolve().parents[1];AUDIT=ROOT/'audit';BASE='http://127.0.0.1:8875'

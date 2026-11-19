@@ -7,6 +7,12 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Execute local file/tool lessons and retain the exact commands and outcomes."""
+
+# How this file fits the app: part of the nested copy's rehearsal harness. It executes the book's local
+# file and tool lessons (the stdlib xlsx reader, the importers, command-line tools) and records every
+# command, exit code, stdout/stderr and time into audit/file-lessons/commands.json, raising on the first
+# failing step. build_rehearsal_report.py later publishes that file as evidence. Run: python3
+# scripts/rehearse_files.py. It writes only under audit/.
 from datetime import datetime,timezone
 import hashlib,json,os
 from pathlib import Path
