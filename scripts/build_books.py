@@ -18,15 +18,23 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from config import DEFINITIONS
 
+# Book registry. Each tuple is (markdown stem / output HTML name, short book id, volume number,
+# title, subtitle, landing-page tagline). Order matters: START_HERE cards and the
+# "other book" link both index into this list.
 BOOKS=[('THE_WORKS','works','01','The Works','The complete operator’s book','Learn every screen, every handoff, and every recovery.'),
        ('BUSINESS_PLAYBOOK','business','02','The Business Owner Playbook','The conversation and demonstration book','Ask better questions. Show the proof. Define useful work.')]
 
+# Render a GitHub-style Markdown table. Pipes and newlines inside cells are replaced
+# so a cell can never break the row structure.
 def table(headers,rows):
     return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+['| '+' | '.join(str(c).replace('|',' / ').replace('\n',' ') for c in row)+' |' for row in rows])
 
+# Markdown table of a scenario's form fields: label, default practice value, required/optional.
 def field_table(s):
     return table(['Form label','Exact practice value','Requirement'],[[f['label'],'`'+str(f['default'])+'`','Required' if f['required'] else 'Optional'] for f in s['fields']])
 
+# Replace the {{STATIONS}}, {{FIELDS:<id>}} and {{REFERENCE}} markers in a book source
+# with tables generated from config.DEFINITIONS, so the books quote the real app contracts.
 def expand(source):
     stations=table(['Workflow','Fictional business','Three independent apps'],[[s['short'],s['company'],' → '.join(t['name'] for t in s['targets'])] for s in DEFINITIONS.values()])
     source=source.replace('{{STATIONS}}',stations)
@@ -41,6 +49,9 @@ def expand(source):
                 table(['Form label','Value to enter','Destination API field'],[[fields[k]['label'],'`'+str(fields[k]['default'])+'`','`'+t['mapping'][k]+'`'] for k in s['stage_fields'][i]])]
     return source.replace('{{REFERENCE}}','\n\n'.join(reference))
 
+# Convert inline Markdown (code, links, bold) to HTML.
+# Code and links become NUL-delimited placeholders first so html.escape and the bold
+# regex cannot mangle them; the placeholders are restored at the end.
 def inline(value):
     tokens=[]
     def save(text):
@@ -51,18 +62,25 @@ def inline(value):
     value=re.sub(r'\*\*(.+?)\*\*',r'<strong>\1</strong>',value)
     return re.sub(r'\x00(\d+)\x00',lambda m:tokens[int(m[1])],value)
 
+# Convert one chapter's Markdown to HTML with a small line-oriented parser.
+# Handles fences, :::notes blocks, images, headings, tables, bullet/checklist items and paragraphs.
+# Returns (html, number of checkbox tasks). Task keys hash the task text, so saved progress
+# survives re-ordering but resets if the wording changes.
 def render(source,chapter):
     lines=source.strip().splitlines();out=[];i=0;task_count=0
     while i<len(lines):
         line=lines[i].strip()
         if not line:i+=1;continue
+        # Fenced code block: collect lines until the closing fence and emit them escaped.
         if line.startswith('```'):
             code=[];i+=1
             while i<len(lines) and not lines[i].startswith('```'):code.append(lines[i]);i+=1
             out.append('<pre><code>'+html.escape('\n'.join(code))+'</code></pre>');i+=1;continue
+        # Notes block: ':::notes <key>|<label>' becomes a textarea (screen) plus ruled lines (print).
         if line.startswith(':::notes '):
             key,label=line[9:].split('|',1)
             out.append(f'<div class="notes"><label for="note-{html.escape(key)}"><strong>Your notes</strong><span>{inline(label)}</span></label><textarea id="note-{html.escape(key)}" data-note="{html.escape(key)}" rows="6" placeholder="Write here. Saved in this browser; use Export progress for a backup."></textarea><div class="print-note" data-print-note="{html.escape(key)}">________________________________________________________________________<br><br>________________________________________________________________________<br><br>________________________________________________________________________</div></div>');i+=1;continue
+        # Image line; '../' is stripped because the HTML is written one level above docs/.
         image=re.fullmatch(r'!\[([^\]]+)\]\(([^)]+)\)',line)
         if image:
             path=image[2].removeprefix('../')
@@ -70,6 +88,7 @@ def render(source,chapter):
         heading=re.match(r'^(#{1,4}) (.+)',line)
         if heading:
             level=len(heading[1]);out.append(f'<h{level}>'+inline(heading[2])+f'</h{level}>');i+=1;continue
+        # Table: gather consecutive pipe rows and drop the |---| separator row.
         if line.startswith('|'):
             rows=[]
             while i<len(lines) and lines[i].strip().startswith('|'):
@@ -77,6 +96,7 @@ def render(source,chapter):
                 if not all(re.fullmatch(r':?-+:?',c) for c in cells):rows.append(cells)
                 i+=1
             out.append('<div class="table-wrap" tabindex="0" role="region" aria-label="Reference table"><table><thead><tr>'+''.join('<th scope="col">'+inline(c)+'</th>' for c in rows[0])+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+inline(c)+'</td>' for c in row)+'</tr>' for row in rows[1:])+'</tbody></table></div>');continue
+        # Bullet list; items written as '[ ]' or '[x]' become persistent checkbox tasks.
         if line.startswith('- '):
             out.append('<ul class="checklist">')
             while i<len(lines) and lines[i].strip().startswith('- '):
@@ -87,16 +107,22 @@ def render(source,chapter):
                 else:out.append('<li>'+inline(item)+'</li>')
                 i+=1
             out.append('</ul>');continue
+        # Anything else is a paragraph: merge following lines until a blank line or a new block starts.
         paragraph=[line];i+=1
         while i<len(lines) and lines[i].strip() and not lines[i].startswith(('#','- ','|','```',':::notes ','![')):
             paragraph.append(lines[i].strip());i+=1
         out.append('<p>'+inline(' '.join(paragraph))+'</p>')
     return '\n'.join(out),task_count
 
+# Build one book: expand markers, split into chapters on "## NN. Title" headings, render each,
+# then write the standalone HTML (CSS inlined, JS referenced) and a plain Markdown copy.
+# Returns a manifest entry with chapter, checkpoint and word counts.
 def build(meta):
     stem,book_id,volume,title,subtitle,tagline=meta
     source=expand((ROOT/'docs'/f'{stem}.md').read_text())
+    # Fail the build rather than ship a book containing a placeholder the expander did not know.
     if '{{' in source:raise ValueError('Unexpanded book marker')
+    # With one capture group, re.split yields [intro, title1, body1, title2, body2, ...].
     parts=re.split(r'^## (\d{2}\. .+)$',source,flags=re.M)
     intro=parts[0].split('\n',1)[1]
     chapters=[];total=0
@@ -105,6 +131,7 @@ def build(meta):
         total+=count;chapters.append({'id':chapter,'title':label,'count':count,'body':content})
     contents=''.join(f'<a href="#{c["id"]}" data-chapter-link="{c["id"]}"><span>{html.escape(c["title"])}</span><small data-chapter-progress="{c["id"]}">0 / {c["count"]}</small></a>' for c in chapters)
     body=''.join(f'<section class="chapter" id="{c["id"]}" data-count="{c["count"]}"><div class="chapter-meta">CHAPTER {c["title"][:2]} · {c["count"]} CHECKPOINTS</div><h2>{html.escape(c["title"][4:])}</h2>{c["body"]}</section>' for c in chapters)
+    # Link target for the 'other book' button.
     other='BUSINESS_PLAYBOOK' if book_id=='works' else 'THE_WORKS'
     css=(ROOT/'web/books.css').read_text()
     document=f'''<!doctype html>
@@ -121,13 +148,17 @@ def build(meta):
     (ROOT/'books'/f'{stem}.md').write_text(source)
     return {'id':book_id,'title':title,'file':stem+'.html','chapters':len(chapters),'checkpoints':total,'words':len(source.split())}
 
+# Build both books, write books/manifest.json, then generate START_HERE.html from the manifest.
 def main():
     (ROOT/'books').mkdir(exist_ok=True)
+    # Order of the manifest matches BOOKS, which the card builder below relies on.
     manifest=[build(meta) for meta in BOOKS]
     (ROOT/'books/manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     css=(ROOT/'web/books.css').read_text()
+    # One landing-page card per built book.
     cards=''.join(f'<article class="book-card"><div class="eyebrow">BOOK 0{i+1}</div><h2>{m["title"]}</h2><p>{BOOKS[i][5]}</p><p class="muted">{m["chapters"]} chapters · {m["checkpoints"]} checkpoints</p><a class="button primary" href="{m["file"]}">Open this book →</a><a class="pdf-link" href="books/{BOOKS[i][0]}.pdf" target="_blank">Printable PDF ↗</a></article>' for i,m in enumerate(manifest))
     (ROOT/'START_HERE.html').write_text(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start here · Relayworks</title><style>{css}</style></head><body class="landing"><main><a class="brand" href="START_HERE.html">↗ relayworks <small>FIELD LIBRARY</small></a><div class="eyebrow">YOUR TWO COMPLETE CHECKLIST BOOKS</div><h1>Learn the work.<br>Then show what it can do.</h1><p class="tagline">Start at your desktop. Practice every workflow. Walk into the conversation with the evidence and the words to explain it.</p><div class="book-grid">{cards}</div><section class="startup-card"><h2>First time here?</h2><ol><li>Open <strong>The Works</strong> above. Read chapter <strong>01. Open the books and start the demo</strong> for the exact file-manager and terminal instructions.</li><li>In Dolphin, open <code>/home/user/pg/free_intro</code> and double-click <strong>START_RELAYWORKS.desktop</strong>. If prompted, follow the trust or terminal instructions in chapter 01.</li><li>Or open Kitty and run these two lines:<pre><code>cd /home/user/pg/free_intro\npython3 scripts/launch.py</code></pre></li><li>When the service is ready, <a href="http://127.0.0.1:8765/" target="_blank" rel="noopener">open the demo ↗</a>. Keep your book in a separate tab.</li></ol><p>The books work as local files before the service starts. The demo requires the local server. Each book has a table of contents, search, saved checkmarks, notes, progress export/import, and print controls.</p><p>Practice files are ready in <code>practice_files/</code>. Blank PDF and complete Markdown editions are in <code>books/</code>. Browser notes stay on this computer; no account or paid service is required.</p></section><p class="edition">Built for /home/user/pg/free_intro · September 24, 2026</p></main></body></html>''')
     print(json.dumps(manifest,indent=2))
 
+# Run only when executed as a script.
 if __name__=='__main__':main()
