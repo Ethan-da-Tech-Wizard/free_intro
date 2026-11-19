@@ -25,8 +25,13 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import zipfile
 
+# Public, read-only demo spreadsheet (Google's own documented sample) used when the user does not supply a URL.
 SAMPLE_SHEET = 'https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0'
+# XML namespace for reading SpreadsheetML (.xlsx) parts with ElementTree.
 NS = {'x':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+# Column-header synonyms per canonical field, all in normalized form (lower case, punctuation -> spaces).
+# Used to auto-map messy spreadsheet columns onto form fields and to decide which cleanup rules apply to a column.
+# (Different from config.ALIASES, which maps a field to its per-app destination names.)
 ALIASES = {
     'full_name':['full name','name','client name','customer name','student name','attendee','patient name','name of customer'],
     'email':['email','e mail','email address','contact email','client email','delivery email'],
@@ -49,14 +54,21 @@ ALIASES = {
 
 
 def now():
+    """Current UTC time as an ISO-8601 string with millisecond precision (used for audit timestamps)."""
     return datetime.now(timezone.utc).isoformat(timespec='milliseconds')
 
 
 def normalized_key(value):
+    """Lower-case a header/label and collapse every non-alphanumeric run to a single space, so "E-mail" and "e mail" compare equal."""
     return re.sub(r'[^a-z0-9]+',' ',str(value).lower()).strip()
 
 
 def suggest_mapping(columns, fields):
+    """Guess which spreadsheet column feeds each form field.
+
+    Matches normalized column names against the field key, its label and its known aliases; the first matching
+    column wins. Returns {field key: column name}; fields without a match are omitted.
+    """
     output = {}
     for f in fields:
         names = {normalized_key(f['key']), normalized_key(f['label']), *ALIASES.get(f['key'], [])}
@@ -68,18 +80,25 @@ def suggest_mapping(columns, fields):
 
 
 def cleanup_cell(value, column, hint=None):
+    """Normalize one cell according to the type of column it sits in.
+
+    Returns (clean_value, changes, issues): "changes" lists automatic fixes that were applied (shown to the user),
+    "issues" lists problems that need human review (the row is held, not silently corrected).
+    """
     raw = str(value or '')
     clean = re.sub(r'\s+', ' ', raw.replace('\xa0',' ')).strip()
     changes, issues = [], []
     key = normalized_key(column)
     if clean != raw:
         changes.append('Whitespace normalized')
+    # Email columns: lower-case, drop stray spaces around "@", and flag anything that is not shaped like an address.
     if key in ALIASES['email'] or hint=='email':
         lowered = clean.lower().replace(' @','@').replace('@ ','@')
         if lowered != clean: changes.append('Email normalized')
         clean = lowered
         if clean and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',clean):
             issues.append('Email needs correction')
+    # Phones: 10 digits -> +1XXXXXXXXXX, 11 digits starting with 1 -> +1...; anything else is flagged because we cannot guess the country.
     if key in ALIASES['phone'] and clean:
         digits = re.sub(r'\D','',clean)
         if len(digits)==10:
@@ -89,6 +108,7 @@ def cleanup_cell(value, column, hint=None):
         elif not clean.startswith('+'):
             issues.append('Phone country/format needs review')
         if clean != raw.strip(): changes.append('Phone formatted')
+    # Money columns: strip "USD", "$" and thousands commas, then require a finite Decimal (Decimal avoids float rounding on currency).
     money_words = {'fee','amount','charge','price','cost','total','estimate'}
     if set(key.split()) & money_words and clean:
         candidate = re.sub(r'(?i)\bUSD\b|\$|,','',clean).strip()
@@ -99,6 +119,7 @@ def cleanup_cell(value, column, hint=None):
             if clean != raw.strip(): changes.append('Currency parsed')
         except InvalidOperation:
             issues.append('Amount is not a number')
+    # Slash dates (03/04/26) are ambiguous between D/M and M/D, so they are flagged rather than guessed; ISO dates pass.
     if 'date' in key or key in ALIASES['slot'] or key=='appointment':
         if re.fullmatch(r'\d{1,2}/\d{1,2}/\d{2,4}', clean):
             issues.append('Slash date is ambiguous; choose an ISO date')
@@ -106,23 +127,34 @@ def cleanup_cell(value, column, hint=None):
 
 
 def read_xlsx(blob):
+    """Parse the first worksheet of an .xlsx file (bytes) into a list of row lists, with no third-party library.
+
+    An .xlsx is a zip of XML parts; this reads shared strings, inline strings and plain values. Guards: 25 MB
+    expanded size, 1001 rows, 80 columns.
+    """
     with zipfile.ZipFile(io.BytesIO(blob)) as archive:
+        # Zip-bomb guard: reject workbooks whose uncompressed size is large before parsing anything.
         if sum(i.file_size for i in archive.infolist()) > 25_000_000:
             raise ValueError('Workbook expands beyond the 25 MB demo limit.')
+        # .xlsx stores strings once in sharedStrings.xml; cells of type 's' hold an index into this list.
         shared=[]
         if 'xl/sharedStrings.xml' in archive.namelist():
             root=ET.fromstring(archive.read('xl/sharedStrings.xml'))
             shared=[''.join(n.itertext()) for n in root.findall('x:si',NS)]
+        # Only the first worksheet is read (sorted so sheet1 wins); the demo works with single-tab sources.
         candidates=sorted(n for n in archive.namelist() if re.fullmatch(r'xl/worksheets/sheet\d+\.xml',n))
         if not candidates: raise ValueError('No worksheet found.')
         root=ET.fromstring(archive.read(candidates[0]))
         rows=[]
+        # Cap at 1001 rows (header + 1000) to keep the demo responsive.
         for row in root.findall('x:sheetData/x:row',NS)[:1001]:
             values=[]
             for c in row.findall('x:c',NS):
+                # Convert a cell reference like "AB12" to a 1-based column index (base-26 letters), then pad skipped cells with ''.
                 letters=re.match(r'[A-Z]+',c.get('r','A1')).group()
                 index=0
                 for letter in letters: index=index*26+ord(letter)-64
+                # Ignore columns beyond 80, matching the limit enforced in normalize_table.
                 if index>80: continue
                 while len(values)<index: values.append('')
                 value=c.find('x:v',NS)
@@ -132,6 +164,7 @@ def read_xlsx(blob):
                     text=''.join(c.find('x:is',NS).itertext())
                 else:
                     text=value.text if value is not None else ''
+                    # A formula with no cached value cannot be computed here; say so instead of returning a blank.
                     if c.find('x:f',NS) is not None and value is None:
                         text='[Formula has no cached result]'
                 values[index-1]=text
@@ -140,6 +173,12 @@ def read_xlsx(blob):
 
 
 def read_csv(blob):
+    # Prefer UTF-8 (BOM-tolerant, as Excel writes it); fall back to Windows-1252 for legacy exports.
+    """Decode and parse delimited text into rows (max 1001), auto-detecting the delimiter.
+
+    csv.Sniffer is tried first; if it fails or finds a single column (title banners confuse it), each common delimiter
+    is tried and the one that yields the widest row wins.
+    """
     try: text=blob.decode('utf-8-sig')
     except UnicodeDecodeError: text=blob.decode('cp1252')
     try: dialect=csv.Sniffer().sniff(text[:8000], delimiters=',;\t|')
@@ -153,13 +192,23 @@ def read_csv(blob):
 
 
 def normalize_table(matrix, name, source_kind, header_index=None):
+    """Turn a raw matrix into the standard "source" structure used everywhere else.
+
+    Finds (or accepts) the header row, cleans every cell, flags duplicates and problems, and returns a dict with
+    columns, per-row raw/clean values, changes, issues, counts and a raw preview. Raises ValueError for empty or
+    oversized input.
+    """
     if not matrix: raise ValueError('The source is empty.')
+    # Every known header synonym, used to score candidate header rows.
     known={v for values in ALIASES.values() for v in values}
+    # Header-row heuristic: known header words count 4, any other non-empty text 1, and numeric-only cells are penalised
+    # (they look like data). The best-scoring row among the first 15 is taken as the header unless one was given.
     def score(row):
         values=[normalized_key(v) for v in row if str(v).strip()]
         return sum(4 if v in known else 1 for v in values) - sum(v.replace(' ','').isdigit() for v in values)*2
     header_index=max(range(min(len(matrix),15)),key=lambda i:score(matrix[i])) if header_index is None else int(header_index)
     if header_index<0 or header_index>=len(matrix): raise ValueError('Invalid header row.')
+    # Clean header names: collapse whitespace, name blank columns "Column N", and de-duplicate repeats by appending the position.
     columns=[]
     for i,c in enumerate(matrix[header_index]):
         col=re.sub(r'\s+',' ',str(c)).strip() or f'Column {i+1}'
@@ -169,6 +218,7 @@ def normalize_table(matrix, name, source_kind, header_index=None):
     # In the known sports template, Delivery address means an email address.
     # Do not interpret an arbitrary shipping-address column as an email field.
     sports_template={'team driver','event session','laps counted'}.issubset({normalized_key(c) for c in columns})
+    # Clean every data row; blank rows are counted and skipped. 'seen' holds a hash of each cleaned row so exact duplicates are flagged.
     rows=[]; seen=set(); changes_total=0; blanks=0
     for index, row in enumerate(matrix[header_index+1:],header_index+2):
         if not any(str(c).strip() for c in row): blanks+=1; continue
@@ -180,6 +230,7 @@ def normalize_table(matrix, name, source_kind, header_index=None):
             cleaned[col]=clean
             changes.extend(f'{col}: {f}' for f in fix)
             issues.extend(f'{col}: {p}' for p in problem)
+        # Hash of the cleaned values (sorted keys) identifies duplicates even if raw formatting differed.
         digest=hashlib.sha256(json.dumps(cleaned,sort_keys=True).encode()).hexdigest()
         duplicate=digest in seen
         if duplicate: issues.append('Duplicate of an earlier normalized row')
@@ -192,7 +243,13 @@ def normalize_table(matrix, name, source_kind, header_index=None):
 
 
 def extract_document(blob, filename):
+    """Pull "Label: value" pairs out of a PDF or image using local tools (pdftotext, or OCR via Tesseract).
+
+    Returns a one-row source like normalize_table does, plus the extraction method and text. The user must still review
+    the values against the original, which the returned note says.
+    """
     suffix=Path(filename).suffix.lower()
+    # Work in a throwaway directory so uploaded bytes never persist on disk. External tools are optional and checked with shutil.which.
     with tempfile.TemporaryDirectory(prefix='relay-import-') as tmp:
         path=Path(tmp)/('source'+suffix); path.write_bytes(blob)
         if suffix=='.pdf':
@@ -201,6 +258,7 @@ def extract_document(blob, filename):
             if process.returncode: raise ValueError('This PDF could not be read.')
             text=process.stdout.decode('utf-8','replace')
             method='pdftotext'
+            # Almost no text means a scanned PDF: rasterise the first 3 pages at 150 dpi and OCR them with Tesseract.
             if len(text.strip())<20:
                 if not shutil.which('pdftoppm') or not shutil.which('tesseract'):
                     raise ValueError('Scanned PDF needs pdftoppm and Tesseract installed.')
@@ -212,6 +270,7 @@ def extract_document(blob, filename):
             process=subprocess.run(['tesseract',str(path),'stdout'],capture_output=True,timeout=30)
             if process.returncode: raise ValueError('The image could not be read.')
             text=process.stdout.decode('utf-8','replace');method='Tesseract OCR'
+    # Extract "Label: value" lines (label up to 65 chars) from the recovered text; they become a one-row table.
     pairs=[]
     for line in text.splitlines():
         match=re.match(r'^\s*([^:]{2,65}):\s*(.+)$',line)
@@ -224,6 +283,7 @@ def extract_document(blob, filename):
 
 
 def import_file(blob, name):
+    """Dispatch an uploaded file by extension to the right reader and return a normalized source (8 MB limit)."""
     if len(blob)>8_000_000: raise ValueError('Use a file smaller than 8 MB for this local demo.')
     ext=Path(name).suffix.lower()
     if ext=='.xlsx': return normalize_table(read_xlsx(blob),name,'uploaded Excel workbook')
@@ -233,7 +293,13 @@ def import_file(blob, name):
 
 
 class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    """Redirect handler that only follows redirects to Google hosts.
+
+    A private sheet redirects to a sign-in page; refusing that gives a clear error instead of parsing HTML as data, and
+    stops the fetcher being bounced to arbitrary hosts.
+    """
     def redirect_request(self,req,fp,code,msg,headers,newurl):
+        """Allow the redirect only if the target host is docs.google.com or *.googleusercontent.com."""
         host=urllib.parse.urlsplit(newurl).hostname or ''
         if not (host=='docs.google.com' or host.endswith('.googleusercontent.com')):
             raise ValueError('Source redirected to a sign-in page or unsupported host. Use a public demo sheet.')
@@ -241,6 +307,11 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def fetch_bytes(url, google=False):
+    """Download a URL (GET, 20 s timeout, 8 MB cap) from an allow-listed host and return (bytes, http status).
+
+    Only Google Sheets and OpenF1 hosts are permitted. HTTP errors are translated into plain-language ValueErrors so the
+    UI can show them directly (auth required, rate-limited, unreachable, HTML instead of CSV).
+    """
     host=urllib.parse.urlsplit(url).hostname
     if host not in ['docs.google.com','api.openf1.org']:
         raise ValueError('Only Google Sheets and OpenF1 source hosts are supported.')
@@ -262,6 +333,11 @@ def fetch_bytes(url, google=False):
 
 
 def google_sheet(url):
+    """Fetch a public Google Sheet tab as CSV and normalize it.
+
+    Accepts normal and "published to web" URLs, rewrites them to the CSV export endpoint for the chosen gid tab, and
+    validates the tab id is numeric before building the URL.
+    """
     parts=urllib.parse.urlsplit(url.strip())
     if parts.scheme!='https' or parts.hostname!='docs.google.com':
         raise ValueError('Enter an https://docs.google.com/spreadsheets/ URL.')
@@ -280,6 +356,10 @@ def google_sheet(url):
 
 
 def openf1(session='9158',driver='1'):
+    """Fetch one historical Formula 1 driver/session from the free OpenF1 API and shape it as a one-row source.
+
+    Makes three read-only requests (drivers, laps, sessions) and records them for provenance. IDs must be numeric.
+    """
     if not str(session).isdigit() or not str(driver).isdigit(): raise ValueError('Session and driver IDs must be numeric.')
     base='https://api.openf1.org/v1/'
     endpoints=[f'drivers?session_key={session}&driver_number={driver}',f'laps?session_key={session}&driver_number={driver}',f'sessions?session_key={session}']
@@ -300,6 +380,10 @@ def openf1(session='9158',driver='1'):
 
 
 def xlsx_bytes(matrix):
+    """Build a minimal single-sheet .xlsx file from a matrix, with no third-party library.
+
+    Numbers are written as numeric cells and everything else as escaped inline strings.
+    """
     def col_name(index):
         result=''
         while index: index,rem=divmod(index-1,26);result=chr(65+rem)+result
@@ -325,6 +409,11 @@ def xlsx_bytes(matrix):
 
 
 def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks'):
+    """Hand-build a simple multi-page PDF (Helvetica text only) from a title and lines of text.
+
+    Wraps lines at 87 characters, 37 lines per page, and writes the object table and xref offsets itself. Non-latin-1
+    characters are replaced; a few typographic characters are transliterated first.
+    """
     def esc(text):
         for old,new in [('—','-'),('–','-'),('→','->'),('’',"'")]: text=str(text).replace(old,new)
         return str(text).replace('\\','\\\\').replace('(','\\(').replace(')','\\)')
@@ -356,6 +445,11 @@ def pdf_bytes(title, lines, subtitle='Synthetic demonstration data · Relayworks
 
 
 def messy_matrix(scenario):
+    """Generate a deliberately dirty spreadsheet for a scenario from its default values.
+
+    It has a banner row, blank rows, shouty headers, odd spacing, a badly formatted phone and money value, a second row with a
+    near-duplicate key, a malformed email and an ambiguous slash date, so the cleanup features have something to demonstrate.
+    """
     fields=scenario['fields'];head=[f['label'] for f in fields]
     first=[f['default'] for f in fields]
     for i,f in enumerate(fields):

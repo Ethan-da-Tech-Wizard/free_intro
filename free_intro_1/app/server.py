@@ -25,52 +25,67 @@ import urllib.parse
 import uuid
 import zipfile
 
+# Bare-name imports: this script runs with app/ on sys.path.
 from config import ROOT, DEFINITIONS, defaults, public_config
 from data_tools import (SAMPLE_SHEET, google_sheet, openf1, import_file, messy_matrix,
                         normalize_table, suggest_mapping, pdf_bytes, xlsx_bytes, now)
 from engine import Engine, Workplaces, Problem, validate, encoded
 
 
+# Threaded HTTP server: one thread per request; daemon threads so Ctrl-C is not blocked by open connections;
+# SO_REUSEADDR so a quick restart can rebind the port.
 class Server(ThreadingHTTPServer):
     daemon_threads=True
     allow_reuse_address=True
 
 
 class Handler(BaseHTTPRequestHandler):
+    """Request handler shared by both listeners; self.server.role selects "workplaces" (destination-app API) or "portal"."""
     protocol_version='HTTP/1.1'
 
+    # Silence per-request logging unless --verbose was given.
     def log_message(self,fmt,*args):
         if self.server.verbose:super().log_message(fmt,*args)
 
     def send(self,data,status=200,content_type='application/json',filename=None):
+        # JSON is encoded canonically; text is encoded as UTF-8; bytes (PDF, zip, ...) go through untouched.
+        """Write a complete response (status, security headers, body); pass filename to make the browser download it."""
         if content_type=='application/json' and not isinstance(data,bytes):data=encoded(data).encode()
         elif isinstance(data,str):data=data.encode()
         self.send_response(status)
         self.send_header('Content-Type',content_type)
         self.send_header('Content-Length',str(len(data)))
+        # Hardening headers: no MIME sniffing, no referrer leakage, no caching (data is live and local).
         self.send_header('X-Content-Type-Options','nosniff')
         self.send_header('Referrer-Policy','no-referrer')
         self.send_header('Cache-Control','no-store')
         if filename:self.send_header('Content-Disposition',f'attachment; filename="{filename}"')
+        # HTML pages get a strict CSP: only same-origin scripts and connections, so injected content cannot phone home.
         if content_type.startswith('text/html'):
             self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
         self.end_headers()
         try:self.wfile.write(data)
+        # The browser may have gone away mid-response; nothing useful to do.
         except (BrokenPipeError,ConnectionResetError):pass
 
     def body(self):
+        """Read and parse the JSON request body (max 12 MB); it must be a JSON object."""
         length=int(self.headers.get('Content-Length','0'))
         if length<0 or length>12_000_000:raise Problem('Request exceeds the 12 MB demo limit.',413)
         value=json.loads(self.rfile.read(length) or b'{}')
         if not isinstance(value,dict):raise Problem('A JSON object is required.')
         return value
 
+    # Both verbs share one router.
     def do_GET(self):self.handle_route('GET')
     def do_POST(self):self.handle_route('POST')
 
     def handle_route(self,method):
+        """Common entry for GET and POST: security checks, body parsing, dispatch, and translation of errors into JSON responses."""
         try:
             # Bound to loopback, with Host/Origin checks against browser DNS rebinding.
+            # Reject requests whose Host header is not our own loopback address, and cross-origin POSTs.
+            # This blocks DNS-rebinding and drive-by requests from other web pages to the local service.
             host=self.headers.get('Host','')
             expected={f'127.0.0.1:{self.server.server_port}',f'localhost:{self.server.server_port}'}
             if host not in expected:raise Problem('Use the local showcase address.',403)
@@ -79,18 +94,22 @@ class Handler(BaseHTTPRequestHandler):
             parsed=urllib.parse.urlsplit(self.path)
             path=urllib.parse.unquote(parsed.path);query=urllib.parse.parse_qs(parsed.query)
             body=self.body() if method=='POST' else {}
+            # The same Handler class serves two listeners: the workplace API (token-protected) and the portal (UI + orchestration).
             if self.server.role=='workplaces':return self.workplace(method,path,body)
             return self.portal(method,path,query,body)
         except Problem as error:self.send({'error':str(error),'details':error.details},error.status)
+        # Malformed input from the client (bad JSON, missing keys, corrupt zip) is reported as 422 rather than a server error.
         except (ValueError,KeyError,TypeError,zipfile.BadZipFile) as error:self.send({'error':str(error)},422)
         except Exception:
             traceback.print_exc();self.send({'error':'The local service could not complete that request. See its terminal log.'},500)
 
     def workplace(self,method,path,body):
+        """Handle the destination-app API. Every call must carry the bearer token generated at startup."""
         if self.headers.get('Authorization')!='Bearer '+self.server.token:raise Problem('A local API grant is required.',401)
         parts=path.strip('/').split('/');stores=self.server.stores
         if len(parts)<3 or parts[0]!='v1':raise Problem('Unknown endpoint.',404)
         app_id=parts[1]
+        # Workplace API routes: /v1/<app>/state, /settings, /reset, /records[/<id>].
         if parts[2]=='state' and method=='GET':return self.send(stores.state(app_id))
         if parts[2]=='settings' and method=='POST':return self.send(stores.settings(app_id,body))
         if parts[2]=='reset' and method=='POST':stores.reset(app_id);return self.send({'reset':True})
@@ -101,16 +120,20 @@ class Handler(BaseHTTPRequestHandler):
         raise Problem('Unknown endpoint.',404)
 
     def portal(self,method,path,query,body):
+        """Handle the user-facing portal: JSON API, downloads, source connectors and static pages."""
         engine=self.server.engine
         p=path.strip('/').split('/')
+        # Portal API routes. Each branch maps one URL to an Engine or data_tools call.
         if path=='/api/config':
             return self.send({'scenarios':public_config(),'sample_sheet':SAMPLE_SHEET,'tools':{t:bool(shutil.which(t)) for t in ['pdftotext','pdftoppm','tesseract','libreoffice']},'workplace_port':self.server.workplace_port,'data_dir':str(engine.directory)})
         if path=='/api/dashboard':return self.send(engine.dashboard())
+        # Preview: validate the form and show exactly what each destination app would receive.
         if path=='/api/preview' and method=='POST':
             scenario=body['scenario'];data=validate(scenario,body['data'])
             return self.send({'data':data,'targets':[dict(t,payload={v:data[k] for k,v in t['mapping'].items()}) for t in DEFINITIONS[scenario]['targets']]})
         if path=='/api/runs' and method=='POST':
             return self.send(engine.enqueue(body['scenario'],body['data'],body.get('source'),body.get('kind','intake'),body.get('action'),body.get('event_id')),202)
+        # Run endpoints: status, resume, and downloads (PDF packet, calendar, spreadsheet, evidence zip).
         if len(p)>=3 and p[:2]==['api','runs']:
             run_id=p[2]
             if len(p)==3:return self.send(engine.run(run_id))
@@ -123,6 +146,8 @@ class Handler(BaseHTTPRequestHandler):
                     matrix.extend([out['app_id'],out['record']['id'],k,str(v)] for k,v in out['record']['payload'].items() if not k.startswith('_'))
                 return self.send(xlsx_bytes(matrix),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',filename='workflow-'+run_id+'.xlsx')
             if p[3]=='evidence.zip':return self.evidence_zip(run_id)
+        # Reset a scenario for a fresh demo: refuse while a run is active, archive old runs, wipe the destination apps and bump the
+        # "generation" counter so identical input is not deduplicated against pre-reset runs.
         if path=='/api/reset' and method=='POST':
             scenario=body['scenario']
             if scenario not in DEFINITIONS:raise Problem('Unknown scenario.',404)
@@ -133,11 +158,14 @@ class Handler(BaseHTTPRequestHandler):
                 engine.api('POST',f'/v1/{scenario}/reset',{})
                 engine.set_setting('generation:'+scenario,engine.setting('generation:'+scenario,0)+1)
             return self.send({'reset':True})
+        # Direct access to a destination app, as a person would use it by hand (manual entry, export, document view).
         if len(p)>=4 and p[:2]==['api','workplaces']:
             app_id=p[2];scenario,index=app_id.rsplit('-',1);scene=DEFINITIONS[scenario];target=scene['targets'][int(index)]
             if p[3]=='settings' and method=='POST':return self.send(engine.api('POST',f'/v1/{app_id}/settings',body))
             if p[3]=='records':
                 if method=='POST':
+                    # Manual entry: fill unspecified fields with defaults so validation can run, then blank those defaults out again for fields the
+                    # user left empty, and count how many fields were typed (the 'manual effort' metric).
                     supplied=body['data'];partial={**defaults(scenario),**supplied};normalized=validate(scenario,partial)
                     for key in target['mapping']:
                         if key not in supplied:normalized[key]=''
@@ -148,10 +176,12 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(result,201)
                 suffix='/'+p[4] if len(p)==5 else ''
                 return self.send(engine.api('GET',f'/v1/{app_id}/records'+suffix))
+            # CSV export of one app's records (formula-safe, see csv_bytes).
             if p[3]=='export.csv':
                 records=engine.api('GET',f'/v1/{app_id}/records')['records'];cols=list(target['mapping'].values())+['status']
                 matrix=[cols]+[[r['payload'].get(k,'') for k in cols] for r in records]
                 return self.send(csv_bytes(matrix),content_type='text/csv; charset=utf-8',filename=app_id+'.csv')
+            # One-record PDF document (e.g. work order, invoice draft) rendered from the stored payload.
             if p[3]=='document.pdf' and len(p)==5:
                 record=engine.api('GET',f'/v1/{app_id}/records/'+p[4])['record'];payload=record['payload']
                 templates={'hvac':['Customer profile','Work order','Invoice draft'],'sports':['Source report','Session schedule','Personal briefing'],'legal':['Matter cover sheet','Client information packet','Appointment checklist'],'clinic':['Administrative patient record','Appointment confirmation','Intake packet'],'retail':['Receiving receipt','Stock movement','Availability report'],'reseller':['Item catalog card','Listing draft','Packing slip' if payload.get('buyer') else 'Sale paperwork template'],'property':['Repair request','Contractor work order','Owner statement'],'events':['Registration record','Seat allocation','Attendee badge']}
@@ -163,6 +193,7 @@ class Handler(BaseHTTPRequestHandler):
                 lines+=['']+[f"{k.replace('_',' ').title()}: {v}" for k,v in payload.items() if not k.startswith('_') and k not in target['mapping'].values() and k!='status']
                 if scenario=='hvac' and int(index)==2:lines+=['','Diagnostic fee + approved labor hours x hourly rate + approved parts.','Draft for review. No payment has been charged.']
                 return self.send(pdf_bytes(scene['company']+' / '+heading,lines),content_type='application/pdf',filename=app_id+'-'+record['id']+'.pdf')
+        # Source connectors: each branch produces a normalized source table that is then stored.
         if path=='/api/sources' and method=='GET':return self.send({'sources':engine.sources()})
         if len(p)==3 and p[:2]==['api','sources']:
             name=p[2]
@@ -173,6 +204,7 @@ class Handler(BaseHTTPRequestHandler):
             elif name=='google':source=google_sheet(body.get('url') or SAMPLE_SHEET)
             elif name=='openf1':source=openf1(body.get('session','9158'),body.get('driver','1'))
             elif name=='upload':source=import_file(base64.b64decode(body['base64'],validate=True),Path(body['name']).name)
+            # Replay of a previously recorded provider response from fixtures/public, for offline demos.
             elif name in ['recorded-google','recorded-openf1']:
                 snapshot=ROOT/'fixtures/public'/(name.removeprefix('recorded-')+'.json')
                 if not snapshot.exists():raise Problem('No verified recording is available yet.',404)
@@ -180,6 +212,7 @@ class Handler(BaseHTTPRequestHandler):
                 source.update(original_kind=source['kind'],kind='recorded '+source['kind'],replayed_at=now(),note='Recorded provider response from '+source['fetched_at']+'. This is a replay, not a fresh network request.')
             else:raise Problem('Unknown source connector.',404)
             return self.send(engine.add_source(source),201)
+        # Turn one source row into form data using a column mapping (suggested automatically if none supplied) and remember the mapping.
         if path=='/api/mapping' and method=='POST':
             scene=DEFINITIONS[body['scenario']];source=engine.source(body['source_id']);row=source['rows'][int(body.get('row',0))]
             mapping=body.get('mapping') or suggest_mapping(source['columns'],scene['fields'])
@@ -190,8 +223,10 @@ class Handler(BaseHTTPRequestHandler):
                 primary=scene['primary']
                 if not mapping.get(primary):data[primary]='SHEET-'+str(row['row_number'])
                 if 'email' in data and not mapping.get('email'):data['email']='sheet-row-'+str(row['row_number'])+'@example.invalid'
+            # Rows from OCR/PDF extraction or with cleanup issues must be reviewed by a person before they can run.
             if source.get('extraction_tool') or row['issues']:
                 data['_review_reason']='Review extracted values and resolve source issues: '+ '; '.join(row['issues'] or ['Check the original document.'])
+            # Provenance travels with the run so the report can show where each value came from.
             provenance={k:source[k] for k in ['id','kind','name','fetched_at','url','request_url','http_status','extraction_tool','raw_hash','requests'] if k in source}
             provenance.update(row_number=row['row_number'],mapped_fields=list(mapping),synthetic_defaults=[f['key'] for f in scene['fields'] if not mapping.get(f['key'])])
             return self.send({'data':data,'mapping':mapping,'source':provenance,'issues':row['issues'],'changes':row['changes']})
@@ -199,6 +234,7 @@ class Handler(BaseHTTPRequestHandler):
             source=engine.source(p[2]);scenario=query.get('scenario',['hvac'])[0]
             default=suggest_mapping(source['columns'],DEFINITIONS[scenario]['fields'])
             return self.send({'mapping':engine.setting('mapping:'+scenario+':'+ '|'.join(source['columns']),default)})
+        # Scheduled pulls: at most one schedule; the interval is at least 60 seconds.
         if path=='/api/schedules':
             if method=='POST':
                 config={k:body.get(k) for k in ['enabled','kind','url','scenario','mapping']}
@@ -210,6 +246,7 @@ class Handler(BaseHTTPRequestHandler):
         if path=='/api/evidence':
             manifest=ROOT/'evidence/manifest.json'
             return self.send(json.loads(manifest.read_text()) if manifest.exists() else {'captures':[]})
+        # Sample intake files (PDF/XLSX/CSV) generated on demand, so no binary fixtures need to be stored.
         if path.startswith('/fixtures/'):
             filename=p[-1];scenario,ext=filename.rsplit('.',1);scene=DEFINITIONS[scenario]
             if ext=='pdf':return self.send(pdf_bytes(scene['company']+' / Intake',[f"{f['label']}: {f['default']}" for f in scene['fields']]),content_type='application/pdf',filename=filename)
@@ -219,18 +256,22 @@ class Handler(BaseHTTPRequestHandler):
         if path in ['/','/workplace']:return self.static(ROOT/'web','index.html')
         if path in ['/START_HERE.html','/THE_WORKS.html','/BUSINESS_PLAYBOOK.html','/AUDIT.html']:return self.static(ROOT,path[1:])
         if path in ['/web/books.js','/web/audit.js']:return self.static(ROOT/'web',path.rsplit('/',1)[1])
+        # Static file mounts.
         for prefix,directory in [('/assets/',ROOT/'web'),('/diagrams/',ROOT/'diagrams'),('/docs/',ROOT/'docs'),('/evidence/',ROOT/'evidence'),('/books/',ROOT/'books'),('/audit/',ROOT/'audit')]:
             if path.startswith(prefix):return self.static(directory,path[len(prefix):])
         raise Problem('Page not found.',404)
 
     def static(self,root,relative):
+        """Serve a file from root, rejecting anything outside it and adding a charset to text types."""
         file=(root/relative).resolve()
+        # Path-traversal guard: the resolved file must stay inside the served directory.
         if not file.is_relative_to(root.resolve()) or not file.is_file():raise Problem('File not found.',404)
         mime=mimetypes.guess_type(file.name)[0] or 'application/octet-stream'
         if mime.startswith('text/'):mime+='; charset=utf-8'
         return self.send(file.read_bytes(),content_type=mime)
 
     def evidence_zip(self,run_id):
+        """Bundle a run's trace, PDF packet, workflow diagram and any captured screenshots into a zip for download."""
         engine=self.server.engine;run=engine.run(run_id);mem=io.BytesIO()
         with zipfile.ZipFile(mem,'w',zipfile.ZIP_DEFLATED) as archive:
             archive.writestr('run-and-http-trace.json',encoded(run))
@@ -244,6 +285,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def csv_bytes(matrix):
+    """Encode a matrix as UTF-8 CSV (with BOM for Excel).
+
+    Cells that start with = + - @ get a leading apostrophe so spreadsheet software cannot execute them as formulas.
+    """
     out=io.StringIO();writer=csv.writer(out)
     # Export as values; prevent spreadsheet applications executing user-supplied formulas.
     for row in matrix:writer.writerow(["'"+str(v) if str(v).lstrip().startswith(('=','+','-','@')) else v for v in row])
@@ -251,6 +296,11 @@ def csv_bytes(matrix):
 
 
 def scheduler(engine,stop):
+    # Wake every 2 s (stop.wait doubles as an interruptible sleep) and run the saved schedule when it is due.
+    """Background loop that pulls the configured source on a schedule and submits clean rows as workflow runs.
+
+    The result message is saved back only if the schedule is still enabled and unchanged, so a slow fetch cannot re-enable it.
+    """
     while not stop.wait(2):
         config=engine.setting('schedule',{})
         if not config.get('enabled') or time.time()<config.get('next_run',0):continue
@@ -259,6 +309,7 @@ def scheduler(engine,stop):
             scene=DEFINITIONS[config['scenario']];mapping=config.get('mapping') or suggest_mapping(source['columns'],scene['fields'])
             queued=0;held=0
             for row in source['rows'][:100]:
+                # Rows that are duplicates or have issues are held for human review instead of being submitted.
                 if row['duplicate'] or row['issues']:held+=1;continue
                 data=defaults(config['scenario']);data.update({k:row['values'][col] for k,col in mapping.items() if col in row['values']})
                 if config['kind']=='google':
@@ -276,6 +327,9 @@ def scheduler(engine,stop):
 
 
 def main():
+    # Two loopback-only listeners: the portal (--port) and the workplace API (--workplace-port). A random bearer token is generated
+    # per start so only the portal's engine can call the workplace API.
+    """Parse options, start the workplace API and the portal on loopback, and run until interrupted."""
     parser=argparse.ArgumentParser(description='Run the free local automation showcase.')
     parser.add_argument('--port',type=int,default=8875);parser.add_argument('--workplace-port',type=int,default=8876)
     parser.add_argument('--data-dir',default=str(ROOT/'runtime'));parser.add_argument('--verbose',action='store_true')
@@ -285,10 +339,12 @@ def main():
     threading.Thread(target=api.serve_forever,daemon=True).start()
     engine=Engine(args.data_dir,f'http://127.0.0.1:{args.workplace_port}',token)
     portal=Server(('127.0.0.1',args.port),Handler);portal.role='portal';portal.engine=engine;portal.verbose=args.verbose;portal.workplace_port=args.workplace_port
+    # Background thread that runs scheduled pulls.
     stop=threading.Event();threading.Thread(target=scheduler,args=(engine,stop),daemon=True).start()
     print(f'Relayworks ready: http://127.0.0.1:{args.port}\n24 independent workplace stores · local API on {args.workplace_port}\nData: {args.data_dir}',flush=True)
     try:portal.serve_forever()
     except KeyboardInterrupt:pass
+    # Orderly shutdown: stop the scheduler, close both servers, and wait for running workflows to finish.
     finally:stop.set();portal.server_close();api.shutdown();api.server_close();engine.pool.shutdown(wait=True)
 
 

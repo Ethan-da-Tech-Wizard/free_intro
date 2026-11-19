@@ -9,14 +9,28 @@
 import json
 from pathlib import Path
 
+# Repo root (parent of app/); used to find docs/scenarios.json and, in other modules, web/ and fixtures/.
 ROOT = Path(__file__).resolve().parents[1]
+# Narrative/catalog data per scenario (story, actor, rules, app names, outputs) loaded once at import time.
+# Keyed by scenario id so DEFINITIONS can be enriched with it below.
 CATALOG = {s['id']: s for s in json.loads((ROOT / 'docs/scenarios.json').read_text())['scenarios']}
 
 
 def field(key, label, value, kind='text', required=True):
+    """Build one form-field descriptor.
+
+    Args:
+        key: machine name used in payloads.
+        label: human label shown in the UI and in validation messages.
+        value: default/sample value (also supplies fixture data).
+        kind: "text", "email" or "number"; drives validation in engine.validate.
+        required: whether an empty value is rejected.
+    """
     return {'key': key, 'label': label, 'default': value, 'type': kind, 'required': required}
 
 
+# Contact fields shared by every scenario. Each scenario prepends this block to its own fields so that
+# "customer" data looks the same across the three apps in a workflow.
 CUSTOMER = [
     field('customer_ref', 'Customer reference', 'C-014'),
     field('full_name', 'Full name', 'Avery Example'),
@@ -27,6 +41,14 @@ CUSTOMER = [
     field('postal_code', 'Postal code', '12345'),
 ]
 
+# The scenario contracts. One entry per demo business (hvac, sports, legal, ...). Per scenario:
+#   short/icon/company/tagline/color : display metadata for the UI
+#   primary       : field key that identifies the record in the first app
+#   fields        : the intake form (see field())
+#   stage_fields  : which fields each of the three destination apps receives
+#   keys          : the field used as the external key in each destination (stage 0, 1, 2)
+#   action*       : the optional follow-up step (kind, button label, extra inputs)
+# The loop at the bottom of this module adds catalog data and the derived "targets" list.
 DEFINITIONS = {
     'hvac': dict(short='HVAC & field service', icon='wind', company='Desert Air',
         tagline='One service request. Three desks, already in sync.', color='#137e72',
@@ -115,6 +137,9 @@ DEFINITIONS = {
         keys=['registration_ref','registration_ref','registration_ref'],action='checkin',action_label='Check in attendee',action_fields=[]),
 }
 
+# Per-destination field renames. The three apps call the same concept by different names; for field k, the app at
+# stage i stores it under ALIASES[k][i] (fields not listed keep their own key in every app). This is what makes the
+# "mapping" of each target meaningful: source key -> destination key.
 ALIASES = {
     'full_name':['display_name','contact_name','addressee'],
     'email':['email','contact_email','delivery_email'],
@@ -123,6 +148,8 @@ ALIASES = {
     'customer_ref':['customer_ref','external_customer_ref','account_ref'],
 }
 
+# Enrich every scenario with catalog content and build its three destination targets.
+# target.mapping : {canonical field -> that app's own field name}; target.primary : the field used as external key.
 for key, scene in DEFINITIONS.items():
     scene['id'] = key
     scene['story'] = CATALOG[key]['story']
@@ -132,6 +159,7 @@ for key, scene in DEFINITIONS.items():
     scene['scale'] = CATALOG[key]['scale']
     scene['targets'] = []
     for i, name in enumerate(CATALOG[key]['apps']):
+        # i is the stage index (0..2) so each app picks its own alias for shared fields.
         mapping = {k: ALIASES.get(k, [k,k,k])[i] for k in scene['stage_fields'][i]}
         scene['targets'].append({'id':f'{key}-{i}', 'index':i, 'name':name,
             'color':['#137e72','#bb7636','#8057d5'][i], 'mapping':mapping,
@@ -139,8 +167,10 @@ for key, scene in DEFINITIONS.items():
 
 
 def defaults(scenario):
+    """Return {field key: default value} for a scenario, used to pre-fill forms and to fill gaps in partial records."""
     return {f['key']: f['default'] for f in DEFINITIONS[scenario]['fields']}
 
 
 def public_config():
+    """Return all scenario definitions as a list for the /api/config endpoint (the UI renders forms from this)."""
     return list(DEFINITIONS.values())

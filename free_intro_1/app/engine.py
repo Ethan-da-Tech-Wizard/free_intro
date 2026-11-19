@@ -23,19 +23,25 @@ import urllib.request
 import uuid
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+# Sibling modules are imported by bare name because server.py runs with app/ on sys.path.
 from config import DEFINITIONS
 from data_tools import now, pdf_bytes, xlsx_bytes
 
 
 class Problem(Exception):
+    """Domain error with an HTTP status (default 400) and optional detail list; the HTTP layer renders it as a JSON error."""
     def __init__(self, message, status=400, details=None):
         super().__init__(message);self.status=status;self.details=details
 
 
 @contextmanager
+# Transaction-per-block SQLite helper: commit on success, roll back on ANY exception, always close.
+# Rows come back as sqlite3.Row so columns can be read by name.
 def connection(path):
+    # 15 s busy timeout lets concurrent worker threads wait for each other instead of failing with "database is locked".
     db=sqlite3.connect(path,timeout=15)
     db.row_factory=sqlite3.Row
+    # Off by default in SQLite; enabled so any FOREIGN KEY constraint is enforced.
     db.execute('PRAGMA foreign_keys=ON')
     try:
         yield db
@@ -46,22 +52,35 @@ def connection(path):
 
 
 def encoded(value):
+    # sort_keys makes the encoding canonical (same data -> same string), which fingerprint() relies on;
+    # allow_nan=False rejects NaN/Infinity.
+    """Canonical JSON string (sorted keys, no NaN) used for storage and hashing."""
     return json.dumps(value,ensure_ascii=False,sort_keys=True,allow_nan=False)
 
 
 def fingerprint(value):
+    """SHA-256 hex digest of a value's canonical JSON; used for idempotency and deduplication."""
     return hashlib.sha256(encoded(value).encode()).hexdigest()
 
 
 def validate(scenario, supplied, kind='intake', action=None):
+    # Walk every field of the scenario: collect cleaned values into data and human-readable problems into issues.
+    # All problems are gathered before raising, so the user sees the full list at once.
+    """Validate and clean one intake (or follow-up action) for a scenario.
+
+    Returns the cleaned data dict, or raises Problem(422) listing every issue found. `kind`/`action` are only used for
+    follow-up validation such as matching an invoice to its repair ticket.
+    """
     scene=DEFINITIONS[scenario];data={};issues=[]
     for f in scene['fields']:
         value=supplied.get(f['key'],'')
+        # Form values must be scalars.
         if isinstance(value,(dict,list)):issues.append(f"{f['label']}: use a single value");continue
         if isinstance(value,str):value=value.strip()
         if value=='' or value is None:
             if f['required']:issues.append(f"{f['label']} is required")
             data[f['key']]='';continue
+        # Numbers: parse with Decimal (no float surprises), require finite and 0..1,000,000; count-like fields must be whole numbers.
         if f['type']=='number':
             try:
                 number=Decimal(str(value))
@@ -74,12 +93,15 @@ def validate(scenario, supplied, kind='intake', action=None):
             if len(value)>1500:issues.append(f"{f['label']} is too long")
         if f['type']=='email' and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',str(value)):
             issues.append(f"{f['label']} needs a valid address")
+        # Dates: slash formats are ambiguous (D/M vs M/D), so only ISO-8601 is accepted.
         if f['key'] in ['slot','appointment','event_date','birth_date'] and '/' in str(value):
             issues.append(f"{f['label']}: replace the ambiguous date with YYYY-MM-DD")
         if f['key'] in ['slot','appointment','event_date','birth_date'] and '/' not in str(value):
             try:datetime.fromisoformat(str(value).replace('Z','+00:00'))
             except ValueError:issues.append(f"{f['label']}: enter an ISO date, such as 2026-10-06 10:00")
         data[f['key']]=value
+    # Human-review gate: an importer (or the legal party check below) can attach a reason; the run stays blocked
+    # until the user confirms it through _review_confirmed.
     review_reason=supplied.get('_review_reason','')
     if scenario=='legal' and str(data.get('other_party','')).lower()=='existing demo client':
         review_reason='Possible party match. Record the reviewer decision before creating the matter packet.'
@@ -87,12 +109,15 @@ def validate(scenario, supplied, kind='intake', action=None):
         issues.append(review_reason)
     data['_review_confirmed']=bool(supplied.get('_review_confirmed'))
     if review_reason:data['_review_reason']=str(review_reason)[:500]
+    # Scenario-specific business rules.
     if scenario=='events' and data.get('capacity')==0:issues.append('Session capacity must be at least 1')
     if scenario=='sports':
         try:ZoneInfo(str(data.get('timezone','')))
         except (ZoneInfoNotFoundError,ValueError):issues.append('Choose a valid timezone, such as Etc/GMT+7.')
     if scenario=='retail' and str(data.get('sku','')).upper() not in ['FLT-20','KIT-07','BOLT-12']:
         issues.append('SKU needs mapping. Demo inventory accepts FLT-20, KIT-07, or BOLT-12.')
+    # Invoice matching (property scenario): the invoice must refer to this ticket and may not exceed the approved estimate
+    # unless an overage was explicitly approved.
     if kind=='invoice' and action and action.get('job_reference')!=data.get('ticket_ref'):
         issues.append('The invoice job reference does not match this repair ticket.')
     if kind=='invoice' and action:
@@ -105,11 +130,19 @@ def validate(scenario, supplied, kind='intake', action=None):
 
 
 class Workplaces:
+    """The simulated destination apps: one SQLite database per app (3 per scenario), exposed through the workplace HTTP API.
+
+    Each one enforces its own rules (idempotent operations, slot locks, stock, capacity) as a real separate system would.
+    """
     def __init__(self, directory):
+        """Create the data directory and the schema of every destination app."""
         self.directory=Path(directory);self.directory.mkdir(parents=True,exist_ok=True)
         for scene in DEFINITIONS.values():
             for target in scene['targets']:
                 with self.db(target['id']) as db:
+                    # One SQLite file per destination app. Tables: records (the business objects, with a revision counter),
+                    # operations (idempotency log: operation id -> request hash + stored response), business_events (one-time effects such as
+                    # stock receipts), reservations (slot locks), settings (simulated online/authorized switches).
                     db.executescript('''
                     CREATE TABLE IF NOT EXISTS records(id TEXT PRIMARY KEY, external_key TEXT UNIQUE NOT NULL, payload TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 1, created TEXT, updated TEXT);
                     CREATE TABLE IF NOT EXISTS operations(id TEXT PRIMARY KEY, request_hash TEXT NOT NULL, response TEXT NOT NULL);
@@ -120,16 +153,19 @@ class Workplaces:
                     INSERT OR IGNORE INTO settings VALUES('authorized','true');
                     ''')
 
+    # Open the SQLite file for one destination app; ids are checked against DEFINITIONS so a request can never choose an arbitrary filename.
     def db(self,app_id):
         if not any(app_id==t['id'] for s in DEFINITIONS.values() for t in s['targets']):raise Problem('Unknown workplace.',404)
         return connection(self.directory/(app_id+'.sqlite3'))
 
+    # Connection switches (online, authorized) plus the number of stored records.
     def state(self,app_id):
         with self.db(app_id) as db:
             settings={r['key']:json.loads(r['value']) for r in db.execute('SELECT * FROM settings')}
             settings['count']=db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
         return settings
 
+    # Flip the simulated connection switches; only the two known boolean keys are accepted.
     def settings(self,app_id,changes):
         with self.db(app_id) as db:
             for key,value in changes.items():
@@ -137,20 +173,24 @@ class Workplaces:
                 db.execute('UPDATE settings SET value=? WHERE key=?',(json.dumps(value),key))
         return self.state(app_id)
 
+    # All records of one app, newest-updated first.
     def list(self,app_id):
         with self.db(app_id) as db:
             return [self.unpack(row) for row in db.execute('SELECT * FROM records ORDER BY updated DESC')]
 
     def get(self,app_id,record_id):
+        """One record by id, or 404."""
         with self.db(app_id) as db:
             row=db.execute('SELECT * FROM records WHERE id=?',(record_id,)).fetchone()
             if row is None:raise Problem('Record not found.',404)
             return self.unpack(row)
 
     @staticmethod
+    # Convert a DB row to a dict and decode its JSON payload.
     def unpack(row):
         data=dict(row);data['payload']=json.loads(data['payload']);return data
 
+    # Wipe every destination of a scenario back to empty and re-enable its switches (demo reset).
     def reset(self,scenario):
         for target in DEFINITIONS[scenario]['targets']:
             with self.db(target['id']) as db:
@@ -158,25 +198,38 @@ class Workplaces:
                 db.execute("UPDATE settings SET value='true'")
 
     def save(self,app_id,request):
+        # app_id looks like "hvac-1": scenario id plus the position (0..2) of the app in the workflow.
+        """Create or update a record in one destination app (POST /v1/<app>/records).
+
+        Idempotent per operation_id, upserts by external_key, and applies the scenario-specific status and business rules.
+        Returns {"record", "created", "reused"}.
+        """
         scenario,index=app_id.rsplit('-',1);index=int(index);scene=DEFINITIONS[scenario];target=scene['targets'][index]
         state=self.state(app_id)
+        # Simulated outages: an offline app answers 503 and a revoked grant answers 403, so retry/resume handling can be demonstrated.
         if not state['online']:raise Problem(f"{target['name']} is temporarily unavailable.",503)
         if not state['authorized']:raise Problem(f"Access to {target['name']} has been revoked. Grant local API access to resume.",403)
         payload=request.get('payload',{});key=str(request.get('external_key','')).strip()
         operation_id=str(request.get('operation_id','')).strip();kind=request.get('kind','intake')
         if not key or not operation_id or not isinstance(payload,dict):raise Problem('Record key, operation ID, and payload are required.')
+        # Translate the app-specific payload back to canonical field names using this target's mapping, then enforce the required fields.
         canonical={k:payload.get(v,'') for k,v in target['mapping'].items()}
         for f in scene['fields']:
             if f['key'] in canonical and f['required'] and canonical[f['key']] in ['',None]:raise Problem(f"{f['label']} is required by {target['name']}.",422)
+        # Hash of the whole request: the same operation_id with different content is a client bug and is refused (409) below.
         signature=fingerprint(request)
         with self.db(app_id) as db:
+            # Take the write lock up front so the idempotency check and the write below are atomic across threads.
             db.execute('BEGIN IMMEDIATE')
+            # Idempotency: a repeated operation id with identical content returns the stored response instead of writing again.
             previous_op=db.execute('SELECT * FROM operations WHERE id=?',(operation_id,)).fetchone()
             if previous_op:
                 if previous_op['request_hash']!=signature:raise Problem('Operation ID was reused with different data.',409)
                 result=json.loads(previous_op['response']);result['reused']=True;return result
             old=db.execute('SELECT * FROM records WHERE external_key=?',(key,)).fetchone()
             old_payload=json.loads(old['payload']) if old else {}
+            # Follow-up actions must carry a stable event id; applying the same event id with different data is rejected,
+            # so retries cannot double-apply a business effect.
             if kind in ['completion','sale','invoice','checkin']:
                 event_id=str(request.get('action',{}).get('event_id',''))
                 if not event_id:raise Problem('Follow-up actions require a stable event reference.',422)
@@ -185,15 +238,18 @@ class Workplaces:
                 prior_event=db.execute('SELECT request_hash FROM business_events WHERE id=?',(event_key,)).fetchone()
                 if prior_event and prior_event[0]!=event_hash:raise Problem('This event reference was already applied with different data.',409)
                 db.execute('INSERT OR IGNORE INTO business_events VALUES(?,?)',(event_key,event_hash))
+            # A finished item/job cannot be re-opened by a plain intake (HVAC customer records are the exception: customers persist).
             if old_payload.get('status') in ['Sold','Completed'] and kind=='intake' and not (scenario=='hvac' and index==0):
                 raise Problem('This item or job is already completed. Use a new reference for new work.',409)
             status='Saved'
+            # Appointment scheduling: one booking per technician/provider and slot; moving a record releases its old slot first.
             if index==1 and scenario in ['hvac','clinic']:
                 resource=str(canonical.get('technician') or canonical.get('provider'))+'|'+str(canonical.get('slot'))
                 reservation=db.execute('SELECT external_key FROM reservations WHERE resource=?',(resource,)).fetchone()
                 if reservation and reservation[0]!=key:raise Problem('That appointment slot is already reserved. Choose another slot.',409)
                 db.execute('DELETE FROM reservations WHERE external_key=?',(key,))
                 db.execute('INSERT INTO reservations VALUES(?,?)',(resource,key));status='Scheduled'
+            # HVAC invoice draft: diagnostic fee, plus (on completion) labour hours x rate + parts, rounded to cents with Decimal.
             if scenario=='hvac' and index==2:
                 fee=Decimal(str(canonical.get('fee',0)))
                 payload['total_usd']=str(fee.quantize(Decimal('.01')));status='Draft'
@@ -202,6 +258,7 @@ class Workplaces:
                     total=fee+Decimal(str(action['hours']))*Decimal(str(action['hourly_rate']))+Decimal(str(action['parts']))
                     payload.update(labor_hours=action['hours'],hourly_rate=action['hourly_rate'],parts_usd=action['parts'],total_usd=str(total.quantize(Decimal('.01'))))
             if kind=='completion' and scenario=='hvac' and index==1:status='Completed'
+            # HVAC customer app: keeps a growing list of service references per customer.
             if scenario=='hvac' and index==0:
                 status='Active customer'
                 history=old_payload.get('service_references',[])
@@ -210,6 +267,7 @@ class Workplaces:
                 payload['service_references']=history
             if scenario=='legal':status=['Reviewed matter','Draft packet','Scheduled task'][index]
             if scenario=='clinic' and index!=1:status=['Registered','', 'Packet prepared'][index]
+            # Retail: a receipt adds stock exactly once (tracked in business_events); available = on hand - reserved, never negative.
             if scenario=='retail':
                 status=['Received','Stock updated','Available online'][index]
                 if index==1:
@@ -223,6 +281,7 @@ class Workplaces:
                     if reserved>quantity:raise Problem('Reserved quantity exceeds stock on hand.',409)
                     payload.update(stock_quantity=quantity,available_quantity=quantity-reserved)
                     db.execute('INSERT OR IGNORE INTO business_events VALUES(?,?)',(event,business_hash))
+            # Reseller: every item is unique, so a sale can happen once; stock drops to 0 and a second sale is rejected.
             if scenario=='reseller':
                 status=['In stock','Draft listing','Awaiting sale'][index]
                 if index==0:payload['stock_quantity']=old_payload.get('stock_quantity',1)
@@ -235,6 +294,7 @@ class Workplaces:
             if scenario=='property':
                 status=['Open repair','Assigned','Awaiting invoice'][index]
                 if kind=='invoice':payload.update(request.get('action',{}));status=['Completed','Completed','Invoice matched'][index]
+            # Events: seats are counted against capacity per session; overflow registrations are waitlisted, and a waitlisted person cannot check in.
             if scenario=='events':
                 status=['Registered','Reserved','Badge ready'][index]
                 if index==1:
@@ -245,12 +305,14 @@ class Workplaces:
                 if kind=='checkin':
                     if old_payload.get('status')=='Waitlisted':raise Problem('A waitlisted attendee must receive a seat before check-in.',409)
                     status='Checked in'
+            # Sports: store the event start converted to the report's timezone (naive times are interpreted in that zone).
             if scenario=='sports':
                 status=['Source recorded','Schedule updated','Report ready'][index]
                 if index==1:
                     start=datetime.fromisoformat(str(canonical['event_date']).replace('Z','+00:00'))
                     if start.tzinfo is None:start=start.replace(tzinfo=ZoneInfo(canonical['timezone']))
                     payload['local_start']=start.astimezone(ZoneInfo(canonical['timezone'])).isoformat()
+            # Final status for the record, then upsert by external key (insert, or update and bump the revision).
             payload['status']=status
             if request.get('source'):payload['_source']=request['source']
             if request.get('links'):payload['_linked_records']=request['links']
@@ -259,15 +321,22 @@ class Workplaces:
                 ON CONFLICT(external_key) DO UPDATE SET payload=excluded.payload,revision=records.revision+1,updated=excluded.updated''',
                 (record_id,key,encoded(payload),timestamp,timestamp))
             record=self.unpack(db.execute('SELECT * FROM records WHERE id=?',(record_id,)).fetchone())
+            # Store the response under the operation id so an identical retry replays exactly this result.
             result={'record':record,'created':not bool(old),'reused':False}
             db.execute('INSERT INTO operations VALUES(?,?,?)',(operation_id,signature,encoded(result)))
             return result
 
 
 class Engine:
+    """Workflow coordinator: persists runs, executes them across the three destination apps, and builds reports.
+
+    Keeps its own database (runs, steps, sources, manual entries, settings) separate from the destination apps.
+    """
     def __init__(self,directory,workplace_url,token):
+        """Open/create the coordinator database, start the worker pool, and mark interrupted runs."""
         self.directory=Path(directory);self.directory.mkdir(parents=True,exist_ok=True)
         self.path=self.directory/'coordinator.sqlite3';self.workplace_url=workplace_url;self.token=token
+        # Up to three workflow runs execute concurrently; self.locks holds one lock per run so a run is never processed twice at once.
         self.pool=ThreadPoolExecutor(max_workers=3,thread_name_prefix='relay-workflow')
         self.locks={};self.lock=threading.RLock()
         with self.db() as db:
@@ -278,11 +347,19 @@ class Engine:
             CREATE TABLE IF NOT EXISTS manual(id INTEGER PRIMARY KEY AUTOINCREMENT,scenario TEXT,app_id TEXT,field_count INTEGER,record_id TEXT,created TEXT);
             CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT);
             ''')
+            # Crash recovery: runs that were queued/running when the process died are marked interrupted so the UI can offer Resume.
             db.execute("UPDATE runs SET status='interrupted',message='The service restarted. Resume from the saved steps.' WHERE status IN ('queued','running')")
 
+    # Open the coordinator database (runs, steps, sources, manual entries, settings).
     def db(self):return connection(self.path)
 
     def api(self,method,path,data=None,run_id=None,stage=-1,kind='api'):
+        # Every call to a destination goes over real HTTP to the local workplace API (bearer-token protected), even though it is in-process,
+        # so the trace of requests shown to the user is genuine.
+        """Call the workplace API and log the exchange as a step of run_id.
+
+        Returns the decoded JSON body; raises Problem with the destination's status and message when status >= 400.
+        """
         started=time.monotonic();status=0;result={}
         req=urllib.request.Request(self.workplace_url+path,data=encoded(data).encode() if data is not None else None,
                 headers={'Content-Type':'application/json','Authorization':'Bearer '+self.token},method=method)
@@ -293,9 +370,11 @@ class Engine:
             with error:
                 try:result=json.load(error)
                 except ValueError:result={'error':'Destination returned an unreadable response.'}
+        # Connection-level failure (nothing listening) is reported as 503 so it behaves like an outage.
         except urllib.error.URLError:
             result={'error':'The destination API could not be reached.'};status=503
         duration=round((time.monotonic()-started)*1000)
+        # Persist every call as a step with its request, response and timing; this is the audit trail and the basis for resuming.
         if run_id:
             with self.db() as db:
                 db.execute('INSERT INTO steps(run_id,stage,kind,method,path,status,duration_ms,data,created) VALUES(?,?,?,?,?,?,?,?,?)',
@@ -304,11 +383,17 @@ class Engine:
         return result
 
     def enqueue(self,scenario,data,source=None,kind='intake',action=None,event_id=None):
+        """Validate input and queue a workflow run, or return the existing run if identical input was already submitted.
+
+        Thread-safe wrapper around _enqueue. Returns {"run": ..., "reused": bool}.
+        """
         with self.lock:return self._enqueue(scenario,data,source,kind,action,event_id)
 
+    # Implementation of enqueue(); callers must hold self.lock.
     def _enqueue(self,scenario,data,source=None,kind='intake',action=None,event_id=None):
         if scenario not in DEFINITIONS:raise Problem('Unknown workflow.',404)
         action=action or {};normalized=validate(scenario,data,kind,action)
+        # Only the follow-up action defined for the scenario is allowed besides the initial intake.
         allowed=['intake','completion','sale','invoice','checkin']
         if kind not in allowed or (kind!='intake' and kind!=DEFINITIONS[scenario]['action']):raise Problem('Unsupported workflow action.')
         if kind!='intake':
@@ -334,8 +419,10 @@ class Engine:
                 existing=db.execute('SELECT id FROM runs WHERE fingerprint=?',(digest,)).fetchone()
                 return {'run':self.run(existing['id']),'reused':True}
         self.pool.submit(self.execute,run_id)
+        # Hand the new run to the worker pool and return immediately (the HTTP caller gets 202 and polls).
         return {'run':self.run(run_id),'reused':False}
 
+    # Re-queue an interrupted or failed run; already-verified stages are skipped when it executes.
     def resume(self,run_id):
         with self.lock:
             run=self.run(run_id)
@@ -345,6 +432,7 @@ class Engine:
             self.pool.submit(self.execute,run_id)
             return self.run(run_id)
 
+    # Load one run with decoded JSON columns, its recorded steps and the verified output record of each stage.
     def run(self,run_id):
         with self.db() as db:
             row=db.execute('SELECT * FROM runs WHERE id=?',(run_id,)).fetchone()
@@ -357,8 +445,11 @@ class Engine:
         result['outputs']=[{'app_id':DEFINITIONS[result['scenario']]['targets'][s['stage']]['id'],'record':s['data']['response']['record']} for s in result['steps'] if s['kind']=='verified' and s['status']==200]
         return result
 
+    # Worker body. Walks the three destination apps in order: write, read the record back, compare, and mark the step verified.
+    # Stages already verified in an earlier attempt are reused, which makes a resumed run idempotent.
     def execute(self,run_id):
         with self.lock:lock=self.locks.setdefault(run_id,threading.Lock())
+        # Non-blocking: if another thread is already executing this run, do nothing.
         if not lock.acquire(False):return
         started=time.monotonic();prior_time=0;worked=False
         try:
@@ -367,7 +458,9 @@ class Engine:
             scene=DEFINITIONS[run['scenario']];data=run['payload'];prior_time=run['elapsed_ms']
             worked=True
             with self.db() as db:db.execute("UPDATE runs SET status='running',message='',updated=? WHERE id=?",(now(),run_id))
+            # Stages that already succeeded in a previous attempt (resume support).
             completed={s['stage']:s['data']['response'] for s in run['steps'] if s['kind']=='verified' and s['status']==200}
+            # Check-in needs a seat that is already reserved in the events app.
             if run['kind']=='checkin' and not completed:
                 records=self.api('GET','/v1/events-1/records')['records']
                 seat=next((r for r in records if r['external_key']==str(data['registration_ref'])),None)
@@ -387,41 +480,50 @@ class Engine:
                              'links':dict(links),'upstream_status':last_status,'business_reference':data[scene['primary']]}
                     saved=self.api('POST',f"/v1/{target['id']}/records",request,run_id,i,'write')
                     verified=self.api('GET',f"/v1/{target['id']}/records/{saved['record']['id']}",None,run_id,i,'readback')
+                    # Read-back check: the stored record must equal what was written, otherwise the stage fails instead of claiming success.
                     if verified['record']['payload']!=saved['record']['payload']:raise Problem('Destination read-back did not match the saved record.',409)
                     with self.db() as db:
                         db.execute("UPDATE steps SET kind='verified' WHERE id=(SELECT MAX(id) FROM steps WHERE run_id=? AND stage=? AND kind='readback' AND status=200)",(run_id,i))
                 record=verified['record'];links[target['id']]=record['id'];last_status=record['payload'].get('status','');previous_record=record
             with self.db() as db:db.execute("UPDATE runs SET status='complete',message='All three destinations were saved and read back.',updated=? WHERE id=?",(now(),run_id))
+        # Known Problems show their message; anything unexpected is logged to the terminal and the user sees a generic resumable error.
         except Exception as error:
             message=str(error) if isinstance(error,Problem) else 'An unexpected processing error occurred. Saved steps can be resumed.'
             if not isinstance(error,Problem):print(f'Workflow {run_id}: {type(error).__name__}: {error}',flush=True)
             with self.db() as db:db.execute("UPDATE runs SET status='needs_attention',message=?,updated=? WHERE id=?",(message,now(),run_id))
         finally:
+            # Always record total elapsed time (including earlier attempts), then release the per-run lock.
             if worked:
                 with self.db() as db:db.execute('UPDATE runs SET elapsed_ms=?,updated=? WHERE id=?',(prior_time+round((time.monotonic()-started)*1000),now(),run_id))
             lock.release()
 
+    # Read a JSON-encoded value from the coordinator settings table.
     def setting(self,key,default=None):
         with self.db() as db:row=db.execute('SELECT value FROM settings WHERE key=?',(key,)).fetchone()
         return json.loads(row[0]) if row else default
 
+    # Upsert a JSON-encoded settings value.
     def set_setting(self,key,value):
         with self.db() as db:db.execute('INSERT INTO settings VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',(key,encoded(value)))
 
+    # All imported sources, newest first.
     def sources(self):
         with self.db() as db:return [dict(json.loads(r['data']),id=r['id']) for r in db.execute('SELECT * FROM sources ORDER BY created DESC')]
 
+    # Persist an imported source and return it with its new id.
     def add_source(self,source):
         source_id=str(uuid.uuid4())[:12]
         with self.db() as db:db.execute('INSERT INTO sources VALUES(?,?,?)',(source_id,encoded(source),now()))
         return dict(source,id=source_id)
 
+    # Load one imported source or raise 404.
     def source(self,source_id):
         with self.db() as db:
             row=db.execute('SELECT * FROM sources WHERE id=?',(source_id,)).fetchone()
         if not row:raise Problem('Source not found.',404)
         return dict(json.loads(row['data']),id=source_id)
 
+    # Recent runs and manual entries plus live state of every destination app, with headline metrics.
     def dashboard(self):
         with self.db() as db:
             runs=[dict(r) for r in db.execute('SELECT id,scenario,status,kind,created,elapsed_ms,message FROM runs ORDER BY created DESC LIMIT 100')]
@@ -432,6 +534,7 @@ class Engine:
         return {'runs':runs,'manual':manual,'apps':apps,
                 'metrics':{'completed':sum(r['status']=='complete' for r in runs),'records':sum(a['count'] for values in apps.values() for a in values),'manual_fields':sum(r['field_count'] for r in manual)}}
 
+    # Build the PDF packet for a run: its inputs and each verified destination record.
     def report(self,run_id):
         run=self.run(run_id);scene=DEFINITIONS[run['scenario']]
         lines=[f"Run reference: {run_id}",f"Workflow: {scene['short']}",f"State: {run['status']}",f"Source: {run['source'].get('kind','')}",f"Created: {run['created']}",'']
@@ -443,12 +546,14 @@ class Engine:
                 if key in record['payload']:lines.append(f"{key}: {record['payload'][key]}")
         return pdf_bytes(scene['company']+' / '+('Packing slip' if run['kind']=='sale' else 'Workflow packet'),lines)
 
+    # Build an .ics calendar event from the run's date field (slot, appointment or event date); one-hour duration, times in UTC.
     def calendar(self,run_id):
         run=self.run(run_id);data=run['payload'];scene=DEFINITIONS[run['scenario']]
         value=next((data[k] for k in ['slot','appointment','event_date'] if data.get(k)),None)
         if not value:raise Problem('This workflow does not have a calendar event.',422)
         start=datetime.fromisoformat(value.replace('Z','+00:00'))
         if start.tzinfo is None:start=start.replace(tzinfo=ZoneInfo(data.get('timezone','Etc/GMT+7')))
+        # Escape text for iCalendar: backslash, newline, semicolon and comma.
         def clean(v):return str(v).replace('\\','\\\\').replace('\n','\\n').replace('\r','').replace(';','\\;').replace(',','\\,')
         title=data.get('event_name') or data.get('session') or data.get('visit_type') or data.get('matter_type') or data.get('issue') or scene['short']
         lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Relayworks//Local Demo//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT',
