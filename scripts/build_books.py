@@ -7,6 +7,16 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Build the two offline checklist books from Markdown and actual app contracts."""
+
+# How this file fits the app: the build step for the two offline guidebooks (npm run books, or python3
+# scripts/build_books.py). It reads docs/THE_WORKS.md and docs/BUSINESS_PLAYBOOK.md, fills {{STATIONS}} /
+# {{FIELDS:id}} / {{REFERENCE}} markers from app/config.py so the books quote the real forms, converts the
+# Markdown with the small parser below (no Markdown library), and writes THE_WORKS.html,
+# BUSINESS_PLAYBOOK.html, START_HERE.html, books/*.md and books/manifest.json. web/books.js and
+# web/books.css make the generated pages interactive (search, checklists, notes) and
+# scripts/print_books.mjs makes the PDFs.
+# The generated HTML files are build output: edit the Markdown sources, not the HTML, then rebuild.
+# tests/books.mjs checks the result in a browser.
 import hashlib
 import html
 import json
@@ -26,15 +36,22 @@ BOOKS=[('THE_WORKS','works','01','The Works','The complete operator’s book','L
 
 # Render a GitHub-style Markdown table. Pipes and newlines inside cells are replaced
 # so a cell can never break the row structure.
+
+# Builds a Markdown table; "|" and newlines inside cells are replaced so they cannot break the row.
 def table(headers,rows):
     return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+['| '+' | '.join(str(c).replace('|',' / ').replace('\n',' ') for c in row)+' |' for row in rows])
 
 # Markdown table of a scenario's form fields: label, default practice value, required/optional.
+
+# Markdown table of one scenario's form fields (label, practice value, required or optional).
 def field_table(s):
     return table(['Form label','Exact practice value','Requirement'],[[f['label'],'`'+str(f['default'])+'`','Required' if f['required'] else 'Optional'] for f in s['fields']])
 
 # Replace the {{STATIONS}}, {{FIELDS:<id>}} and {{REFERENCE}} markers in a book source
 # with tables generated from config.DEFINITIONS, so the books quote the real app contracts.
+
+# Replaces the book markers with tables generated from config.DEFINITIONS. Returns the expanded Markdown
+# text.
 def expand(source):
     stations=table(['Workflow','Fictional business','Three independent apps'],[[s['short'],s['company'],' → '.join(t['name'] for t in s['targets'])] for s in DEFINITIONS.values()])
     source=source.replace('{{STATIONS}}',stations)
@@ -52,8 +69,15 @@ def expand(source):
 # Convert inline Markdown (code, links, bold) to HTML.
 # Code and links become NUL-delimited placeholders first so html.escape and the bold
 # regex cannot mangle them; the placeholders are restored at the end.
+
+# Inline Markdown to HTML: code spans and links are stashed first, then everything else is HTML-escaped
+# and bold is applied, then the stashed pieces are put back. This order stops escaping from corrupting
+# links/code and stops untrusted text from adding HTML.
 def inline(value):
     tokens=[]
+
+    # Stash one already-rendered fragment and return an unforgeable placeholder (NUL characters cannot
+    # occur in the source text after reading).
     def save(text):
         tokens.append(text);return '\x00'+str(len(tokens)-1)+'\x00'
     value=re.sub(r'`([^`]+)`',lambda m:save('<code>'+html.escape(m[1])+'</code>'),value)
@@ -66,6 +90,11 @@ def inline(value):
 # Handles fences, :::notes blocks, images, headings, tables, bullet/checklist items and paragraphs.
 # Returns (html, number of checkbox tasks). Task keys hash the task text, so saved progress
 # survives re-ordering but resets if the wording changes.
+
+# Converts the Markdown of one chapter to HTML with a small line-based parser. Returns (html_string,
+# number_of_checkbox_tasks). Block kinds: code fence, :::notes block, image, heading, table, bullet list
+# (with "[ ]"/"[x]" tasks) and paragraph. Task ids are a hash of the task text, so saved checkmarks
+# survive reordering but reset when the wording changes.
 def render(source,chapter):
     lines=source.strip().splitlines();out=[];i=0;task_count=0
     while i<len(lines):
@@ -117,6 +146,10 @@ def render(source,chapter):
 # Build one book: expand markers, split into chapters on "## NN. Title" headings, render each,
 # then write the standalone HTML (CSS inlined, JS referenced) and a plain Markdown copy.
 # Returns a manifest entry with chapter, checkpoint and word counts.
+
+# Builds one book from its registry tuple: expand markers, split into chapters at "## NN. Title", render
+# each, write the standalone HTML (CSS inlined) and a plain Markdown copy. Returns the manifest entry {id,
+# title, file, chapters, checkpoints, words}.
 def build(meta):
     stem,book_id,volume,title,subtitle,tagline=meta
     source=expand((ROOT/'docs'/f'{stem}.md').read_text())
@@ -149,6 +182,9 @@ def build(meta):
     return {'id':book_id,'title':title,'file':stem+'.html','chapters':len(chapters),'checkpoints':total,'words':len(source.split())}
 
 # Build both books, write books/manifest.json, then generate START_HERE.html from the manifest.
+
+# Builds both books, writes books/manifest.json, then START_HERE.html (the landing page) and prints the
+# manifest.
 def main():
     (ROOT/'books').mkdir(exist_ok=True)
     # Order of the manifest matches BOOKS, which the card builder below relies on.

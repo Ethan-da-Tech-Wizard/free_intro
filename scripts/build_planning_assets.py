@@ -13,6 +13,13 @@ Regeneration replaces the generated catalog and board. Preserve hand-edited Arch
 projects under another filename before regenerating them.
 """
 
+# How this file fits the app: a developer/maintenance script (python3 scripts/build_planning_assets.py)
+# that regenerates the planning documents and the editable Archi boards (diagrams/*.archi.json, PNG
+# exports built with the standard library) from the scenario catalog and app/config.py, so diagrams and
+# docs never drift from the real contracts. It does not run during normal use of the app and needs no
+# network.
+# Caution (also stated in the docstring): regeneration overwrites the generated files; keep hand-edited
+# Archi boards under another filename.
 import argparse
 import json
 import os
@@ -46,6 +53,9 @@ class View:
 
     # Add a shape and return its 1-based shapeId (used later as an edge endpoint).
     # x/y/width/height are canvas pixels; kind is the Archi shape kind (e.g. "process" or "decision").
+
+    # Add a shape and return its 1-based id (see the comment above). width/height default to a 280x115
+    # card; `kind` becomes the Archi shape kind.
     def box(self, x, y, text, color=BLUE, width=280, height=115,
             kind="process", description="", link=""):
         identifier = len(self.value["shapes"]) + 1
@@ -59,6 +69,9 @@ class View:
 
     # Add an arrow between two shape ids. Optional elbow points and label position are
     # explicit canvas coordinates because Archi does not auto-route.
+
+    # Add an arrow between two shape ids, optionally with elbow points and a label position (Archi does
+    # not route arrows automatically).
     def edge(self, start, end, label="", points=None, label_at=None):
         edge = {"fromId": start, "toId": end, "label": label}
         if points:

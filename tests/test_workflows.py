@@ -6,6 +6,15 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Contract tests against both real local HTTP services and independent stores."""
+
+# How this file fits the app: the main contract test suite. setUpClass builds the same two servers that
+# app/server.py's main() builds, but in-process on ephemeral ports with a temporary data directory, so
+# tests are fast and isolated. Each test then drives the real HTTP API (portal and workplace) and asserts
+# business behaviour: validation, idempotency, slot locking, stock rules, sales, invoices, seat capacity,
+# report and calendar output, source imports and failure/resume.
+# Run: python3 -m unittest discover -s tests -v (about 4 seconds; tests needing optional tools such as
+# pdftotext are skipped when the tool is missing). No test needs the internet: source connectors are only
+# exercised with generated files and with a private/blocked URL that must be refused.
 import base64
 import concurrent.futures
 import io
@@ -262,6 +271,9 @@ class Workflows(unittest.TestCase):
         # Wrapper around Engine.api: just before the stage-2 read-back, edit the destination record
         # through a separate write, simulating another user changing it.
         def intercept(method,path,data=None,run_id=None,stage=-1,kind='api'):
+            # Test double: wraps Engine.api so that exactly once, right before stage 2's read-back,
+            # another "user" edits the destination record. The run must then fail verification instead of
+            # reporting success.
             if method=='GET' and stage==2 and kind=='readback' and not intervened:
                 intervened.append(True)
                 request=self.engine.run(run_id)['steps'][-1]['data']['request']

@@ -5,6 +5,12 @@
 # Purpose: Educational automation and workflow orchestration module for free_intro.
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
+
+# How this file fits the app: slower "operations" tests that use real processes and real local tools
+# (restarting the server process, OCR of a scanned page, opening office files and calendar output) instead
+# of in-process fakes. Run with the rest of the suite: python3 -m unittest discover -s tests -v. Tests
+# that need an optional external tool (tesseract, pdftotext, ...) are skipped when it is not installed,
+# which is why a normal run reports a few skips.
 """Real process restart, scan OCR, and office/calendar interoperability."""
 import base64
 from datetime import datetime
@@ -35,22 +41,30 @@ class Operations(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='relay-restart-') as directory:
             # Helpers: free-port finder, JSON request, start/stop server subprocess, poll a run until it reaches a state.
             def port():
+                # Free port finder: binds port 0 so the operating system picks an unused port, which
+                # avoids clashes with a running demo on 8765.
                 with socket.socket() as sock:sock.bind(('127.0.0.1',0));return sock.getsockname()[1]
             portal_port,api_port=port(),port();base=f'http://127.0.0.1:{portal_port}'
             def request(path,body=None):
+                # Small JSON helper used while the child server is running.
                 req=urllib.request.Request(base+path,data=json.dumps(body).encode() if body is not None else None,headers={'Content-Type':'application/json'})
                 with urllib.request.urlopen(req,timeout=3) as response:
                     blob=response.read();return json.loads(blob) if 'application/json' in response.headers['Content-Type'] else blob
             def start():
+                # Starts app/server.py as a real subprocess on the chosen ports and waits (up to 3 s)
+                # until /api/config answers; fails the test with the server's stderr otherwise.
                 proc=subprocess.Popen([sys.executable,str(ROOT/'app/server.py'),'--port',str(portal_port),'--workplace-port',str(api_port),'--data-dir',directory],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
                 for _ in range(60):
                     try:request('/api/config');return proc
                     except (urllib.error.URLError,ConnectionError):time.sleep(.05)
                 proc.kill();out=proc.communicate()[1];self.fail(out.decode())
             def stop(proc):
+                # Stops the server with SIGINT, as a user's Ctrl+C would, and asserts a clean exit code 0.
                 proc.send_signal(signal.SIGINT);_,err=proc.communicate(timeout=10)
                 self.assertEqual(proc.returncode,0,err.decode())
             def wait(run_id,state):
+                # Polls (up to 2.5 s) until a run reaches the wanted state, otherwise fails with the last
+                # response.
                 for _ in range(100):
                     result=request('/api/runs/'+run_id)
                     if result['status']==state:return result

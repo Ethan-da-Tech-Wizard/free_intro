@@ -6,6 +6,12 @@
 #          Provides structured data generation, asset planning, and contracts.
 # ==============================================================================
 """Create the tutorial's actual example files using the running app's generators."""
+
+# How this file fits the app: regenerates the learner files in practice_files/ (a messy XLSX, the same
+# data as CSV and an intake PDF per scenario, plus an optional PNG scan if Poppler is installed) with the
+# app's own generators, so the exercises in the books always match what the importers expect. Run: python3
+# scripts/make_practice_files.py. Existing files with the same names are overwritten. All data is
+# synthetic.
 from pathlib import Path
 import shutil
 import subprocess
