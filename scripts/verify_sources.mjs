@@ -5,6 +5,10 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// Important: this script OVERWRITES the recorded provider snapshots in fixtures/public/ with the live
+// responses it fetches, so run it only when you intend to refresh the recordings that offline demos replay
+// (/api/sources/recorded-google and recorded-openf1 in app/server.py).
 // Live check of the two public sources (Google Sheet export and OpenF1): fetch each, run it through the
 // workflow, and save the raw responses plus a verification summary under fixtures/public/. Needs network access.
 import assert from 'node:assert/strict';

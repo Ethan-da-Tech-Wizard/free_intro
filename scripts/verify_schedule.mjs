@@ -5,6 +5,12 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: a manual, network-dependent verification (node scripts/verify_schedule.mjs,
+// with the server running). It turns on the real scheduled pull of the public Google Sheet at the minimum
+// 60-second interval, waits for the first pull, checks that 30 rows were submitted, then turns the
+// schedule off again. It takes up to about 100 s and fails without internet access; it is not part of the
+// offline test suite.
 /** Exercise the actual minimum-interval public Sheet timer, then leave it off. */
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

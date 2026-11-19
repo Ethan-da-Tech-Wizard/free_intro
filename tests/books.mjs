@@ -5,6 +5,12 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: the browser test for the guidebooks and the library page (npm run
+// test:books). It starts its OWN server on free ports with a temporary data directory (so the real demo
+// data is untouched), opens each book in isolated browser contexts and checks table of contents, search,
+// tick boxes, notes, export/import, mobile layout and print view, and also checks the START_HERE links and
+// the app overview. Screenshots go to books/verification/.
 /** Reader checks in isolated browser contexts and a separate demo server. */
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';

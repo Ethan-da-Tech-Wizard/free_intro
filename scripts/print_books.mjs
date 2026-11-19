@@ -5,6 +5,11 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: renders the two generated guidebook HTML files to printable A4 PDFs
+// (books/THE_WORKS.pdf, books/BUSINESS_PLAYBOOK.pdf) with headless Chromium, using the books' print
+// stylesheet. Run through `npm run books` after scripts/build_books.py. It only reads the HTML and writes
+// PDFs; it does not start or change the demo server.
 /** Produce blank, standalone PDF editions; no demo data is changed. */
 import {chromium} from '@playwright/test';
 import {pathToFileURL} from 'node:url';

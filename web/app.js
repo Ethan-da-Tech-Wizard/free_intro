@@ -5,6 +5,23 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: the entire front end of the Relayworks portal, loaded by web/index.html as
+// an ES module (<script type="module" src="/assets/app.js">; app/server.py serves /assets/ from the web/
+// folder). It talks only to the same-origin JSON API of app/server.py (GET /api/config, /api/dashboard,
+// /api/runs/<id>, /api/sources..., POST /api/runs, /api/preview, /api/mapping, /api/reset, ...). No
+// framework, no build step, no third-party requests.
+// Structure: one state object S; small HTML-string helpers (esc, icon, badge, button, link); page
+// functions that each build a screen (home, scenarioPage with its tabs
+// overview/manual/automate/results/technical, connections, sourcePage, evidence, history, workplace);
+// route() chooses the page from the URL hash; startPoll() re-renders a running workflow every 350 ms; and
+// ONE delegated click handler and ONE submit handler at the bottom which dispatch on data-action
+// attributes (so buttons created by innerHTML need no listeners).
+// Security notes: every dynamic value goes through esc() before it is placed in a template string;
+// `title()` accepts trusted HTML for its heading only. The page relies on the server's
+// Content-Security-Policy (same-origin scripts only), so inline event handlers are not used.
+// Testing: tests/browser.mjs and tests/books.mjs drive this UI with Playwright; there are no unit tests
+// for individual functions.
 // Single-page UI for the Relayworks demo. All markup is built as template strings and injected with innerHTML;
 // every dynamic value passes through esc() first. Navigation is hash-based (#scenario/<id>/<tab>, #source/..., #history),
 // except /workplace, which renders one destination app from query-string parameters.
@@ -37,6 +54,9 @@ let pollTimer,toastTimer,routeVersion=0;
  * Call the local JSON API: GET when body is undefined, otherwise POST with a JSON body.
  * Throws an Error carrying the server's message, details array and HTTP status on any non-2xx response.
  */
+
+// All network access goes through this one function, which also turns server errors into Error objects so
+// every caller can show them the same way (toast or inline notice).
 async function api(path,body){
   const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});
   const data=await response.json();
@@ -233,6 +253,10 @@ async function workplace(){
  * Main router. Reads location, loads config/dashboard, renders the matching page and handles failures.
  * routeVersion guards against out-of-order async renders when the user navigates quickly.
  */
+
+// Router. Called on every hashchange and at start-up. routeVersion guards against races: if the user
+// navigates again while an earlier route() is still waiting for the network, the older call stops before
+// rendering. /workplace is the only real path (not a hash route) and renders outside the shell.
 async function route(){
   const version=++routeVersion;clearTimeout(pollTimer);
   try{
@@ -290,6 +314,10 @@ async function upload(file,scenarioId){
 function showSchedule(c){const el=$('#schedule-status');if(el)el.textContent=c.enabled?`Enabled · every ${c.interval} seconds. ${c.message||''}${c.last_run?' Last checked: '+stamp(c.last_run):''}`:'Schedule is off. Enable it to keep pulling while the server runs.';}
 // Central click handler (event delegation): every control carries data-action, handled below.
 // The clicked button is disabled while its request runs so a double click cannot submit twice.
+
+// Single click handler for the whole document (event delegation): finds the nearest element with
+// data-action and switches on its value. The button is disabled while the action runs to prevent double
+// submissions, and re-enabled afterwards.
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-action]');if(!b)return;
   const action=b.dataset.action,s=scene(b.dataset.scenario||S.route[1]||'hvac');

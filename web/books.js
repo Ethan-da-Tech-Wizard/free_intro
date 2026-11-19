@@ -5,6 +5,18 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: the only script the generated guidebooks load (THE_WORKS.html,
+// BUSINESS_PLAYBOOK.html, START_HERE.html; built by scripts/build_books.py). It makes a static book
+// interactive: tick-box tasks, personal notes per section, chapter navigation, whole-book mode, search,
+// print preparation and progress export/import. Everything stays in the reader's browser: localStorage
+// only, no network, no analytics (see the first comment line).
+// It reads its inputs from data attributes written by the book builder: body[data-book], .chapter
+// sections, [data-task] checkboxes and [data-note] textareas, plus the ids used by the toolbar (#contents,
+// #book-search, #reader-status, ...). If the page has no data-book (the landing page) it exits
+// immediately.
+// Because imported progress files are untrusted, sanitize() rebuilds state from known ids only. Tests:
+// tests/books.mjs.
 /* Offline reader. No network, analytics, account, or demo mutations. */
 // Reader for the offline checklist books. Persists ticked tasks and notes in localStorage (falling back to
 // tab-only memory), supports chapter navigation, whole-book mode, search, print notes, and progress export/import.

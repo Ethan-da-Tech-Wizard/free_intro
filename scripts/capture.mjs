@@ -5,6 +5,14 @@
 // Purpose: Educational automation and workflow orchestration module for free_intro.
 //          Provides structured data generation, asset planning, and contracts.
 // ==============================================================================
+
+// How this file fits the app: a developer tool (npm run capture) that records real browser evidence for
+// the demo. With a server running (default http://127.0.0.1:8765, override DEMO_URL) it drives the actual
+// UI with Playwright, takes full-page screenshots of each scenario's before/after states into evidence/,
+// and writes evidence/manifest.json (screenshot names, run ids, SHA-256 of each PNG). app/server.py serves
+// those files at /evidence/ and bundles them into the downloadable evidence zip.
+// Warning: it RESETS the scenarios it uses (the run history of the demo instance is archived) and needs
+// Playwright's Chromium (npm install). Not part of the unit tests.
 /** Actual browser evidence. This resets only the owned local demonstration stores. */
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
