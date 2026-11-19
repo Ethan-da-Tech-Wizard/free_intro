@@ -1,5 +1,12 @@
 <!doctype html>
 <html lang="en">
+
+<!-- How this file fits the app: the one HTML document of the Relayworks portal, served by app/server.py for
+     / and /workplace. It is an empty shell on purpose: web/app.js (loaded as an ES module) builds every
+     screen into #app, so the page works only with JavaScript (there is no <noscript> fallback here).
+     Same-origin assets only, which the server's Content-Security-Policy requires: styles at
+     /assets/styles.css, script at /assets/app.js, and the favicon is an inline data: SVG.
+-->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,9 +18,25 @@
   <script type="module" src="/assets/app.js"></script>
 </head>
 <body>
+
+  <!-- Skip link for keyboard users; it is hidden until focused (see .skip in styles.css) and jumps to #main,
+       which web/app.js renders inside the shell.
+  -->
   <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Mount point: shows the loading message until web/app.js replaces its content (home page, scenario
+       pages, workplace pages all render here).
+  -->
   <div id="app"><div class="loading-screen"><span class="brand-mark">↗</span><p>Opening your demonstration workspace…</p></div></div>
+
+  <!-- Transient message area (aria-live=polite so screen readers announce it); web/app.js toast() shows text
+       here for five seconds.
+  -->
   <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Native <dialog> element used for modals (source preview, mapping, confirmations); opened and closed
+       from web/app.js modal().
+  -->
   <dialog id="modal"></dialog>
 </body>
 </html>
