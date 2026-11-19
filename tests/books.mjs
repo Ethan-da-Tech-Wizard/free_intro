@@ -14,16 +14,23 @@ import path from 'node:path';
 import net from 'node:net';
 import {pathToFileURL} from 'node:url';
 import {spawn} from 'node:child_process';
+// Repository root (this file lives in tests/).
 const root=path.resolve(import.meta.dirname,'..');
+// Temporary data dir for the isolated demo server; removed in the finally block.
 const temp=await fs.mkdtemp(path.join(os.tmpdir(),'relaybooks-test-'));
 const artifacts=path.join(root,'books/verification');await fs.mkdir(artifacts,{recursive:true});
+// Ask the OS for a free port: listen on 0, read it, close.
 async function port(){const s=net.createServer();await new Promise(r=>s.listen(0,'127.0.0.1',r));const p=s.address().port;await new Promise(r=>s.close(r));return p;}
 const p=await port(),wp=await port(),base='http://127.0.0.1:'+p;
+// Start a separate demo server (own ports and data dir) so the test never touches real records.
 const server=spawn('python3',['app/server.py','--port',String(p),'--workplace-port',String(wp),'--data-dir',temp],{cwd:root,stdio:['ignore','pipe','pipe']});
 let serverError='';server.stderr.on('data',v=>serverError+=v);server.stdout.resume();
 const errors=[];const browser=await chromium.launch({headless:true});
+// Poll /api/config for up to ~8 s until the server answers.
 async function ready(){for(let n=0;n<80;n++){try{if((await fetch(base+'/api/config')).ok)return;}catch{}await new Promise(r=>setTimeout(r,100));}throw Error('Server not ready: '+serverError);}
+// JSON POST helper using the page's request context.
 async function post(page,url,data){const r=await page.request.post(base+url,{data});assert.ok(r.ok(),await r.text());return r.json();}
+// Click 'Apply and verify', check that POST /api/runs succeeded, and wait for the modal to close and the heading to appear.
 async function apply(page,heading='Three destinations. Verified.'){
   const response=page.waitForResponse(r=>r.url()===base+'/api/runs'&&r.request().method()==='POST');
   await page.getByRole('button',{name:'Apply and verify',exact:true}).click();assert.ok((await response).ok());
@@ -33,6 +40,7 @@ async function apply(page,heading='Three destinations. Verified.'){
 try{
   await ready();
   const manifest=JSON.parse(await fs.readFile(path.join(root,'books/manifest.json'),'utf8'));
+  // Each book is tested twice: opened from disk (file://) and served over HTTP.
   for(const edition of ['file','http']){
     const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
     const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
@@ -42,37 +50,47 @@ try{
       assert.equal(await page.locator('[data-task]').count(),m.checkpoints);
       assert.equal(await page.locator('.chapter:visible').count(),1);
       assert.equal(await page.locator('body').innerText().then(x=>x.includes('{{')),false);
+      // Every checkbox must have a unique task key.
       const ids=await page.locator('[data-task]').evaluateAll(es=>es.map(e=>e.dataset.task));assert.equal(new Set(ids).size,ids.length);
+      // Persistence: tick a box and write a note, reload, and expect both to survive (localStorage).
       const first=page.locator('[data-task]').first();await first.check();
       const note=page.locator('[data-note]').first();await note.fill('Practice notes: checked source and saved result.');
       await page.reload();assert.equal(await first.isChecked(),true);assert.match(await note.inputValue(),/Practice notes/);
+      // Export: download the progress JSON and check it names this book.
       const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Export progress'}).click();const download=await downloadPromise;
       const saved=path.join(temp,m.id+'-'+edition+'.json');await download.saveAs(saved);
       const backup=JSON.parse(await fs.readFile(saved,'utf8'));assert.equal(backup.book,m.id);
       await first.uncheck();await note.fill('');await page.locator('#import-file').setInputFiles(saved);
       await page.getByRole('status').filter({hasText:'Progress imported.'}).waitFor();assert.equal(await first.isChecked(),true);assert.match(await note.inputValue(),/Practice notes/);
+      // Import safety: a progress file for a different book must be rejected without changing state.
       const invalid=path.join(temp,'wrong-book.json');await fs.writeFile(invalid,JSON.stringify({...backup,book:'wrong'}));
       await page.locator('#import-file').setInputFiles(invalid);await page.getByRole('status').filter({hasText:'Import failed:'}).waitFor();assert.equal(await first.isChecked(),true);
       await page.locator('#import-file').setInputFiles(saved);await page.getByRole('status').filter({hasText:'Progress imported.'}).waitFor();
+      // Navigation: next chapter, whole-book mode, then back to one-chapter mode.
       await page.getByRole('button',{name:'Next chapter'}).click();assert.match(page.url(),/#chapter-01$/);assert.equal(await page.locator('.chapter:visible').count(),1);
       await page.getByRole('button',{name:'Read whole book'}).click();assert.equal(await page.locator('.chapter:visible').count(),m.chapters);
       await page.getByRole('button',{name:'One chapter at a time'}).click();
+      // Search: a common word matches several chapters; a nonsense word hides all and shows the no-results message.
+      // NOTE: the role name on the next line is kept unchanged for backward compatibility.
       await page.getByRole('senode-a',{name:'Search this book'}).fill('Google');assert.ok(await page.locator('.chapter:visible').count()>1);
       await page.getByRole('senode-a',{name:'Search this book'}).fill('unlikelysearchwordzz');assert.equal(await page.locator('.chapter:visible').count(),0);assert.equal(await page.locator('#no-results').isVisible(),true);
       await page.getByRole('senode-a',{name:'Search this book'}).fill('');
       await page.locator('[data-chapter-link="chapter-01"]').click();
       await page.screenshot({path:path.join(artifacts,m.id+'-'+edition+'-desktop.png'),fullPage:true,animations:'disabled'});
+      // Mobile check: no horizontal overflow and the contents drawer closes after choosing a chapter.
       await page.setViewportSize({width:390,height:844});
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Reader overflows on mobile');
       await page.getByRole('button',{name:'Contents',exact:true}).click();
       await page.locator('[data-chapter-link="chapter-02"]').click();assert.equal(await page.locator('#contents-button').getAttribute('aria-expanded'),'false');
       await page.screenshot({path:path.join(artifacts,m.id+'-'+edition+'-mobile.png'),fullPage:true,animations:'disabled'});
+      // Print view must show every chapter and the notes.
       await page.emulateMedia({media:'print'});assert.equal(await page.locator('.chapter:visible').count(),m.chapters);assert.match(await page.locator('[data-print-note]').first().innerText(),/Practice notes/);
       await page.emulateMedia({media:'screen'});await page.setViewportSize({width:1440,height:1000});
       console.log('PASS',m.id,edition,'TOC, search, ticks, notes, export/import, mobile, complete print view');
     }
     await context.close();
   }
+  // Landing page and book Markdown downloads.
   const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'/START_HERE.html');assert.equal(await page.getByRole('link',{name:'Open this book →'}).count(),2);
   await page.screenshot({path:path.join(artifacts,'library-desktop.png'),fullPage:true,animations:'disabled'});
@@ -88,6 +106,7 @@ try{
     const doc=page.getByRole('link',{name:'Download populated document',exact:true});assert.equal(await doc.count(),1);const r=await page.request.get(base+await doc.getAttribute('href'));assert.ok(r.ok());assert.equal((await r.body()).subarray(0,5).toString(),'%PDF-');
   }
   console.log('PASS full manual HVAC lesson: 32 field entries, 3 saved records and documents');
+  // Automated HVAC lesson on a clean slate: populate, complete the visit (billing total must show 250.00), then a second job.
   await post(page,'/api/reset',{scenario:'hvac'});
   await page.goto(base+'/#scenario/hvac/automate');await page.getByRole('button',{name:'Preview field mapping',exact:true}).click();await page.getByRole('heading',{name:'Mapping preview'}).waitFor();
   await page.getByRole('button',{name:'Populate all three apps',exact:true}).click();await page.getByRole('heading',{name:'Three destinations. Verified.',exact:true}).waitFor();
